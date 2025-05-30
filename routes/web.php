@@ -1,11 +1,15 @@
 <?php
 
+use App\Livewire\About;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
-})->name('home');
+})->name('welcome');
+
+Route::view('/', 'home')->name('home');
+Route::get('/about', About::class)->name('about');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
