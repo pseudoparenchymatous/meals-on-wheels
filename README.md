@@ -36,7 +36,12 @@ php artisan key:generate
 php artisan migrate
 ```
 
-### 7. Start Development Server
+### 7. Create Storage Link
+```
+php artisan storage:link
+```
+
+### 8. Start Development Server
 ```
 composer run dev
 ```
