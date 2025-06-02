@@ -36,8 +36,8 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     };
 
     return (
-        <AuthLayout title="Reset password" description="Please enter your new password below">
-            <Head title="Reset password" />
+        <AuthLayout title="Reset Password" description="Please enter your new password below">
+            <Head title="Reset Password" />
 
             <form onSubmit={submit}>
                 <div className="grid gap-6">
@@ -57,7 +57,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">New Password</Label>
                         <Input
                             id="password"
                             type="password"
@@ -67,13 +67,13 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             className="mt-1 block w-full"
                             autoFocus
                             onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Password"
+                            placeholder="New password"
                         />
                         <InputError message={errors.password} />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password_confirmation">Confirm password</Label>
+                        <Label htmlFor="password_confirmation">Confirm New Password</Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -82,14 +82,14 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             value={data.password_confirmation}
                             className="mt-1 block w-full"
                             onChange={(e) => setData('password_confirmation', e.target.value)}
-                            placeholder="Confirm password"
+                            placeholder="Confirm new password"
                         />
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
                     <Button type="submit" className="mt-4 w-full" disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Reset password
+                        Reset Password
                     </Button>
                 </div>
             </form>
