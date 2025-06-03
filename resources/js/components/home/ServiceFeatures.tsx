@@ -38,7 +38,7 @@ function ServiceFeatureCard({ feature }) {
 
 export default function ServiceFeatures() {
     return (
-        <section className="py-10 px-7">
+        <section className="m-10">
             <h2 className="text-center">{heading}</h2>
             <div className="py-5">
                 <div className="flex justify-center gap-4">
