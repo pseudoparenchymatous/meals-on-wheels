@@ -40,10 +40,8 @@ export default function ServiceFeatures() {
     return (
         <section className="m-10">
             <h2 className="text-center">{heading}</h2>
-            <div className="py-5">
-                <div className="flex justify-center gap-4">
-                    {features.map((feature, index) => <ServiceFeatureCard key={index} feature={feature}/>)}
-                </div>
+            <div className="flex justify-center gap-4">
+                {features.map((feature, index) => <ServiceFeatureCard key={index} feature={feature}/>)}
             </div>
         </section>
     );
