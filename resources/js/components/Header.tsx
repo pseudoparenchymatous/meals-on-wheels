@@ -20,7 +20,7 @@ export default () => {
     return (
         <header className="flex justify-around items-center p-3 sticky top-0 bg-background">
             <a href={route('home')} className="flex items-center gap-2">
-                <img src="images/meals-on-wheels-logo.svg" className="max-h-8" />
+                <img src="storage/images/meals-on-wheels-logo.svg" className="max-h-8" />
                 <span>Meals on Wheels</span>
             </a>
             <Navbar />
