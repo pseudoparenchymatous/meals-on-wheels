@@ -33,11 +33,11 @@ const features = [
 
 function ServiceFeatureCard({ feature }) {
     return (
-        <div className="container">
-            <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-accent">
+        <div className="max-w-70">
+            <div className="mb-5 size-16 grid place-items-center rounded-full bg-accent">
                 {feature.icon}
             </div>
-            <h3 className="">{feature.heading}</h3>
+            <h3 className="font-semibold">{feature.heading}</h3>
             <p className="text-muted-foreground">{feature.body}</p>
         </div>
     );
@@ -46,8 +46,8 @@ function ServiceFeatureCard({ feature }) {
 export default function ServiceFeatures() {
     return (
         <section className="m-10">
-            <h2 className="text-center">{heading}</h2>
-            <div className="flex justify-center gap-4">
+            <h2 className="p-2 text-center font-semibold text-xl">{heading}</h2>
+            <div className="m-5 grid md:grid-cols-2 gap-4 justify-items-center">
                 {features.map((feature, index) => <ServiceFeatureCard key={index} feature={feature}/>)}
             </div>
         </section>
