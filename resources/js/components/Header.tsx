@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import Navsheet from '@/components/home/Navsheet';
 
 import { Button } from '@/components/ui/button';
 
@@ -42,6 +43,7 @@ export default () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            <Navsheet />
         </header>
     );
 };
