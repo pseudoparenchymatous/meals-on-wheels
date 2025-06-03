@@ -24,22 +24,24 @@ export default () => {
                 <span>Meals on Wheels</span>
             </a>
             <Navbar />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                        <User />
-                        <ChevronDown />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem asChild>
-                        <a href={route('login')}>Login</a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <a href={route('register')}>Register</a>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="hidden md:inline">
+                <DropdownMenu >
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                            <User />
+                            <ChevronDown />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <a href={route('login')}>Login</a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <a href={route('register')}>Register</a>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </header>
     );
 };
