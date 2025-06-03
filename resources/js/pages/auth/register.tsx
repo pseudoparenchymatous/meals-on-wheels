@@ -25,11 +25,11 @@ type RegisterForm = {
 };
 
 const userTypes = [
-    { value: 'member', label: 'Member (Meal Recipient)', icon: '🍽️' },
-    { value: 'caregiver', label: 'Caregiver', icon: '👥' },
-    { value: 'partner', label: 'Food Service Partner', icon: '🏪' },
-    { value: 'volunteer', label: 'Volunteer', icon: '🤝' },
-    { value: 'donor', label: 'Donor/Supporter', icon: '💝' }
+    { value: 'member', label: 'Member (Meal Recipient)' },
+    { value: 'caregiver', label: 'Caregiver' },
+    { value: 'partner', label: 'Food Service Partner' },
+    { value: 'volunteer', label: 'Volunteer' },
+    { value: 'donor', label: 'Donor/Supporter' }
 ];
 
 export default function Register() {
@@ -58,111 +58,84 @@ export default function Register() {
         <AuthLayout title="Join MerryMeal" description="Create your account to get started">
             <Head title="Register" />
             
-            <div className="w-full max-w-2xl mx-auto">
-                <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#F72585] to-[#4361EE] rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Heart className="w-8 h-8 text-white" />
-                    </div>
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-[#F72585] to-[#4361EE] bg-clip-text text-transparent">
-                        Join MerryMeal
-                    </h1>
-                    <p className="text-gray-600 mt-2">Create your account to start making a difference</p>
-                </div>
+            <div className="w-full max-w-lg mx-auto">
+                {/* Header */}
+                
 
-                <form className="space-y-8" onSubmit={submit}>
+                <form className="space-y-6" onSubmit={submit}>
                     {/* Basic Information */}
-                    <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-[#EBF9FF] rounded-lg flex items-center justify-center">
-                                <User className="w-5 h-5 text-[#4361EE]" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">Basic Information</h3>
-                        </div>
+                    <div className="bg-background rounded-lg border p-6">
+                        <h3 className="text-fray font-semibold text-foreground mb-4">Basic Information</h3>
                         
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="first_name" className="text-sm font-medium text-gray-700">
-                                    First Name *
-                                </Label>
-                                <div className="relative">
+                        <div className="space-y-4">
+                            {/* Name Fields */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="first_name" className="text-sm font-medium text-foreground">
+                                        First Name *
+                                    </Label>
                                     <Input
                                         id="first_name"
                                         type="text"
                                         required
                                         autoFocus
-                                        tabIndex={1}
-                                        autoComplete="first_name"
                                         value={data.first_name}
                                         onChange={(e) => setData('first_name', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="first name"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
+                                        placeholder="First name"
+                                        className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                     />
-                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <InputError message={errors.first_name} />
                                 </div>
-                                <InputError message={errors.first_name} />
-                            </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                                    Last Name *
-                                </Label>
-                                <div className="relative">
+                                <div>
+                                    <Label htmlFor="last_name" className="text-sm font-medium text-foreground">
+                                        Last Name *
+                                    </Label>
                                     <Input
                                         id="last_name"
                                         type="text"
                                         required
-                                        autoFocus
-                                        tabIndex={1}
-                                        autoComplete="last_name"
                                         value={data.last_name}
                                         onChange={(e) => setData('last_name', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="last name"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
+                                        placeholder="Last name"
+                                        className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                     />
-                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <InputError message={errors.last_name} />
                                 </div>
-                                <InputError message={errors.last_name} />
                             </div>
 
-                            <div className="space-y-2 w-full">
-                                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                            {/* Email */}
+                            <div>
+                                <Label htmlFor="email" className="text-sm font-medium text-foreground">
                                     Email Address *
                                 </Label>
-                                <div className="relative w-full">
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        required
-                                        tabIndex={2}
-                                        autoComplete="email"
-                                        value={data.email}
-                                        onChange={(e) => setData('email', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="your@email.com"
-                                        className="w-full pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
-                                    />
-                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                </div>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    required
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    placeholder="your@email.com"
+                                    className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
+                                />
                                 <InputError message={errors.email} />
                             </div>
 
-                            <div className="md:col-span-2 space-y-2">
-                                <Label htmlFor="user_type" className="text-sm font-medium text-gray-700">
+                            {/* User Type */}
+                            <div>
+                                <Label htmlFor="user_type" className="text-sm font-medium text-foreground">
                                     User Type *
                                 </Label>
                                 <Select
                                     value={data.user_type}
                                     onValueChange={(value) => setData('user_type', value)}
                                 >
-                                    <SelectTrigger className="h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]">
+                                    <SelectTrigger className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]">
                                         <SelectValue placeholder="Select your role" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {userTypes.map((type) => (
-                                            <SelectItem key={type.value} value={type.value} className="flex items-center gap-2">
-                                                <span className="mr-2">{type.icon}</span>
+                                            <SelectItem key={type.value} value={type.value}>
                                                 {type.label}
                                             </SelectItem>
                                         ))}
@@ -171,225 +144,182 @@ export default function Register() {
                                 <InputError message={errors.user_type} />
                             </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                                    Password *
-                                </Label>
-                                <div className="relative">
+                            {/* Password Fields */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                                        Password *
+                                    </Label>
                                     <Input
                                         id="password"
                                         type="password"
                                         required
-                                        tabIndex={3}
-                                        autoComplete="new-password"
                                         value={data.password}
                                         onChange={(e) => setData('password', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="Create a strong password"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
+                                        placeholder="Password"
+                                        className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                     />
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <InputError message={errors.password} />
                                 </div>
-                                <InputError message={errors.password} />
-                            </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="password_confirmation" className="text-sm font-medium text-gray-700">
-                                    Confirm Password *
-                                </Label>
-                                <div className="relative">
+                                <div>
+                                    <Label htmlFor="password_confirmation" className="text-sm font-medium text-foreground">
+                                        Confirm Password *
+                                    </Label>
                                     <Input
                                         id="password_confirmation"
                                         type="password"
                                         required
-                                        tabIndex={4}
-                                        autoComplete="new-password"
                                         value={data.password_confirmation}
                                         onChange={(e) => setData('password_confirmation', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="Confirm your password"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
+                                        placeholder="Confirm"
+                                        className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                     />
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <InputError message={errors.password_confirmation} />
                                 </div>
-                                <InputError message={errors.password_confirmation} />
                             </div>
                         </div>
                     </div>
 
                     {/* Contact Information */}
-                    <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-[#EBF9FF] rounded-lg flex items-center justify-center">
-                                <Phone className="w-5 h-5 text-[#4361EE]" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
-                        </div>
+                    <div className="bg-background rounded-lg border p-6">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">Contact Information</h3>
                         
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                        <div className="space-y-4">
+                            {/* Phone */}
+                            <div>
+                                <Label htmlFor="phone" className="text-sm font-medium text-foreground">
                                     Phone Number *
                                 </Label>
-                                <div className="relative">
-                                    <Input
-                                        id="phone"
-                                        type="tel"
-                                        required
-                                        tabIndex={5}
-                                        autoComplete="tel"
-                                        value={data.phone}
-                                        onChange={(e) => setData('phone', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="+63 XXX XXX XXXX"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
-                                    />
-                                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                </div>
+                                <Input
+                                    id="phone"
+                                    type="tel"
+                                    required
+                                    value={data.phone}
+                                    onChange={(e) => setData('phone', e.target.value)}
+                                    placeholder="+63 XXX XXX XXXX"
+                                    className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
+                                />
                                 <InputError message={errors.phone} />
                             </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="emergency_contact" className="text-sm font-medium text-gray-700">
-                                    Emergency Contact
-                                </Label>
-                                <div className="relative">
-                                    <Input
-                                        id="emergency_contact"
-                                        type="text"
-                                        tabIndex={7}
-                                        value={data.emergency_contact}
-                                        onChange={(e) => setData('emergency_contact', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="Name and phone number"
-                                        className="pl-10 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE]"
-                                    />
-                                    <AlertCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                </div>
-                                <InputError message={errors.emergency_contact} />
-                            </div>
-
-                            <div className="md:col-span-2 space-y-2">
-                                <Label htmlFor="address" className="text-sm font-medium text-gray-700">
+                            {/* Address */}
+                            <div>
+                                <Label htmlFor="address" className="text-sm font-medium text-foreground">
                                     Address *
                                 </Label>
-                                <div className="relative">
-                                    <textarea
-                                        id="address"
-                                        required
-                                        tabIndex={6}
-                                        autoComplete="address-line1"
-                                        value={data.address}
-                                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData('address', e.target.value)}
-                                        disabled={processing}
-                                        placeholder="Enter your complete address"
-                                        rows={3}
-                                        className="w-full pl-10 pt-3 border border-gray-200 rounded-lg focus:border-[#4361EE] focus:ring-2 focus:ring-[#4361EE] focus:ring-opacity-20 resize-none"
-                                    />
-                                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                                </div>
+                                <textarea
+                                    id="address"
+                                    required
+                                    value={data.address}
+                                    onChange={(e) => setData('address', e.target.value)}
+                                    placeholder="Enter your complete address"
+                                    rows={3}
+                                    className="mt-1 w-full border border-gray-300 rounded-md p-3 focus:border-[#F72585] focus:ring-2 focus:ring-[#F72585] focus:ring-opacity-20 resize-none"
+                                />
                                 <InputError message={errors.address} />
+                            </div>
+
+                            {/* Emergency Contact */}
+                            <div>
+                                <Label htmlFor="emergency_contact" className="text-sm font-medium text-foreground">
+                                    Emergency Contact
+                                </Label>
+                                <Input
+                                    id="emergency_contact"
+                                    type="text"
+                                    value={data.emergency_contact}
+                                    onChange={(e) => setData('emergency_contact', e.target.value)}
+                                    placeholder="Name and phone number"
+                                    className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
+                                />
+                                <InputError message={errors.emergency_contact} />
                             </div>
                         </div>
                     </div>
 
+                    {/* Additional Information for Members */}
                     {data.user_type === 'member' && (
-                        <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                            <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-[#EBF9FF] rounded-lg flex items-center justify-center">
-                                <Utensils className="w-5 h-5 text-[#4361EE]" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-900">Additional Information</h3>
-                            <span className="text-sm text-gray-500 ml-auto">(Optional)</span>
-                            </div>
+                        <div className="bg-background rounded-lg border p-6">
+                            <h3 className="text-lg font-semibold text-foreground mb-4">
+                                Additional Information
+                                <span className="text-sm text-gray-500 ml-2">(Optional)</span>
+                            </h3>
 
-                            <div className="grid md:grid-cols-2 gap-6">
-                            {/* Dietary Requirements */}
-                            <div className="space-y-2">
-                                <Label htmlFor="dietary_requirements" className="text-sm font-medium text-gray-700">
-                                Dietary Requirements
-                                </Label>
-                                <select
-                                id="dietary_requirements"
-                                tabIndex={8}
-                                value={data.dietary_requirements}
-                                onChange={(e) => setData('dietary_requirements', e.target.value)}
-                                disabled={processing}
-                                className="w-full border border-gray-200 rounded-lg p-3 focus:border-[#4361EE] focus:ring-2 focus:ring-[#4361EE] focus:ring-opacity-20"
-                                >
-                                <option value="">Select a dietary preference</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Vegan">Vegan</option>
-                                <option value="Halal">Halal</option>
-                                <option value="Kosher">Kosher</option>
-                                <option value="Gluten-Free">Gluten-Free</option>
-                                <option value="Lactose Intolerant">Lactose Intolerant</option>
-                                <option value="Other">Other (specify below)</option>
-                                </select>
-                                <InputError message={errors.dietary_requirements} />
-                            </div>
+                            <div className="space-y-4">
+                                {/* Dietary Requirements */}
+                                <div>
+                                    <Label className="text-sm font-medium text-foreground">
+                                        Dietary Requirements
+                                    </Label>
+                                    <select
+                                        value={data.dietary_requirements}
+                                        onChange={(e) => setData('dietary_requirements', e.target.value)}
+                                        className="mt-1 w-full border border-gray-300 rounded-md p-3 focus:border-[#F72585] focus:ring-2 focus:ring-[#F72585] focus:ring-opacity-20"
+                                    >
+                                        <option value="">Select dietary preference</option>
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Halal">Halal</option>
+                                        <option value="Kosher">Kosher</option>
+                                        <option value="Gluten-Free">Gluten-Free</option>
+                                        <option value="Lactose Intolerant">Lactose Intolerant</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <InputError message={errors.dietary_requirements} />
+                                </div>
 
-                            {/* Medical Conditions - File Upload */}
-                            <div className="space-y-2">
-                                <Label htmlFor="medical_conditions" className="text-sm font-medium text-gray-700">
-                                Medical Conditions (Image Upload)
-                                </Label>
-                                <input
-                                id="medical_conditions"
-                                type="file"
-                                accept="image/*"
-                                tabIndex={10}
-                                onChange={async (e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = (event) => {
-                                        setData('medical_conditions', event.target?.result as string);
-                                    };
-                                    reader.readAsDataURL(file);
-                                    } else {
-                                    setData('medical_conditions', '');
-                                    }
-                                }}
-                                disabled={processing}
-                                className="w-full border border-gray-200 rounded-lg p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#334ac7] cursor-pointer"
-                                />
-                                <InputError message={errors.medical_conditions} />
-                            </div>
+                                {/* Medical Conditions */}
+                                <div>
+                                    <Label className="text-sm font-medium text-foreground">
+                                        Medical Conditions (Image Upload)
+                                    </Label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onload = (event) => {
+                                                    setData('medical_conditions', event.target?.result as string);
+                                                };
+                                                reader.readAsDataURL(file);
+                                            } else {
+                                                setData('medical_conditions', '');
+                                            }
+                                        }}
+                                        className="mt-1 w-full border border-gray-300 rounded-md p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#4361EE]/90"
+                                    />
+                                    <InputError message={errors.medical_conditions} />
+                                </div>
                             </div>
                         </div>
                     )}
 
-                    {/* Terms and Conditions */}
-
                     {/* Submit Button */}
-
                     <Button 
                         type="submit" 
-                        className="w-full h-12 bg-gradient-to-r from-[#F72585] to-[#4361EE] hover:from-[#F72585]/90 hover:to-[#4361EE]/90 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200" 
-                        tabIndex={10} 
+                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white" 
                         disabled={processing}
                     >
                         {processing ? (
                             <>
-                                <LoaderCircle className="w-5 h-5 animate-spin mr-2" />
+                                <LoaderCircle className="w-4 h-4 animate-spin mr-2" />
                                 Creating Account...
                             </>
                         ) : (
-                            <>
-                                <Heart className="w-5 h-5 mr-2" />
-                                Create Account
-                            </>
+                            'Create Account'
                         )}
                     </Button>
 
+                    {/* Login Link */}
                     <div className="text-center">
                         <p className="text-gray-600">
                             Already have an account?{' '}
                             <TextLink 
                                 href={route('login')} 
-                                tabIndex={11}
-                                className="text-[#4361EE] hover:text-[#F72585] font-medium transition-colors"
+                                className="text-[#4361EE] hover:text-[#F72585] font-medium"
                             >
                                 Sign in here
                             </TextLink>

@@ -38,149 +38,122 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Welcome to MerryMeal" description="Sign in to your account">
+        <AuthLayout title="Welcome Back" description="Sign in to your account">
             <Head title="Sign In" />
 
-            <div className="w-full max-w-md mx-auto">
-                <div className="text-center mb-8">
-                    <div className="w-20 h-20 bg-gradient-to-br from-[#F72585] to-[#4361EE] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <Heart className="w-10 h-10 text-white" />
-                    </div>
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-[#F72585] to-[#4361EE] bg-clip-text text-transparent mb-2">
-                        Welcome Back
-                    </h1>
-                    <p className="text-gray-600">Sign in to continue making a difference</p>
-                </div>
 
+
+                {/* Status Message */}
                 {status && (
-                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                        <p className="text-center text-sm font-medium text-green-800">{status}</p>
+                    <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <p className="text-center text-sm text-green-800">{status}</p>
                     </div>
                 )}
 
-                <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-sm">
-                    <form className="space-y-6" onSubmit={submit}>
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                                Email Address
+                {/* Form */}
+                <div className="bg-background rounded-lg border p-6">
+                    <form className="space-y-4" onSubmit={submit}>
+                        {/* Email */}
+                        <div>
+                            <Label htmlFor="email" className="text-sm font-medium text-foreground">
+                                Email
                             </Label>
-                            <div className="relative">
+                            <div className="mt-1 relative">
                                 <Input
                                     id="email"
                                     type="email"
                                     required
                                     autoFocus
-                                    tabIndex={1}
-                                    autoComplete="email"
                                     value={data.email}
                                     onChange={(e) => setData('email', e.target.value)}
                                     placeholder="Enter your email"
-                                    className="pl-11 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE] text-gray-900 placeholder:text-gray-400"
+                                    className="pl-10 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                 />
-                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                             </div>
                             <InputError message={errors.email} />
                         </div>
 
-                        <div className="space-y-2">
+                        {/* Password */}
+                        <div>
                             <div className="flex items-center justify-between">
-                                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                                <Label htmlFor="password" className="text-sm font-medium text-foreground">
                                     Password
                                 </Label>
                                 {canResetPassword && (
                                     <TextLink 
                                         href={route('password.request')} 
-                                        className="text-sm text-[#4361EE] hover:text-[#F72585] font-medium transition-colors" 
-                                        tabIndex={5}
+                                        className="text-sm text-[#4361EE] hover:text-[#F72585]"
                                     >
-                                        Forgot password?
+                                        Forgot?
                                     </TextLink>
                                 )}
                             </div>
-                            <div className="relative">
+                            <div className="mt-1 relative">
                                 <Input
                                     id="password"
                                     type={showPassword ? "text" : "password"}
                                     required
-                                    tabIndex={2}
-                                    autoComplete="current-password"
                                     value={data.password}
                                     onChange={(e) => setData('password', e.target.value)}
                                     placeholder="Enter your password"
-                                    className="pl-11 pr-11 h-12 border-gray-200 focus:border-[#4361EE] focus:ring-[#4361EE] text-gray-900 placeholder:text-gray-400"
+                                    className="pl-10 pr-10 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                 />
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                                 >
-                                    {showPassword ? (
-                                        <EyeOff className="w-5 h-5" />
-                                    ) : (
-                                        <Eye className="w-5 h-5" />
-                                    )}
+                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
                             <InputError message={errors.password} />
                         </div>
 
-                        <div className="flex items-center space-x-3">
+                        {/* Remember Me */}
+                        <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="remember"
-                                name="remember"
                                 checked={data.remember}
                                 onClick={() => setData('remember', !data.remember)}
-                                tabIndex={3}
-                                className="data-[state=checked]:bg-[#4361EE] data-[state=checked]:border-[#4361EE]"
+                                className="data-[state=checked]:bg-[#F72585] data-[state=checked]:border-[#F72585]"
                             />
-                            <Label htmlFor="remember" className="text-sm text-gray-700 cursor-pointer">
-                                Remember me for 30 days
+                            <Label htmlFor="remember" className="text-sm text-foreground">
+                                Remember me
                             </Label>
                         </div>
 
+                        {/* Submit Button */}
                         <Button 
                             type="submit" 
-                            className="w-full h-12 bg-gradient-to-r from-[#F72585] to-[#4361EE] hover:from-[#F72585]/90 hover:to-[#4361EE]/90 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 mt-8" 
-                            tabIndex={4} 
+                            className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6" 
                             disabled={processing}
                         >
                             {processing ? (
                                 <>
-                                    <LoaderCircle className="w-5 h-5 animate-spin mr-2" />
+                                    <LoaderCircle className="w-4 h-4 animate-spin mr-2" />
                                     Signing In...
                                 </>
                             ) : (
-                                <>
-                                    <Heart className="w-5 h-5 mr-2" />
-                                    Sign In
-                                </>
+                                'Sign In'
                             )}
                         </Button>
                     </form>
                 </div>
 
-                <div className="text-center mt-8">
-                    <p className="text-gray-600">
+                {/* Register Link */}
+                <div className="text-center mt-6">
+                    <p className="text-foreground">
                         Don't have an account?{' '}
                         <TextLink 
                             href={route('register')} 
-                            tabIndex={6}
-                            className="text-[#4361EE] hover:text-[#F72585] font-medium transition-colors"
+                            className="text-[#4361EE] hover:text-[#F72585] font-medium"
                         >
                             Register here
                         </TextLink>
                     </p>
                 </div>
-
-                <div className="mt-8 text-center">
-                    <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-                        <Heart className="w-4 h-4 text-[#F72585]" />
-                        <span>Connecting communities through meals</span>
-                        <Heart className="w-4 h-4 text-[#F72585]" />
-                    </div>
-                </div>
-            </div>
         </AuthLayout>
     );
 }
