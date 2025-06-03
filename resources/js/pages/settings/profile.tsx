@@ -67,22 +67,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <InputError className="mt-2" message={errors.first_name} />
                         </div>
 
-                        <form onSubmit={submit} className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="last_name">Last name</Label>
-
-                            <Input
-                                id="last_name"
-                                className="mt-1 block w-full"
-                                value={data.last_name}
-                                onChange={(e) => setData('first_name', e.target.value)}
-                                required
-                                autoComplete="last_name"
-                                placeholder="Last name"
-                            />
-
-                            <InputError className="mt-2" message={errors.last_name} />
-                        </div>
+                        <form onSubmit={submit} className="space-y-6">                
                     </form>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email address</Label>
