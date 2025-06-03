@@ -11,7 +11,7 @@ import {
 
 export default () => {
     return (
-        <NavigationMenu className="w-full">
+        <NavigationMenu className="hidden w-full md:flex">
             <NavigationMenuList className="flex gap-3">
                 <NavigationMenuItem>
                     <NavigationMenuLink asChild>

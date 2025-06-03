@@ -1,14 +1,15 @@
 import Navbar from '@/components/Navbar';
+import Navsheet from '@/components/home/Navsheet';
 
 import { Button } from '@/components/ui/button';
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import {
@@ -24,22 +25,25 @@ export default () => {
                 <span>Meals on Wheels</span>
             </a>
             <Navbar />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                        <User />
-                        <ChevronDown />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem asChild>
-                        <a href={route('login')}>Login</a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <a href={route('register')}>Register</a>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="hidden md:inline">
+                <DropdownMenu >
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                            <User />
+                            <ChevronDown />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <a href={route('login')}>Login</a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <a href={route('register')}>Register</a>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+            <Navsheet />
         </header>
     );
 };
