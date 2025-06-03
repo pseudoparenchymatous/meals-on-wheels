@@ -3,10 +3,10 @@ import { Link } from '@inertiajs/react'
 
 export default function Hero() {
     return (
-        <section className="flex flex-wrap items-center justify-center gap-10">
-            <div className="grid grid-rows-3 max-w-md items-center justify-items-center lg:justify-items-start">
+        <section className="flex flex-wrap items-center justify-center gap-4 m-10">
+            <div className="flex flex-col gap-3 max-w-md items-center justify-items-center lg:justify-items-start">
                 <h1 className="text-4xl font-bold text-center md:text-start">Nourishing Lives, One Meal at a Time</h1>
-                <p>MerryMeal delivers nutritious meals to elderly and vulnerable adults—because everyone deserves a hot meal and a helping hand.</p>
+                <p className="text-muted-foreground text-center md:text-start">MerryMeal delivers nutritious meals to elderly and vulnerable adults—because everyone deserves a hot meal and a helping hand.</p>
                 <div className="grid grid-cols-2 gap-5 items-center">
                     <Button asChild>
                         <Link href="/">Donate Now</Link>
@@ -16,7 +16,7 @@ export default function Hero() {
                     </Button>
                 </div>
             </div>
-            <div className="max-w-150">
+            <div className="max-w-md">
                 <img src="storage/images/hero-image.jpg"/>
             </div>
         </section>
