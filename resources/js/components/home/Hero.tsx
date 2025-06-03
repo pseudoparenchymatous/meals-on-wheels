@@ -17,7 +17,7 @@ export default function Hero() {
                 </div>
             </div>
             <div className="max-w-150">
-                <img src="images/hero-image.jpg"/>
+                <img src="storage/images/hero-image.jpg"/>
             </div>
         </section>
     );
