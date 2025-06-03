@@ -1,5 +1,6 @@
 import {
     HeartHandshake,
+    Puzzle,
     Soup,
     Truck,
 } from 'lucide-react';
@@ -22,6 +23,12 @@ const features = [
         'body': 'Powered by volunteers who care about your wellbeing',
         'icon': <HeartHandshake />,
     },
+    {
+        'heading': 'Dietary Customization',
+        'body': 'Tailored meals for special dietary needs, including diabetic-friendly, gluten-free, and heart-healthy options',
+        'icon': <Puzzle />,
+    },
+
 ]
 
 function ServiceFeatureCard({ feature }) {
