@@ -22,6 +22,7 @@ export default () => {
         <header className="flex justify-around items-center p-3 sticky top-0 bg-background">
                 <img src="storage/images/meals-on-wheels-logo.svg" className="max-h-8" />
             <a href={route('home')} >
+                <img src="storage/images/meals-on-wheels-logo.svg" className="size-12" />
             </a>
             <Navbar />
             <div className="hidden md:inline">
