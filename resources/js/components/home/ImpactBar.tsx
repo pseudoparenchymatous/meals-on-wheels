@@ -9,7 +9,7 @@ const ImpactBar = () => {
         {/* User Portrait and Quote */}
         <div className="flex flex-col items-center md:w-1/3">
           <img
-            src="storage/images/impactbarimg.jpg"
+            src="images/impactbarimg.jpg"
             alt="User Portrait"
             className="w-40 h-40 object-cover rounded-full border border-white mb-2"
           />
