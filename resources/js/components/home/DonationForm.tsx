@@ -2,7 +2,7 @@ import { SetStateAction, useState } from 'react';
 import { Heart, Users, Utensils } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
-export default function DonationForm() {
+export default function DonationHero() {
   const [selectedAmount, setSelectedAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
   const [isCustom, setIsCustom] = useState(false);

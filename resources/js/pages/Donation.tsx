@@ -9,7 +9,7 @@ export default function App({ user }) { // 'user' prop might come from Laravel/I
     <Layout>
       <Head title="Support MerryMeal - Make a Donation" />
       <DonationHero/>
-      <DonationForm />
+      <DonationForm/>
       <footer className="text-center py-8 bg-gray-800 text-gray-400 text-sm">
         <p>&copy; {new Date().getFullYear()} MerryMeal. All Rights Reserved.</p>
         <p>A compassionate community initiative.</p>
