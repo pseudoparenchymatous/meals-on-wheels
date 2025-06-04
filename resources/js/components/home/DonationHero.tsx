@@ -1,8 +1,5 @@
 import { JSX } from "react";
-import { Link } from '@inertiajs/react'
-import React, { useState } from 'react';
 
-// DonationHero Component
 type IconName = 'Users' | 'Truck' | 'Clock';
 
 export const DonationHero = () => {
@@ -11,6 +8,8 @@ export const DonationHero = () => {
         { icon: 'Truck', value: '15,000+', label: 'Meals Delivered' },
         { icon: 'Clock', value: '5', label: 'Days a Week' }
     ];
+
+
 
     const iconMap: Record<IconName, () => JSX.Element> = {
         Users: () => (
@@ -29,6 +28,8 @@ export const DonationHero = () => {
             </svg>
         )
     };
+
+
 
     return (
         <div className="bg-gradient-to-br from-[#F72585] to-[#4361EE] text-white">
