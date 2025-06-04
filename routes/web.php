@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return Inertia::render('welcome');
-})->name('home');
+})->name('welcome');
+
+Route::inertia('/', 'Home')->name('home');
+Route::inertia('/about', 'About')->name('about');
+Route::inertia('/contact', 'Contact')->name('contact');
 
 Route::get('/contact', function () {
     return view ('contact');

@@ -13,11 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->enum('user_type', ['member', 'caregiver', 'partner', 'volunteer', 'donor']);
+            $table->string('phone')->nullable();
+            $table->text('address');
+            $table->string('emergency_contact')->nullable();
+            $table->text('dietary_requirements')->nullable();
+            $table->text('medical_conditions')->nullable();
+            $table->enum('status', ['pending_verification', 'active', 'inactive', 'suspended'])->default('pending_verification');
+            $table->string('email_verification_token')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password_reset_token')->nullable();
+            $table->timestamp('password_reset_expires_at')->nullable();
             $table->timestamps();
         });
 
