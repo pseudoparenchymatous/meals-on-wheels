@@ -1,5 +1,3 @@
-
-import "tailwindcss";
 import Header from '@/components/Header';
 import Carousel from '@/components/Carousel-image';
 import { Button } from "@/components/ui/button"
