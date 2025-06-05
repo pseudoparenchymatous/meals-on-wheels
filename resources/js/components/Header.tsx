@@ -1,28 +1,20 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import Navbar from '@/components/Navbar';
-import Navsheet from '@/components/home/Navsheet';
-
 import { Button } from '@/components/ui/button';
 
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import {
     NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 
 import {

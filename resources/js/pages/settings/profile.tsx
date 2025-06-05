@@ -20,7 +20,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 type ProfileForm = {
-    name: string;
+    first_name: string;
+    last_name: string;
     email: string;
 }
 
@@ -28,8 +29,9 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
-        name: auth.user.name,
-        email: auth.user.email,
+        first_name: auth.user.first_name as string,
+        last_name: auth.user.last_name as string,
+        email: auth.user.email as string,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -50,21 +52,23 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
+                            <Label htmlFor="first_name">First name</Label>
 
                             <Input
-                                id="name"
+                                id="first_name"
                                 className="mt-1 block w-full"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
+                                value={data.first_name}
+                                onChange={(e) => setData('first_name', e.target.value)}
                                 required
-                                autoComplete="name"
-                                placeholder="Full name"
+                                autoComplete="first_name"
+                                placeholder="First name"
                             />
 
-                            <InputError className="mt-2" message={errors.name} />
+                            <InputError className="mt-2" message={errors.first_name} />
                         </div>
 
+                        <form onSubmit={submit} className="space-y-6">                
+                    </form>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email address</Label>
 
