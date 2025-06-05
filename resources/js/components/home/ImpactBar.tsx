@@ -2,7 +2,7 @@ import React from 'react';
 
 const ImpactBar = () => {
   return (
-    <div className="bg-white text-black p-6 rounded-lg">
+    <div className="p-6 rounded-lg">
       <h2 className="text-xl font-bold mb-4 text-center">Impact</h2>
 
       <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
@@ -20,9 +20,9 @@ const ImpactBar = () => {
         </div>
 
         {/* Stats Box with Top and Bottom Text */}
-        <div className="flex-1 border border-black p-6 flex flex-col gap-4">
+        <div className="flex-1 border-3 p-6 flex flex-col gap-4">
           {/* Top Text */}
-          <p className="text-center text-sm text-black-300">
+          <p className="text-center text-sm text-300">
             Our reach continues to grow thanks to our generous supporters and tireless volunteers.
           </p>
 
@@ -43,7 +43,7 @@ const ImpactBar = () => {
           </div>
 
           {/* Bottom Text */}
-          <p className="text-center text-sm text-black-400 mt-4">
+          <p className="text-center text-sm text-400 mt-4">
             Every meal delivered brings hope to someone in need.
           </p>
         </div>
