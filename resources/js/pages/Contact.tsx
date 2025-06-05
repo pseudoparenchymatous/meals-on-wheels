@@ -18,7 +18,7 @@ const Contact = () => {
     return (
         <Layout>
             <Head title="Contact" />
-            <section className="">
+            <section className="m-10">
                 <div>
                 <h1 className="text-center text-xl font-bold">
                     Contact Us
@@ -30,7 +30,7 @@ const Contact = () => {
                     {/* LEFT: Contact Info */}
                     <div className="space-y-8">
                         <div className="p-6 rounded-xl shadow-md">
-                            <h2 className="text-2xl font-semibold border-b pb-2">Get in Touch</h2>
+                            <h2 className="text-lg font-semibold border-b pb-2">Get in Touch</h2>
                             <p className="mt-2">
                                 <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2"/>
                                 023 University Of Cebu, Banilad Campus
@@ -47,8 +47,8 @@ const Contact = () => {
 
                         {/* Social Icons */}
                         <div className="p-6 rounded-xl shadow-md">
-                            <h3 className="text-xl font-medium mb-2">Follow Us</h3>
-                            <div className="flex gap-4 text-2xl">
+                            <h3 className="text-lg font-medium mb-2">Follow Us</h3>
+                            <div className="flex gap-4 ">
                                 <a href="https://facebook.com" className="hover:scale-110 transition" target="_blank" rel="noopener noreferrer">
                                     <FontAwesomeIcon icon={faFacebook} />
                                 </a>
@@ -77,10 +77,10 @@ const Contact = () => {
 
                     {/* RIGHT: Contact Form */}
                     <div className="shadow-xl rounded-xl p-8 border animate-fade-in">
-                        <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
+                        <h2 className="text-lg font-bold mb-6">Send a Message</h2>
                         <form className="space-y-5">
                             <div>
-                                <label className="block mb-1 font-medium ">Full Name</label>
+                                <label className="block mb-1">Full Name</label>
                                 <input
                                     type="text"
                                     className="w-full border border-gray-700 p-3 rounded-md placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
@@ -88,7 +88,7 @@ const Contact = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block mb-1 font-medium ">Email Address</label>
+                                <label className="block mb-1">Email Address</label>
                                 <input
                                     type="email"
                                     className="w-full border border-gray-700 p-3 rounded-md placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
@@ -96,9 +96,9 @@ const Contact = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block mb-1 font-medium ">Message</label>
+                                <label className="block mb-1">Message</label>
                                 <textarea
-                                    className="w-full border border-gray-700 p-3 rounded-md h-32 resize-none text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
+                                    className="w-full border border-gray-700 p-3 rounded-md h-32 resize-none placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
                                     placeholder="Your message..."
                                 ></textarea>
                             </div>
