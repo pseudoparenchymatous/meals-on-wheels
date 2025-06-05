@@ -4,7 +4,7 @@ import Hero from '@/components/home/Hero';
 import ServiceFeatures from '@/components/home/ServiceFeatures';
 import ImpactBar from '@/components/home/ImpactBar';
 
-export default function Home({ user }) {
+export default function Home() {
     return (
         <Layout>
             <Head title="Welcome" />
@@ -12,5 +12,5 @@ export default function Home({ user }) {
             <ServiceFeatures />
             <ImpactBar />
         </Layout>
-    )
+    );
 }

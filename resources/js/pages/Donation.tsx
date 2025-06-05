@@ -4,7 +4,7 @@ import DonationHero from '@/components/home/DonationHero';
 import Hero from '@/components/home/Hero';
 import DonationForm from '@/components/home/DonationForm';
 
-export default function App({ user }) { // 'user' prop might come from Laravel/Inertia
+export default function App({ }) { // 'user' prop might come from Laravel/Inertia
   return (
     <Layout>
       <Head title="Support MerryMeal - Make a Donation" />
