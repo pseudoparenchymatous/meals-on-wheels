@@ -101,10 +101,10 @@ export default function DonationForm() {
         {/* Header */}
         <div className="text-center mb-12">
           
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-5xl font-bold text-foreground mb-4">
             Make a Difference
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-foregroud mb-6">
             Help us deliver nutritious meals to seniors in our community
           </p>
         </div>
