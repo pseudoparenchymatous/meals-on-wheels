@@ -126,18 +126,18 @@ export default function DonationForm() {
         </div>
 
         {/* Donation Form */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm">
+        <div className="bg-background rounded-2xl p-8 shadow-sm">
           {/* Donation Type */}
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Donation Type</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Donation Type</h3>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={() => setDonationType('one_time')}
                 className={`py-3 px-4 rounded-xl font-medium transition-all ${
                   donationType === 'one_time'
-                    ? 'text-white shadow-lg'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    ? 'text-foreground shadow-lg'
+                    : 'bg-background text-foreground hover:bg-gray-100'
                 }`}
                 style={donationType === 'one_time' ? { backgroundColor: '#F72585' } : {}}
               >
