@@ -5,7 +5,7 @@ type IconName = 'Users' | 'Truck' | 'Clock';
 export const DonationHero = () => {
     const stats: { icon: IconName; value: string; label: string }[] = [
         { icon: 'Users', value: '12,500+', label: 'Seniors Served' },
-        { icon: 'Truck', value: '15,000+', label: 'Meals Delivered' },
+        { icon: 'Truck', value: '75,000+', label: 'Meals Delivered' },
         { icon: 'Clock', value: '5', label: 'Days a Week' }
     ];
 
