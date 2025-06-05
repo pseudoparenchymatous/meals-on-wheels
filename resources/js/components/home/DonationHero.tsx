@@ -6,7 +6,7 @@ export const DonationHero = () => {
     const stats: { icon: IconName; value: string; label: string }[] = [
         { icon: 'Users', value: '12,500+', label: 'Seniors Served' },
         { icon: 'Truck', value: '75,000+', label: 'Meals Delivered' },
-        {  icon: 'Volunteers', value: '1,200+', label: 'Volunteers' },
+        { icon: 'Volunteers', value: '1,200+', label: 'Volunteers' },
         { icon: 'Clock', value: '5', label: 'Days a Week' }
     ];
 
