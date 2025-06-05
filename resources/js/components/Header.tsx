@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import Navbar from '@/components/Navbar';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -56,9 +57,9 @@ export default () => {
     return (
         <div className="mx-5 sm:mx-20 grid sticky top-5 gap-3 justify-stretch">
             <header className="border-2 rounded-full flex justify-around items-center bg-background">
-                <a href={route('home')} >
-                    <img src="storage/images/meals-on-wheels-logo.svg" className="size-12" />
-                </a>
+                <Link href={route('home')} prefetch className="m-2 size-10">
+                    <AppLogoIcon />
+                </Link>
                 <Navbar />
                 <div className="hidden sm:inline">
                     <DropdownMenu >
