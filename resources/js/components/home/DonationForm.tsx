@@ -205,7 +205,7 @@ export default function DonationForm() {
                 className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-colors ${
                   isCustom ? 'focus:ring-2 focus:ring-opacity-20' : 'border-gray-200 focus:border-gray-400'
                 }`}
-                style={isCustom ? { borderColor: '#F72585', focusRingColor: '#F72585' } : {}}
+                style={isCustom ? { borderColor: '#F72585' } : {}}
               />
             </div>
           </div>
