@@ -1,11 +1,12 @@
 import { JSX } from "react";
 
-type IconName = 'Users' | 'Truck' | 'Clock';
+type IconName = 'Users' | 'Truck' | 'Clock' | 'Volunteers';
 
 export const DonationHero = () => {
     const stats: { icon: IconName; value: string; label: string }[] = [
         { icon: 'Users', value: '12,500+', label: 'Seniors Served' },
         { icon: 'Truck', value: '75,000+', label: 'Meals Delivered' },
+        {  icon: 'Volunteers', value: '1,200+', label: 'Volunteers' },
         { icon: 'Clock', value: '5', label: 'Days a Week' }
     ];
 
@@ -20,6 +21,11 @@ export const DonationHero = () => {
         Truck: () => (
             <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        ),
+        Volunteers: () => (
+            <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         ),
         Clock: () => (
