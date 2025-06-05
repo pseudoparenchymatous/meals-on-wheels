@@ -1,6 +1,7 @@
 
 import "tailwindcss";
 import Header from '@/components/Header';
+import Footer from '@/components/footer';
 import Carousel from '@/components/Carousel-image';
 import { Button } from "@/components/ui/button"
 import { Head, Link } from "@inertiajs/react";
@@ -22,7 +23,7 @@ export default function About() {
                 </div>
             </div>
             <div className="max-w-150">
-                <img  src="storage/images/meal-on-wheels-image_about.svg"/>
+                <img  src="storage/images/about-image.jpg"/>
             </div>
         </section>
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -33,6 +34,10 @@ export default function About() {
 		        </blockquote>
             </div>
             <Carousel/>
+        <section>
+        
+        </section>
+            <Footer/>
         </>
     );
 };
