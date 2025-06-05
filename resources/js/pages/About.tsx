@@ -24,7 +24,7 @@ export default function About() {
                 </div>
             </section>
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <blockquote className="relative fg-foreground text-2xl text-center p-10 w-full m-1 italic">
+                <blockquote className="fg-foreground text-2xl text-center p-10 w-full m-1 italic">
                     <h1 className="text-4xl not-italic font-bold pb-10">Our Mission</h1>
                     To deliver more than just food – we deliver independence, dignity, and hope.<br/>
                     We believe no one should have to choose between food and other basic needs.
