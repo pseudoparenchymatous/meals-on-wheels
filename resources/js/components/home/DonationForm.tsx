@@ -96,7 +96,7 @@ export default function DonationForm() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#EBF9FF' }}>
+    <div className="min-h-screen">
       <div className="max-w-2xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-12">
