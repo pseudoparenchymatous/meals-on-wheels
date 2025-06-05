@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    
     <link rel="alternate icon" type="image/png" href="/favicon.ico" />
 
-    <!-- ✅ Font Awesome (needed for social icons) -->
+    <!-- Font Awesome (needed for social icons) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
