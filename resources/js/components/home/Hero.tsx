@@ -9,7 +9,7 @@ export default function Hero() {
                 <p className="text-muted-foreground text-center md:text-start">MerryMeal delivers nutritious meals to elderly and vulnerable adults—because everyone deserves a hot meal and a helping hand.</p>
                 <div className="grid grid-cols-2 gap-5 items-center">
                     <Button asChild>
-                        <Link href="/">Donate Now</Link>
+                        <a href="/donation">Donate Now</a>
                     </Button>
                     <Button asChild variant="outline">
                         <a href="/register">Request a Meal</a>

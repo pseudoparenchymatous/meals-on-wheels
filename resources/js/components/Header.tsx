@@ -83,7 +83,7 @@ export default () => {
                 </Button>
             </header>
             {isMobileNavOpen && (
-                <NavigationMenu orientation="vertical" className="bg-background border-2 grid max-w-full rounded-md justify-stretch">
+                <NavigationMenu orientation="vertical" className="bg-background border-2 grid max-w-full rounded-md justify-stretch p-5">
                     <NavigationMenuList className="grid justify-stretch">
                         {mobileNavLinks}
                         <NavigationMenuItem className="">
