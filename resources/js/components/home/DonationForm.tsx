@@ -148,8 +148,8 @@ export default function DonationForm() {
                 onClick={() => setDonationType('recurring')}
                 className={`py-3 px-4 rounded-xl font-medium transition-all ${
                   donationType === 'recurring'
-                    ? 'text-white shadow-lg'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    ? 'text-foreground shadow-lg'
+                    : 'bg-background text-foreground hover:bg-gray-100'
                 }`}
                 style={donationType === 'recurring' ? { backgroundColor: '#F72585' } : {}}
               >
@@ -162,7 +162,7 @@ export default function DonationForm() {
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                  className="bg-background w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
                 >
                   <option value="monthly">Monthly</option>
                   <option value="quarterly">Quarterly</option>
