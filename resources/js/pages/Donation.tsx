@@ -10,10 +10,6 @@ export default function App({ }) { // 'user' prop might come from Laravel/Inerti
       <Head title="Support MerryMeal - Make a Donation" />
       <DonationHero/>
       <DonationForm/>
-      <footer className="text-center py-8 bg-gray-800 text-gray-400 text-sm">
-        <p>&copy; {new Date().getFullYear()} MerryMeal. All Rights Reserved.</p>
-        <p>A compassionate community initiative.</p>
-      </footer>
     </Layout>
   );
 }
