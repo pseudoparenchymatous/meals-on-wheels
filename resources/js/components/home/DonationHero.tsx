@@ -32,7 +32,7 @@ export const DonationHero = () => {
 
 
     return (
-        <div className="bg-gradient-to-br from-[#F72585] to-[#4361EE] text-white">
+        <div className="bg-[#F72585] text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="text-center">
                     <svg className="mx-auto h-16 w-16 mb-6" fill="currentColor" viewBox="0 0 24 24">
