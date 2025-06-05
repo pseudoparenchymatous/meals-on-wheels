@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle, User, Mail, Lock, Phone, MapPin, AlertCircle, Heart, Utensils } from 'lucide-react';
+import { LoaderCircle, } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
