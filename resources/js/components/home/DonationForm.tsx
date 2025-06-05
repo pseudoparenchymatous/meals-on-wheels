@@ -96,50 +96,50 @@ export default function DonationForm() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#EBF9FF' }}>
+    <div className="min-h-screen bg-background">
       <div className="max-w-2xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <div className="flex justify-center mb-6">
+          </div>
+          <h1 className="text-5xl font-bold text-foreground mb-4">
             Make a Difference
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-foreground mb-6">
             Help us deliver nutritious meals to seniors in our community
           </p>
         </div>
 
         {/* Impact Cards */}
         <div className="grid grid-cols-3 gap-4 mb-12">
-          <div className="bg-white rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-gray-900">$10</div>
-            <div className="text-gray-600">2 meals</div>
+          <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
+            <div className="text-3xl font-bold text-foreground">$10</div>
+            <div className="text-foreground">2 meals</div>
           </div>
-          <div className="bg-white rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-gray-900">$25</div>
-            <div className="text-gray-600">1 week</div>
+          <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
+            <div className="text-3xl font-bold text-foreground">$25</div>
+            <div className="text-foreground">1 week</div>
           </div>
-          <div className="bg-white rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-gray-900">$100</div>
-            <div className="text-gray-600">1 month</div>
+          <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
+            <div className="text-3xl font-bold text-foreground">$100</div>
+            <div className="text-foreground">1 month</div>
           </div>
         </div>
 
         {/* Donation Form */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm">
+        <div className="bg-background rounded-2xl p-8 shadow-lg border">
           {/* Donation Type */}
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Donation Type</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Donation Type</h3>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={() => setDonationType('one_time')}
                 className={`py-3 px-4 rounded-xl font-medium transition-all ${
                   donationType === 'one_time'
-                    ? 'text-white shadow-lg'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    ? 'bg-pink-500 text-white shadow-lg'
+                    : 'bg-background text-foreground hover:bg-gray-100'
                 }`}
-                style={donationType === 'one_time' ? { backgroundColor: '#F72585' } : {}}
               >
                 One-time
               </button>
@@ -148,10 +148,9 @@ export default function DonationForm() {
                 onClick={() => setDonationType('recurring')}
                 className={`py-3 px-4 rounded-xl font-medium transition-all ${
                   donationType === 'recurring'
-                    ? 'text-white shadow-lg'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    ? 'bg-pink-500 text-white shadow-lg'
+                    : 'bg-background text-foreground hover:bg-gray-100'
                 }`}
-                style={donationType === 'recurring' ? { backgroundColor: '#F72585' } : {}}
               >
                 Recurring
               </button>
@@ -162,7 +161,7 @@ export default function DonationForm() {
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                  className="bg-background w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground"
                 >
                   <option value="monthly">Monthly</option>
                   <option value="quarterly">Quarterly</option>
@@ -174,7 +173,7 @@ export default function DonationForm() {
 
           {/* Amount Selection */}
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Choose Amount</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Choose Amount</h3>
             
             <div className="grid grid-cols-5 gap-3 mb-6">
               {predefinedAmounts.map((amount) => (
@@ -184,10 +183,9 @@ export default function DonationForm() {
                   onClick={() => handleAmountSelect(amount)}
                   className={`py-4 px-2 rounded-xl font-semibold text-lg transition-all ${
                     selectedAmount === amount && !isCustom
-                      ? 'text-white shadow-lg'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      ? 'bg-pink-500 text-white shadow-lg'
+                      : 'bg-background text-foreground hover:bg-gray-100'
                   }`}
-                  style={selectedAmount === amount && !isCustom ? { backgroundColor: '#F72585' } : {}}
                 >
                   ${amount}
                 </button>
@@ -195,17 +193,16 @@ export default function DonationForm() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-semibold text-gray-700">$</span>
+              <span className="text-2xl font-semibold text-foreground">$</span>
               <input
                 type="number"
                 min="1"
                 placeholder="Custom amount"
                 value={customAmount}
                 onChange={(e) => handleCustomAmount(e.target.value)}
-                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-colors ${
-                  isCustom ? 'focus:ring-2 focus:ring-opacity-20' : 'border-gray-200 focus:border-gray-400'
+                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-colors text-foreground bg-background ${
+                  isCustom ? 'border-pink-500 focus:ring-2 focus:ring-pink-200' : 'border-gray-200 focus:border-gray-400'
                 }`}
-                style={isCustom ? { borderColor: '#F72585' } : {}}
               />
             </div>
           </div>
@@ -218,7 +215,7 @@ export default function DonationForm() {
                 required
                 value={donorInfo.name}
                 onChange={(e) => setDonorInfo({...donorInfo, name: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
                 placeholder="Full Name *"
                 disabled={isAnonymous}
               />
@@ -229,7 +226,7 @@ export default function DonationForm() {
                 required
                 value={donorInfo.email}
                 onChange={(e) => setDonorInfo({...donorInfo, email: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
                 placeholder="Email Address *"
               />
             </div>
@@ -238,7 +235,7 @@ export default function DonationForm() {
                 rows={3}
                 value={donorInfo.message}
                 onChange={(e) => setDonorInfo({...donorInfo, message: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-gray-400"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
                 placeholder="Message (optional)"
               />
             </div>
@@ -250,27 +247,26 @@ export default function DonationForm() {
                 id="anonymous"
                 checked={isAnonymous}
                 onChange={(e) => setIsAnonymous(e.target.checked)}
-                className="w-5 h-5 rounded"
-                style={{ accentColor: '#F72585' }}
+                className="w-5 h-5 rounded accent-pink-500"
               />
-              <label htmlFor="anonymous" className="text-gray-700">
+              <label htmlFor="anonymous" className="text-foreground">
                 Make this donation anonymous
               </label>
             </div>
           </div>
 
           {/* Donation Summary */}
-          <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: '#EBF9FF' }}>
+          <div className="bg-blue-50 rounded-xl p-6 mb-8 border border-blue-100">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-xl font-semibold text-gray-900">
+              <span className="text-xl font-semibold text-foreground">
                 Your {donationType === 'recurring' ? `${frequency} ` : ''}Donation:
               </span>
-              <span className="text-3xl font-bold" style={{ color: '#F72585' }}>
+              <span className="text-3xl font-bold text-pink-600">
                 ${getFinalAmount().toFixed(2)}
               </span>
             </div>
             {donationType === 'recurring' && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-foreground">
                 This amount will be charged {frequency}
               </p>
             )}
@@ -280,8 +276,7 @@ export default function DonationForm() {
           <Button
             onClick={handleSubmit}
             disabled={getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email || isSubmitting}
-            className="w-full py-6 text-xl font-semibold rounded-xl disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors hover:opacity-90"
-            style={{ backgroundColor: '#F72585' }}
+            className="w-full py-6 text-xl font-semibold rounded-xl bg-pink-500 hover:bg-pink-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-white"
           >
             {isSubmitting ? 'Processing...' : `Donate $${getFinalAmount().toFixed(2)}`}
           </Button>
