@@ -101,9 +101,6 @@ export default function DonationForm() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
-            <div className="p-4 bg-pink-500 rounded-full">
-              <Heart className="w-12 h-12 text-white" />
-            </div>
           </div>
           <h1 className="text-5xl font-bold text-foreground mb-4">
             Make a Difference
