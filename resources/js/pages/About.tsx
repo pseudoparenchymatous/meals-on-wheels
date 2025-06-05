@@ -1,3 +1,4 @@
+import Layout from '@/layouts/Layout';
 import Header from '@/components/Header';
 import Carousel from '@/components/Carousel-image';
 import { Button } from "@/components/ui/button"
@@ -5,8 +6,7 @@ import { Head, Link } from "@inertiajs/react";
 
 export default function About() {
     return (
-        <>
-            <Header />
+        <Layout>
             <Head title="About"/>
             <section className="flex flex-wrap items-center justify-center gap-4 m-10">
                 <div className="flex flex-col gap-3 max-w-md items-center justify-items-center lg:justify-items-start">
@@ -31,6 +31,6 @@ export default function About() {
                 </blockquote>
             </div>
             <Carousel/>
-        </>
+        </Layout>
     );
 };
