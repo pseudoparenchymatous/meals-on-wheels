@@ -10,8 +10,6 @@ export const DonationHero = () => {
         { icon: 'Clock', value: '5', label: 'Days a Week' }
     ];
 
-
-
     const iconMap: Record<IconName, () => JSX.Element> = {
         Users: () => (
             <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,17 +23,16 @@ export const DonationHero = () => {
         ),
         Volunteers: () => (
             <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
         ),
         Clock: () => (
             <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" />
             </svg>
         )
     };
-
-
 
     return (
         <div className="bg-[#F72585] text-white">
@@ -51,7 +48,7 @@ export const DonationHero = () => {
                         Your donation helps us deliver nutritious meals to seniors who need them most. 
                         Together, we can ensure no one goes hungry.
                     </p>
-                    <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                         {stats.map((stat, index) => {
                             const IconComponent = iconMap[stat.icon];
                             return (
