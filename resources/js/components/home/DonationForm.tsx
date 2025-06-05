@@ -100,7 +100,7 @@ export default function DonationForm() {
       <div className="max-w-2xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <Heart className="h-16 w-16 mx-auto mb-6" style={{ color: '#F72585' }} />
+          
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Make a Difference
           </h1>
