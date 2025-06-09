@@ -64,6 +64,28 @@ export default function Register() {
 
                 <form className="space-y-6" onSubmit={submit}>
                     {/* Basic Information */}
+                    {/* User Type */}
+                    <div className="border p-6 rounded-lg">
+                        <Label htmlFor="user_type" className="">
+                            Register as
+                        </Label>
+                        <Select
+                            id="user_type"
+                            onValueChange={(value) => setData('user_type', value)}
+                        >
+                            <SelectTrigger className="my-1">
+                                <SelectValue placeholder="I am a.." />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {userTypes.map((type) => (
+                                    <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={errors.user_type} />
+                    </div>
                     <div className="bg-background rounded-lg border p-6">
                         <h3 className="text-fray font-semibold text-foreground mb-4">Basic Information</h3>
                         
@@ -119,29 +141,6 @@ export default function Register() {
                                     className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]"
                                 />
                                 <InputError message={errors.email} />
-                            </div>
-
-                            {/* User Type */}
-                            <div>
-                                <Label htmlFor="user_type" className="text-sm font-medium text-foreground">
-                                    User Type *
-                                </Label>
-                                <Select
-                                    value={data.user_type}
-                                    onValueChange={(value) => setData('user_type', value)}
-                                >
-                                    <SelectTrigger className="mt-1 h-10 focus:border-[#F72585] focus:ring-[#F72585]">
-                                        <SelectValue placeholder="Select your role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {userTypes.map((type) => (
-                                            <SelectItem key={type.value} value={type.value}>
-                                                {type.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <InputError message={errors.user_type} />
                             </div>
 
                             {/* Password Fields */}
