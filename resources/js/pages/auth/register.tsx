@@ -58,12 +58,9 @@ export default function Register() {
         <AuthLayout title="Join MerryMeal" description="Create your account to get started">
             <Head title="Register" />
             
+            {/* Register form */}
             <div className="w-full max-w-lg mx-auto">
-                {/* Header */}
-                
-
                 <form className="space-y-6" onSubmit={submit}>
-                    {/* Basic Information */}
                     {/* User Type */}
                     <div className="border p-6 rounded-lg">
                         <Label htmlFor="user_type" className="">
@@ -86,9 +83,9 @@ export default function Register() {
                         </Select>
                         <InputError message={errors.user_type} />
                     </div>
+                    {/* Account Information */}
                     <div className="bg-background rounded-lg border p-6">
-                        <h3 className="text-fray font-semibold text-foreground mb-4">Basic Information</h3>
-                        
+                        <h3 className="font-semibold mb-4 text-foreground">Account Information</h3>
                         <div className="space-y-4">
                             {/* Name Fields */}
                             <div className="grid grid-cols-2 gap-4">
