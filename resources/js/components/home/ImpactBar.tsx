@@ -20,7 +20,7 @@ const ImpactBar = () => {
         </div>
 
         {/* Stats Box with Top and Bottom Text */}
-        <div className="flex-1 border-3 p-6 flex flex-col gap-4">
+        <div className="flex-1 border-3 p-10 flex flex-col gap-4">
           {/* Top Text */}
           <p className="text-center text-sm text-300">
             Our reach continues to grow thanks to our generous supporters and tireless volunteers.
