@@ -39,7 +39,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        user_type: 'member',
+        user_type: '',
         phone: '',
         address: '',
         emergency_contact: '',
