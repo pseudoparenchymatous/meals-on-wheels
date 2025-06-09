@@ -282,7 +282,7 @@ export default function DonationForm() {
           </Button>
 
           <p className="text-center text-gray-500 mt-6">
-            🔒 Secure and encrypted donation
+            Secure and encrypted donation
           </p>
         </div>
       </div>
