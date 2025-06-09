@@ -256,7 +256,7 @@ export default function DonationForm() {
           </div>
 
           {/* Donation Summary */}
-          <div className="bg-blue-50 rounded-xl p-6 mb-8 border border-blue-100">
+          <div className="bg-background rounded-xl p-6 mb-8 border border-blue-100">
             <div className="flex justify-between items-center mb-2">
               <span className="text-xl font-semibold text-foreground">
                 Your {donationType === 'recurring' ? `${frequency} ` : ''}Donation:
@@ -276,7 +276,7 @@ export default function DonationForm() {
           <Button
             onClick={handleSubmit}
             disabled={getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email || isSubmitting}
-            className="w-full py-6 text-xl font-semibold rounded-xl bg-pink-500 hover:bg-pink-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-white"
+            className="w-full py-6 text-xl font-semibold rounded-xl bg-pink-500 hover:bg-pink-600 disabled:bg-background disabled:cursor-not-allowed transition-colors text-foreground"
           >
             {isSubmitting ? 'Processing...' : `Donate $${getFinalAmount().toFixed(2)}`}
           </Button>
