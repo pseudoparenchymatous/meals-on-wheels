@@ -27,7 +27,7 @@ const Cards =[
 
 function RoleCards({ roleBox }){
     return(
-        <a href="#" className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <a href="#" className="flex flex-col bg-accent border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-blue-200 dark:border-gray-700 dark:bg-accent dark:hover:bg-gray-700">
             <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={roleBox.img} alt={roleBox.alt}/>
             <div className="flex flex-col justify-between p-4 leading-normal">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{roleBox.heading}</h5>
@@ -58,7 +58,7 @@ export default function About() {
             </section>
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <blockquote className="fg-foreground text-2xl text-center p-10 w-full m-1 italic">
-                    <h1 className="text-4xl not-italic font-bold pb-10">Our Mission</h1>
+                    <h1 className="text-3xl not-italic font-bold pb-10">Our Mission</h1>
                     To deliver more than just food – we deliver independence, dignity, and hope.<br/>
                     We believe no one should have to choose between food and other basic needs.
                 </blockquote>
@@ -68,7 +68,7 @@ export default function About() {
                     {Cards.map((card, index) => <RoleCards key={index} roleBox={card} />)}
                 </div>
             </section>
-            <section className="flex-1 flex-wrap p-6 flex flex-col gap-4 ">
+            <section className="flex-1 flex-wrap p-18 flex flex-col gap-4 ">
                     <h1 className='text-center fg-foreground font-[1000] text-3xl'>
                         Behind every number is a life changed — thanks to your support<br/>
                         we're delivering more than just meals.
