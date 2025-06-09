@@ -281,7 +281,7 @@ export default function DonationForm() {
             {isSubmitting ? 'Processing...' : `Donate $${getFinalAmount().toFixed(2)}`}
           </Button>
 
-          <p className="text-center text-gray-500 mt-6">
+          <p className="text-center text-foreground mt-6">
             Secure and encrypted donation
           </p>
         </div>
