@@ -258,7 +258,7 @@ export default function DonationForm() {
                 required
                 value={donorInfo.name}
                 onChange={(e) => setDonorInfo({...donorInfo, name: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Full Name *"
                 disabled={isAnonymous}
               />
@@ -269,7 +269,7 @@ export default function DonationForm() {
                 required
                 value={donorInfo.email}
                 onChange={(e) => setDonorInfo({...donorInfo, email: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Email Address *"
               />
             </div>
@@ -278,7 +278,7 @@ export default function DonationForm() {
                 rows={3}
                 value={donorInfo.message}
                 onChange={(e) => setDonorInfo({...donorInfo, message: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground bg-background placeholder-gray-500"
+                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Message (optional)"
               />
             </div>
@@ -292,19 +292,19 @@ export default function DonationForm() {
                 onChange={(e) => setIsAnonymous(e.target.checked)}
                 className="w-5 h-5 rounded accent-pink-500"
               />
-              <label htmlFor="anonymous" className="text-foreground">
+              <label htmlFor="anonymous" className="text-gray-700 dark:text-gray-300 transition-colors duration-300">
                 Make this donation anonymous
               </label>
             </div>
           </div>
 
           {/* Donation Summary */}
-          <div className="bg-background rounded-xl p-6 mb-8 border border-blue-100">
+          <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-6 mb-8 border border-blue-100 dark:border-blue-800 transition-colors duration-300">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-xl font-semibold text-foreground">
+              <span className="text-xl font-semibold text-gray-800 dark:text-white transition-colors duration-300">
                 Your {donationType === 'recurring' ? `${frequency} ` : ''}Donation:
               </span>
-              <span className="text-3xl font-bold text-pink-600">
+              <span className="text-3xl font-bold text-pink-600 dark:text-pink-400 transition-colors duration-300">
                 ${getFinalAmount().toFixed(2)}
               </span>
             </div>
