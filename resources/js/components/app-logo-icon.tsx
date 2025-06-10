@@ -1,5 +1,7 @@
-export default function AppLogoIcon() {
+export default function AppLogoIcon({ className }) {
     return (
-        <img src="/storage/images/meals-on-wheels-logo.svg" alt="Meals on Wheels logo"/>
+        <div className={className}>
+            <img src="/storage/images/meals-on-wheels-logo.svg" alt="Meals on Wheels logo"/>
+        </div>
     );
 }
