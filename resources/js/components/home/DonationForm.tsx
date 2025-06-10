@@ -1,6 +1,31 @@
 import { SetStateAction, useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+
+import { Skeleton } from "@/components/ui/skeleton";
 import { CreditCard } from 'lucide-react';
+
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function DonationForm() {
   const [selectedAmount, setSelectedAmount] = useState(25);
@@ -11,11 +36,13 @@ export default function DonationForm() {
   const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [donorInfo, setDonorInfo] = useState({
     name: '',
     email: '',
     message: ''
   });
+
 
   const predefinedAmounts = [10, 25, 50, 100, 200];
 
@@ -25,7 +52,7 @@ export default function DonationForm() {
     setCustomAmount('');
   };
 
-  const handleCustomAmount = (value: SetStateAction<string>) => {
+  const handleCustomAmount = (value: string) => {
     setCustomAmount(value);
     setIsCustom(true);
     setSelectedAmount(0);
@@ -35,16 +62,38 @@ export default function DonationForm() {
     return isCustom ? parseFloat(customAmount) || 0 : selectedAmount;
   };
 
-  const handleSubmit = async () => {
-    if (getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email) {
-      alert('Please fill in all required fields and select a donation amount.');
-      return;
+  const validateForm = () => {
+    if (getFinalAmount() <= 0) {
+      alert('Please select or enter a donation amount greater than $0.');
+      return false;
     }
+
+    if (!donorInfo.name.trim()) {
+      alert('Please enter your full name.');
+      return false;
+    }
+
+    if (!donorInfo.email.trim()) {
+      alert('Please enter your email address.');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(donorInfo.email)) {
+      alert('Please enter a valid email address.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     const donationData = {
-      donor_name: donorInfo.name,
+      donor_name: isAnonymous ? 'Anonymous' : donorInfo.name,
       donor_email: donorInfo.email,
       amount: getFinalAmount(),
       currency: 'USD',
@@ -74,7 +123,7 @@ export default function DonationForm() {
         if (result.payment_url) {
           window.location.href = result.payment_url;
         } else {
-          alert(`Thank you for your donation of $${getFinalAmount()}! You will receive a confirmation email shortly.`);
+          alert(`Thank you for your donation of ${getFinalAmount().toFixed(2)}! You will receive a confirmation email shortly.`);
           
           // Reset form
           setSelectedAmount(25);
@@ -94,7 +143,13 @@ export default function DonationForm() {
       alert('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
+      setShowConfirmDialog(false);
     }
+  };
+
+  const handleDonateClick = () => {
+    if (!validateForm()) return;
+    setShowConfirmDialog(true);
   };
 
   return (
@@ -130,6 +185,14 @@ export default function DonationForm() {
 
         {/* Donation Form */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+          {isSubmitting && (
+            <div className="mb-8 space-y-4">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          )}
+
           {/* Donation Type */}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-300">Donation Type</h3>
@@ -137,7 +200,8 @@ export default function DonationForm() {
               <button
                 type="button"
                 onClick={() => setDonationType('one_time')}
-                className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
+                disabled={isSubmitting}
+                className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 disabled:opacity-50 ${
                   donationType === 'one_time'
                     ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
                     : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
@@ -148,7 +212,8 @@ export default function DonationForm() {
               <button
                 type="button"
                 onClick={() => setDonationType('recurring')}
-                className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
+                disabled={isSubmitting}
+                className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 disabled:opacity-50 ${
                   donationType === 'recurring'
                     ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
                     : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
@@ -159,16 +224,17 @@ export default function DonationForm() {
             </div>
             
             {donationType === 'recurring' && (
-              <div className="mt-4">
-                <select
-                  value={frequency}
-                  onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 transition-colors duration-300"
-                >
-                  <option value="monthly">Monthly</option>
-                  <option value="quarterly">Quarterly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
+              <div className="mt-4 w-full max-w-md mx-auto px-4 sm:px-6">
+                <Select value={frequency} onValueChange={setFrequency} disabled={isSubmitting}>
+                  <SelectTrigger className="w-full h-14 px-5 text-base sm:text-lg rounded-xl border-2 border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500">
+                    <SelectValue placeholder="Select frequency" />
+                  </SelectTrigger>
+                  <SelectContent className="text-base">
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="quarterly">Quarterly</SelectItem>
+                    <SelectItem value="yearly">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             )}
           </div>
@@ -180,7 +246,8 @@ export default function DonationForm() {
               <button
                 type="button"
                 onClick={() => setPaymentMethod('stripe')}
-                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
+                disabled={isSubmitting}
+                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 disabled:opacity-50 ${
                   paymentMethod === 'stripe'
                     ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
                     : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
@@ -192,7 +259,8 @@ export default function DonationForm() {
               <button
                 type="button"
                 onClick={() => setPaymentMethod('paypal')}
-                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
+                disabled={isSubmitting}
+                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 disabled:opacity-50 ${
                   paymentMethod === 'paypal'
                     ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
                     : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
@@ -224,7 +292,8 @@ export default function DonationForm() {
                   key={amount}
                   type="button"
                   onClick={() => handleAmountSelect(amount)}
-                  className={`py-4 px-2 rounded-xl font-semibold text-lg transition-all duration-200 ${
+                  disabled={isSubmitting}
+                  className={`py-4 px-2 rounded-xl font-semibold text-lg transition-all duration-200 disabled:opacity-50 ${
                     selectedAmount === amount && !isCustom
                       ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
                       : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
@@ -237,14 +306,15 @@ export default function DonationForm() {
 
             <div className="flex items-center gap-3">
               <span className="text-2xl font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-300">$</span>
-              <input
+              <Input
                 type="number"
                 min="1"
                 placeholder="Custom amount"
                 value={customAmount}
                 onChange={(e) => handleCustomAmount(e.target.value)}
-                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-all duration-200 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 ${
-                  isCustom ? 'border-pink-500 dark:border-pink-500 focus:ring-2 focus:ring-pink-200 dark:focus:ring-pink-800' : 'border-gray-200 dark:border-gray-600 focus:border-gray-400 dark:focus:border-gray-500'
+                disabled={isSubmitting}
+                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl h-auto ${
+                  isCustom ? 'border-pink-500 dark:border-pink-500' : 'border-gray-200 dark:border-gray-600'
                 }`}
               />
             </div>
@@ -253,44 +323,46 @@ export default function DonationForm() {
           {/* Donor Info */}
           <div className="space-y-6 mb-8">
             <div>
-              <input
+              <Input
                 type="text"
                 required
                 value={donorInfo.name}
                 onChange={(e) => setDonorInfo({...donorInfo, name: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Full Name *"
-                disabled={isAnonymous}
+                disabled={isAnonymous || isSubmitting}
+                className="w-full px-4 py-4 text-lg h-auto"
               />
             </div>
             <div>
-              <input
+              <Input
                 type="email"
                 required
                 value={donorInfo.email}
                 onChange={(e) => setDonorInfo({...donorInfo, email: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Email Address *"
+                disabled={isSubmitting}
+                className="w-full px-4 py-4 text-lg h-auto"
               />
             </div>
             <div>
-              <textarea
+              <Textarea
                 rows={3}
                 value={donorInfo.message}
                 onChange={(e) => setDonorInfo({...donorInfo, message: e.target.value})}
-                className="w-full px-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-300"
                 placeholder="Message (optional)"
+                disabled={isSubmitting}
+                className="w-full px-4 py-4 text-lg resize-none"
               />
             </div>
             
             {/* Anonymous Donation Option */}
             <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
+              <Checkbox
                 id="anonymous"
                 checked={isAnonymous}
-                onChange={(e) => setIsAnonymous(e.target.checked)}
-                className="w-5 h-5 rounded accent-pink-500"
+                onCheckedChange={checked => setIsAnonymous(checked === true)}
+                disabled={isSubmitting}
+                className="w-5 h-5"
               />
               <label htmlFor="anonymous" className="text-gray-700 dark:text-gray-300 transition-colors duration-300">
                 Make this donation anonymous
@@ -309,27 +381,46 @@ export default function DonationForm() {
               </span>
             </div>
             {donationType === 'recurring' && (
-              <p className="text-sm text-foreground">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 This amount will be charged {frequency}
               </p>
             )}
           </div>
 
           {/* Submit Button */}
-          <Button
-            onClick={handleSubmit}
-            disabled={getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email || isSubmitting}
-            className={`w-full py-6 text-xl font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
-              paymentMethod === 'paypal' 
-                ? 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white shadow-lg hover:shadow-xl' 
-                : 'bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-700 text-white shadow-lg hover:shadow-xl'
-            }`}
-          >
-            {isSubmitting 
-              ? 'Processing...' 
-              : `Donate $${getFinalAmount().toFixed(2)} with ${paymentMethod === 'stripe' ? 'Card' : 'PayPal'}`
-            }
-          </Button>
+          <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+            <AlertDialogTrigger asChild>
+              <Button
+                onClick={handleDonateClick}
+                disabled={getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email || isSubmitting}
+                className={`w-full py-6 text-xl font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed h-auto ${
+                  paymentMethod === 'paypal' 
+                    ? 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white shadow-lg hover:shadow-xl' 
+                    : 'bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-700 text-white shadow-lg hover:shadow-xl'
+                }`}
+              >
+                {isSubmitting 
+                  ? 'Processing...' 
+                  : `Donate $${getFinalAmount().toFixed(2)} with ${paymentMethod === 'stripe' ? 'Card' : 'PayPal'}`
+                }
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Your Donation</AlertDialogTitle>
+                <AlertDialogDescription>
+                  You're about to donate <strong>${getFinalAmount().toFixed(2)}</strong> {donationType === 'recurring' ? `${frequency}` : 'as a one-time donation'} via {paymentMethod === 'stripe' ? 'credit card' : 'PayPal'}.
+                  {isAnonymous && <span className="block mt-2 text-sm">This donation will be made anonymously.</span>}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel disabled={isSubmitting}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? 'Processing...' : 'Confirm Donation'}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
 
           <p className="text-center text-gray-600 dark:text-gray-400 mt-6 transition-colors duration-300">
             Secure and encrypted donation via {paymentMethod === 'stripe' ? 'Stripe' : 'PayPal'}
