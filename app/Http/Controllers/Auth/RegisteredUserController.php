@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Member;
+use App\Models\Partner;
+use App\Models\Volunteer;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -30,36 +34,76 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name'=> 'required|string|max:255',
+        $userRules = [
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'user_type' => 'required|string|in:member,caregiver,partner,volunteer,donor',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
-            'emergency_contact' => 'required|string|max:255',
-            'dietary_requirements' => 'nullable|string|max:255',
-            'medical_conditions' => 'nullable|string|max:255',
-        ]);
+        ];
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name'=> $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'user_type' => $request->user_type,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'emergency_contact' => $request->emergency_contact,
-            'dietary_requirements' => $request->dietary_requirements,
-            'medical_conditions' => $request->medical_conditions,
-        ]);
+        if ($request->user_type !== 'partner') {
+            $userRules['first_name'] = 'required|string|max:255';
+            $userRules['last_name'] = 'required|string|max:255';
+        }
 
-        event(new Registered($user));
+        $request->validate($userRules);
 
-        Auth::login($user);
+        $this->validateByUserType($request);
+
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name'=> $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ]);
+
+            $this->createUserType($user, $request);
+
+            event(new Registered($user));
+
+            Auth::login($user);
+        });
 
         return to_route('dashboard');
+    }
+
+    public function validateByUserType(Request $request)
+    {
+        $rules = match($request->user_type) {
+            'member' => [
+                'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
+            ],
+            'partner' => [
+                'org_name' => 'required|string|max:255',
+                'partner_service' => 'required|in:kitchen,delivery',
+            ],
+            'volunteer' => [
+                'volunteer_service' => 'required|in:kitchen_staff,rider',
+            ],
+        };
+
+        $request->validate($rules);
+    }
+
+    public function createUserType(User $user, Request $request)
+    {
+        match($request->user_type) {
+            'member' => Member::create([
+                'user_id' => $user->id,
+                'diet' => $request->diet,
+            ]),
+            'partner' => Partner::create([
+                'user_id' => $user->id,
+                'org_name' => $request->org_name,
+                'service' => $request->partner_service,
+            ]),
+            'volunteer' => Volunteer::create([
+                'user_id' => $user->id,
+                'service' => $request->volunteer_service,
+            ]),
+        };
     }
 }
