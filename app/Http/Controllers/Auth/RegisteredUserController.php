@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Caregiver;
 use App\Models\Member;
+use App\Models\User;
 use App\Models\Partner;
 use App\Models\Volunteer;
 use Illuminate\Auth\Events\Registered;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -72,10 +74,21 @@ class RegisteredUserController extends Controller
 
     public function validateByUserType(Request $request)
     {
+        if ($request->user_type == 'caregiver') {
+            Validator::make($request->all(),[
+                'member.first_name' => 'required|string|max:255|exists:users,first_name',
+                'member.last_name' => 'required|string|max:255|exists:users,last_name',
+            ], [
+                'member.first_name.exists' => 'Could not find this name as a registerd member',
+                'member.last_name.exists' => 'Could not find this name as a registerd member',
+            ])->validate();
+        }
+
         $rules = match($request->user_type) {
             'member' => [
                 'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
             ],
+            'caregiver' => [],
             'partner' => [
                 'org_name' => 'required|string|max:255',
                 'partner_service' => 'required|in:kitchen,delivery',
@@ -94,6 +107,13 @@ class RegisteredUserController extends Controller
             'member' => Member::create([
                 'user_id' => $user->id,
                 'diet' => $request->diet,
+            ]),
+            'caregiver' => Caregiver::create([
+                'user_id' => $user->id,
+                'member_id' => User::firstWhere('first_name', $request->member["first_name"])
+                    ->firstWhere('last_name', $request->member["last_name"])
+                    ->member
+                    ->id,
             ]),
             'partner' => Partner::create([
                 'user_id' => $user->id,

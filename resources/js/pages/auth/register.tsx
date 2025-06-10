@@ -25,6 +25,10 @@ type RegisterForm = {
     org_name: string,
     partner_service: string,
     volunteer_service: string,
+    member: {
+        first_name: string,
+        last_name: string,
+    },
     email: string;
     password: string;
     password_confirmation: string;
@@ -180,6 +184,10 @@ export default function Register() {
         org_name: '',
         partner_service: '',
         volunteer_service: '',
+        member: {
+            first_name: '',
+            last_name: '',
+        },
         email: '',
         password: '',
         password_confirmation: '',
@@ -360,6 +368,48 @@ export default function Register() {
                         </div>
                     </div>
                 )}
+
+                {/* Caregiver Information */}
+                {data.user_type === UserTypes.Caregiver &&
+                    <div className="rounded-lg border p-6">
+                        <h2 className="font-semibold text-xl ">Caregiver Information</h2>
+                        <span className="text-muted-foreground mb-4 text-sm">Who is the member you are responsible for?</span>
+
+                        <div className="grid grid-cols-2 gap-4 mt-2">
+                            {/* Name Fields */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="member.first_name">
+                                    First Name
+                                </Label>
+                                <Input
+                                    id="member.first_name"
+                                    type="text"
+                                    autoComplete="given-name"
+                                    required
+                                    value={data.member.first_name}
+                                    onChange={(e) => setData('member.first_name', e.target.value)}
+                                    placeholder="First Name"
+                                />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="member.last_name">
+                                    Last Name
+                                </Label>
+                                <Input
+                                    id="member.last_name"
+                                    type="text"
+                                    autoComplete="family-name"
+                                    required
+                                    value={data.member.last_name}
+                                    onChange={(e) => setData('member.last_name', e.target.value)}
+                                    placeholder="Last Name"
+                                />
+                            </div>
+                            <InputError message={errors["member.first_name"] || errors["member.last_name"]} />
+                        </div>
+                    </div>
+                }
 
                 {/* Submit Button */}
                 <Button
