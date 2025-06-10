@@ -10,6 +10,17 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
 export default function DonationForm() {
   const [selectedAmount, setSelectedAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
@@ -169,10 +180,10 @@ export default function DonationForm() {
             {donationType === 'recurring' && (
               <div className="mt-4 w-full max-w-md mx-auto px-4 sm:px-6">
                 <Select value={frequency} onValueChange={setFrequency}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full h-14 px-5 text-base sm:text-lg rounded-xl border-2 border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500">
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="text-base">
                     <SelectItem value="monthly">Monthly</SelectItem>
                     <SelectItem value="quarterly">Quarterly</SelectItem>
                     <SelectItem value="yearly">Yearly</SelectItem>
@@ -339,6 +350,21 @@ export default function DonationForm() {
               : `Donate $${getFinalAmount().toFixed(2)} with ${paymentMethod === 'stripe' ? 'Card' : 'PayPal'}`
             }
           </Button>
+          
+          <AlertDialog>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Donation</AlertDialogTitle>
+                <AlertDialogDescription>
+                  You're about to donate ${getFinalAmount()} {donationType === 'recurring' ? frequency : 'one-time'}.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleSubmit}>Confirm</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
 
           <p className="text-center text-gray-600 dark:text-gray-400 mt-6 transition-colors duration-300">
             Secure and encrypted donation via {paymentMethod === 'stripe' ? 'Stripe' : 'PayPal'}
