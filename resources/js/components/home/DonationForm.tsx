@@ -114,16 +114,16 @@ export default function DonationForm() {
         {/* Impact Cards */}
         <div className="grid grid-cols-3 gap-4 mb-12">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-            <div className="text-3xl font-bold text-foreground">$10</div>
-            <div className="text-foreground">2 meals</div>
+            <div className="text-3xl font-bold text-gray-800 dark:text-white">$10</div>
+            <div className="text-gray-600 dark:text-gray-400">2 meals</div>
           </div>
-          <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
-            <div className="text-3xl font-bold text-foreground">$25</div>
-            <div className="text-foreground">1 week of meals</div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div className="text-3xl font-bold text-gray-800 dark:text-white">$25</div>
+            <div className="text-gray-600 dark:text-gray-400">1 week of meals</div>
           </div>
-          <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
-            <div className="text-3xl font-bold text-foreground">$100</div>
-            <div className="text-foreground">1 month of meals</div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div className="text-3xl font-bold text-gray-800 dark:text-white">$100</div>
+            <div className="text-gray-600 dark:text-gray-400">1 month of meals</div>
           </div>
         </div>
 
