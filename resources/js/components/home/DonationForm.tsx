@@ -1,5 +1,6 @@
 import { SetStateAction, useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { CreditCard } from 'lucide-react';
 
 export default function DonationForm() {
   const [selectedAmount, setSelectedAmount] = useState(25);
@@ -171,6 +172,48 @@ export default function DonationForm() {
               </div>
             )}
           </div>
+          
+          {/* Payment Method Selection */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-300">Payment Method</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('stripe')}
+                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
+                  paymentMethod === 'stripe'
+                    ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
+                    : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
+                }`}
+              >
+                <CreditCard className="w-5 h-5" />
+                <span>Credit Card</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('paypal')}
+                className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
+                  paymentMethod === 'paypal'
+                    ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
+                    : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
+                }`}
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.79c.058-.365.394-.632.764-.632h8.116c.365 0 .693.206.855.53.162.324.138.715-.062 1.02L9.644 11.2a.641.641 0 0 0 .555.96h4.132c2.251 0 4.268-1.469 4.942-3.599.674-2.13-.122-4.431-1.947-5.628-.365-.239-.532-.679-.425-1.116.107-.437.49-.738.955-.754 2.316-.08 4.402 1.411 5.129 3.668.727 2.257-.122 4.716-2.086 6.046l-1.275 6.784a.641.641 0 0 1-.633.526H14.27a.641.641 0 0 1-.633-.526l.894-4.756H9.398l-.894 4.756a.641.641 0 0 1-.633.526z"/>
+                </svg>
+                <span>PayPal</span>
+              </button>
+            </div>
+            
+            {paymentMethod === 'paypal' && donationType === 'recurring' && (
+              <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800 transition-colors duration-300">
+                <p className="text-sm text-blue-700 dark:text-blue-300">
+                  <strong>Note:</strong> PayPal recurring donations will redirect you to PayPal to set up automatic payments.
+                </p>
+              </div>
+            )}
+          </div>
+
 
           {/* Amount Selection */}
           <div className="mb-8">
