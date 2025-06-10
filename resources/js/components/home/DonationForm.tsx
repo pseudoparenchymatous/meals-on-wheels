@@ -214,10 +214,9 @@ export default function DonationForm() {
             )}
           </div>
 
-
           {/* Amount Selection */}
           <div className="mb-8">
-            <h3 className="text-xl font-semibold text-foreground mb-4">Choose Amount</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-300">Choose Amount</h3>
             
             <div className="grid grid-cols-5 gap-3 mb-6">
               {predefinedAmounts.map((amount) => (
@@ -225,10 +224,10 @@ export default function DonationForm() {
                   key={amount}
                   type="button"
                   onClick={() => handleAmountSelect(amount)}
-                  className={`py-4 px-2 rounded-xl font-semibold text-lg transition-all ${
+                  className={`py-4 px-2 rounded-xl font-semibold text-lg transition-all duration-200 ${
                     selectedAmount === amount && !isCustom
-                      ? 'bg-pink-500 text-white shadow-lg'
-                      : 'bg-background text-foreground hover:bg-gray-100'
+                      ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
+                      : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
                   }`}
                 >
                   ${amount}
@@ -237,15 +236,15 @@ export default function DonationForm() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-semibold text-foreground">$</span>
+              <span className="text-2xl font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-300">$</span>
               <input
                 type="number"
                 min="1"
                 placeholder="Custom amount"
                 value={customAmount}
                 onChange={(e) => handleCustomAmount(e.target.value)}
-                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-colors text-foreground bg-background ${
-                  isCustom ? 'border-pink-500 focus:ring-2 focus:ring-pink-200' : 'border-gray-200 focus:border-gray-400'
+                className={`flex-1 px-4 py-4 text-lg border-2 rounded-xl focus:outline-none transition-all duration-200 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 ${
+                  isCustom ? 'border-pink-500 dark:border-pink-500 focus:ring-2 focus:ring-pink-200 dark:focus:ring-pink-800' : 'border-gray-200 dark:border-gray-600 focus:border-gray-400 dark:focus:border-gray-500'
                 }`}
               />
             </div>
