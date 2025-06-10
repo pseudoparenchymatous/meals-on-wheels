@@ -118,7 +118,7 @@ export default function DonationForm() {
           </div>
           <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
             <div className="text-3xl font-bold text-foreground">$25</div>
-            <div className="text-foreground">1 week</div>
+            <div className="text-foreground">1 week of meals</div>
           </div>
           <div className="bg-background rounded-xl p-6 text-center shadow-sm border">
             <div className="text-3xl font-bold text-foreground">$100</div>
