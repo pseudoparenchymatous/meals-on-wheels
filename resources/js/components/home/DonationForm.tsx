@@ -319,13 +319,20 @@ export default function DonationForm() {
           <Button
             onClick={handleSubmit}
             disabled={getFinalAmount() <= 0 || !donorInfo.name || !donorInfo.email || isSubmitting}
-            className="w-full py-6 text-xl font-semibold rounded-xl bg-pink-500 hover:bg-pink-600 disabled:bg-background disabled:cursor-not-allowed transition-colors text-foreground"
+            className={`w-full py-6 text-xl font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              paymentMethod === 'paypal' 
+                ? 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white shadow-lg hover:shadow-xl' 
+                : 'bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-700 text-white shadow-lg hover:shadow-xl'
+            }`}
           >
-            {isSubmitting ? 'Processing...' : `Donate $${getFinalAmount().toFixed(2)}`}
+            {isSubmitting 
+              ? 'Processing...' 
+              : `Donate $${getFinalAmount().toFixed(2)} with ${paymentMethod === 'stripe' ? 'Card' : 'PayPal'}`
+            }
           </Button>
 
-          <p className="text-center text-foreground mt-6">
-            Secure and encrypted donation
+          <p className="text-center text-gray-600 dark:text-gray-400 mt-6 transition-colors duration-300">
+            Secure and encrypted donation via {paymentMethod === 'stripe' ? 'Stripe' : 'PayPal'}
           </p>
         </div>
       </div>
