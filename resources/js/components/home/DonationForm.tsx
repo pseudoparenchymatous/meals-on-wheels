@@ -52,7 +52,7 @@ export default function DonationForm() {
       donor_message: donorInfo.message || null,
       is_anonymous: isAnonymous,
       status: 'pending',
-      payment_method: 'stripe', // Default to Stripe, can be dynamic
+      payment_method: paymentMethod,
     };
 
     try {
