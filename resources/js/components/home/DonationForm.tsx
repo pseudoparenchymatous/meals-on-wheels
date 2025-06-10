@@ -106,7 +106,7 @@ export default function DonationForm() {
           <h1 className="text-5xl font-bold text-gray-800 dark:text-white mb-4 transition-colors duration-300">
             Make a Difference
           </h1>
-          <p className="text-xl text-foreground mb-6">
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300">
             Help us deliver nutritious meals to seniors in our community
           </p>
         </div>
