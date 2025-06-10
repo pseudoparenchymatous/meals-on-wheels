@@ -18,28 +18,36 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'user_type',
         'phone',
         'address',
-        'emergency_contact',
-        'dietary_requirements',
-        'medical_conditions',
-        'status',
-        'email_verification_token',
-        'email_verified_at',
-        'password_reset_token',
-        'password_reset_expires_at',
-        'remember_token',
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
-        'email_verification_token',
-        'password_reset_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password_reset_expires_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function member()
+    {
+        return $this->hasOne(Member::class);
+    }
+
+    public function partner()
+    {
+        return $this->hasOne(Partner::class);
+    }
+
+    public function volunteer()
+    {
+        return $this->hasOne(Partner::class);
+    }
+
 }
