@@ -8,6 +8,7 @@ export default function DonationForm() {
   const [isCustom, setIsCustom] = useState(false);
   const [donationType, setDonationType] = useState('one_time');
   const [frequency, setFrequency] = useState('monthly');
+  const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [donorInfo, setDonorInfo] = useState({
