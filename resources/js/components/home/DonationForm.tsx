@@ -56,7 +56,7 @@ export default function DonationForm() {
     };
 
     try {
-      // Replace with your actual API endpoint
+      // Add The actual API endpoint
       const response = await fetch('/api/donations', {
         method: 'POST',
         headers: {
@@ -81,6 +81,7 @@ export default function DonationForm() {
           setIsCustom(false);
           setDonorInfo({ name: '', email: '', message: '' });
           setDonationType('one_time');
+          setPaymentMethod('stripe');
           setIsAnonymous(false);
         }
       } else {
