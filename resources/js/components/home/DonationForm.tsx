@@ -128,7 +128,7 @@ export default function DonationForm() {
         </div>
 
         {/* Donation Form */}
-        <div className="bg-background rounded-2xl p-8 shadow-lg border">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
           {/* Donation Type */}
           <div className="mb-8">
             <h3 className="text-xl font-semibold text-foreground mb-4">Donation Type</h3>
