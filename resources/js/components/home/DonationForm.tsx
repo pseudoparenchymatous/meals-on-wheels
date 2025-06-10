@@ -147,10 +147,10 @@ export default function DonationForm() {
               <button
                 type="button"
                 onClick={() => setDonationType('recurring')}
-                className={`py-3 px-4 rounded-xl font-medium transition-all ${
+                className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
                   donationType === 'recurring'
-                    ? 'bg-pink-500 text-white shadow-lg'
-                    : 'bg-background text-foreground hover:bg-gray-100'
+                    ? 'bg-pink-500 dark:bg-pink-600 text-white shadow-lg'
+                    : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600'
                 }`}
               >
                 Recurring
@@ -162,7 +162,7 @@ export default function DonationForm() {
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="bg-background w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-pink-400 text-foreground"
+                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-pink-400 dark:focus:border-pink-500 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 transition-colors duration-300"
                 >
                   <option value="monthly">Monthly</option>
                   <option value="quarterly">Quarterly</option>
