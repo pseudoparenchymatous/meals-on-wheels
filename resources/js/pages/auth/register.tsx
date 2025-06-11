@@ -192,6 +192,7 @@ export default function Register() {
         password_confirmation: '',
         phone: '',
         address: '',
+        birthday: '',
         diet: '',
     });
 
