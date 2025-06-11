@@ -7,29 +7,43 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
+
+enum UserTypes {
+    Member = "member",
+    Caregiver = "caregiver",
+    Partner = "partner",
+    Volunteer = "volunteer",
+    Donor = "donor",
+};
 
 type RegisterForm = {
     first_name: string;
     last_name: string;
+    org_name: string,
+    partner_service: string,
+    volunteer_service: string,
+    member: {
+        first_name: string,
+        last_name: string,
+    },
     email: string;
     password: string;
     password_confirmation: string;
-    user_type: string;
+    user_type: UserTypes;
     phone: string;
     address: string;
-    emergency_contact: string;
-    dietary_requirements: string;
-    medical_conditions: string;
+    diet: string;
 };
 
-const userTypes = [
-    { value: 'member', label: 'Member (Meal Recipient)' },
-    { value: 'caregiver', label: 'Caregiver' },
-    { value: 'partner', label: 'Partner' },
-    { value: 'volunteer', label: 'Volunteer' },
-    { value: 'donor', label: 'Donor/Supporter' }
+const userTypes: { value: UserTypes, label: string } = [
+    { value: UserTypes.Member,    label: 'Member (Meal Recipient)' },
+    { value: UserTypes.Caregiver, label: 'Caregiver' },
+    { value: UserTypes.Partner,   label: 'Partner' },
+    { value: UserTypes.Volunteer, label: 'Volunteer' },
+    { value: UserTypes.Donor,     label: 'Donor/Supporter' }
 ];
 
 const partnerServices = [
@@ -40,6 +54,14 @@ const partnerServices = [
 const volunteerServices = [
     { value: 'rider', label: 'Rider' },
     { value: 'kitchen_staff', label: 'Kitchen Staff' },
+];
+
+const availableDiets = [
+    { value: 'vegetarian', label: 'Vegetarian' },
+    { value: 'vegan', label: 'Vegan' },
+    { value: 'halal', label: 'Halal' },
+    { value: 'lactose_intolerant', label: 'Lactose Intolerant' },
+    { value: 'diabetic', label: 'Diabetic' },
 ];
 
 const PersonalInfo = function({ data, setData, errors }) {
@@ -54,7 +76,6 @@ const PersonalInfo = function({ data, setData, errors }) {
                     id="first_name"
                     type="text"
                     autoComplete="given-name"
-                    autoFocus
                     required
                     value={data.first_name}
                     onChange={(e) => setData('first_name', e.target.value)}
@@ -86,15 +107,14 @@ const PartnerInfo = function({ data, setData, errors }) {
     return (
         <div className="grid gap-4">
             <div className="grid gap-2">
-                <Label htmlFor="org_name" className="text-sm font-medium text-foreground">
+                <Label htmlFor="org_name">
                     Organization Name
                 </Label>
                 <Input
                     id="org_name"
                     type="text"
-                    autoComplete="organization"
                     value={data.org_name}
-                    onChange={(value) => setData('org_name', value)}
+                    onChange={(e) => setData('org_name', e.target.value)}
                     required
                     placeholder="Organization"
                 />
@@ -164,13 +184,16 @@ export default function Register() {
         org_name: '',
         partner_service: '',
         volunteer_service: '',
+        member: {
+            first_name: '',
+            last_name: '',
+        },
         email: '',
         password: '',
         password_confirmation: '',
         phone: '',
         address: '',
-        emergency_contact: '',
-        dietary_requirements: '',
+        diet: '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -194,14 +217,15 @@ export default function Register() {
                         id="user_type"
                         value={data.user_type}
                         onValueChange={(value) => setData('user_type', value)}
+                        required
                     >
-                        <SelectTrigger>
+                        <SelectTrigger id="user_type" autoFocus>
                             <SelectValue placeholder="I am a.." />
                         </SelectTrigger>
                         <SelectContent>
-                            {userTypes.map((type) => (
-                                <SelectItem key={type.value} value={type.value}>
-                                    {type.label}
+                            {userTypes.map((userType) => (
+                                <SelectItem key={userType.value} value={userType.value}>
+                                    {userType.label}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -214,9 +238,9 @@ export default function Register() {
                     <h2 className="font-semibold mb-4 text-xl">Account Information</h2>
                     <div className="flex flex-col gap-4">
                         {/* Names */}
-                        {data.user_type == 'partner' ? <PartnerInfo data={data} setData={setData} errors={errors} /> : <PersonalInfo data={data} setData={setData} errors={errors}/>}
+                        {data.user_type === 'partner' ? <PartnerInfo data={data} setData={setData} errors={errors} /> : <PersonalInfo data={data} setData={setData} errors={errors}/>}
 
-                        {data.user_type == 'volunteer' && <VolunteerService data={data} setData={setData} errors={errors} />}
+                        {data.user_type === 'volunteer' && <VolunteerService data={data} setData={setData} errors={errors} />}
 
                         {/* Email */}
                         <div className="grid gap-2">
@@ -274,53 +298,37 @@ export default function Register() {
 
                     <div className="space-y-4">
                         {/* Phone */}
-                        <div>
-                            <Label htmlFor="phone" className="text-sm text-foreground">
+                        <div className="grid gap-2">
+                            <Label htmlFor="phone">
                                 Phone Number
                             </Label>
                             <Input
                                 id="phone"
                                 type="tel"
+                                autoComplete="tel"
                                 required
                                 value={data.phone}
                                 onChange={(e) => setData('phone', e.target.value)}
                                 placeholder="+63 XXX XXX XXXX"
-                                className="mt-1"
                             />
                             <InputError message={errors.phone} />
                         </div>
 
                         {/* Address */}
-                        <div>
-                            <Label htmlFor="address" className="text-sm text-foreground">
+                        <div className="grid gap-2">
+                            <Label htmlFor="address">
                                 Address
                             </Label>
-                            <textarea
+                            <Textarea
                                 id="address"
+                                autoComplete="street-address"
                                 required
                                 value={data.address}
                                 onChange={(e) => setData('address', e.target.value)}
                                 placeholder="Enter your complete address"
                                 rows={3}
-                                className="mt-1 w-full border border-gray-300 rounded-md p-3 focus:border-[#F72585] focus:ring-2 focus:ring-[#F72585] focus:ring-opacity-20 resize-none"
                             />
                             <InputError message={errors.address} />
-                        </div>
-
-                        {/* Emergency Contact */}
-                        <div>
-                            <Label htmlFor="emergency_contact" className="text-sm text-foreground">
-                                Emergency Contact
-                            </Label>
-                            <Input
-                                id="emergency_contact"
-                                type="text"
-                                value={data.emergency_contact}
-                                onChange={(e) => setData('emergency_contact', e.target.value)}
-                                placeholder="Name and phone number"
-                                className="mt-1"
-                            />
-                            <InputError message={errors.emergency_contact} />
                         </div>
                     </div>
                 </div>
@@ -335,60 +343,79 @@ export default function Register() {
 
                         <div className="space-y-4">
                             {/* Dietary Requirements */}
-                            <div>
-                                <Label className="text-sm">
-                                    Dietary Requirements
+                            <div className="grid gap-2">
+                                <Label htmlFor="diet">
+                                    Diet
                                 </Label>
-                                <select
-                                    value={data.dietary_requirements}
-                                    onChange={(e) => setData('dietary_requirements', e.target.value)}
-                                    className="mt-1 w-full border border-gray-300 rounded-md p-3 focus:border-[#F72585] focus:ring-2 focus:ring-[#F72585] focus:ring-opacity-20"
+                                <Select
+                                    id="diet"
+                                    value={data.diet}
+                                    onValueChange={(value) => setData('diet', value)}
                                 >
-                                    <option value="">Select dietary preference</option>
-                                    <option value="Vegetarian">Vegetarian</option>
-                                    <option value="Vegan">Vegan</option>
-                                    <option value="Halal">Halal</option>
-                                    <option value="Kosher">Kosher</option>
-                                    <option value="Gluten-Free">Gluten-Free</option>
-                                    <option value="Lactose Intolerant">Lactose Intolerant</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <InputError message={errors.dietary_requirements} />
-                            </div>
-
-                            {/* Medical Conditions */}
-                            <div>
-                                <Label className="text-sm text-foreground">
-                                    Medical Conditions (Image Upload)
-                                </Label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={async (e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onload = (event) => {
-                                                setData('medical_conditions', event.target?.result as string);
-                                            };
-                                            reader.readAsDataURL(file);
-                                        } else {
-                                            setData('medical_conditions', '');
-                                        }
-                                    }}
-                                    className="mt-1 w-full border border-gray-300 rounded-md p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#4361EE]/90"
-                                />
-                                <InputError message={errors.medical_conditions} />
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Diet" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {availableDiets.map((dietItem) => (
+                                            <SelectItem key={dietItem.value} value={dietItem.value}>
+                                                {dietItem.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors.diet} />
                             </div>
                         </div>
                     </div>
                 )}
 
+                {/* Caregiver Information */}
+                {data.user_type === UserTypes.Caregiver &&
+                    <div className="rounded-lg border p-6">
+                        <h2 className="font-semibold text-xl ">Caregiver Information</h2>
+                        <span className="text-muted-foreground mb-4 text-sm">Who is the member you are responsible for?</span>
+
+                        <div className="grid grid-cols-2 gap-4 mt-2">
+                            {/* Name Fields */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="member.first_name">
+                                    First Name
+                                </Label>
+                                <Input
+                                    id="member.first_name"
+                                    type="text"
+                                    autoComplete="given-name"
+                                    required
+                                    value={data.member.first_name}
+                                    onChange={(e) => setData('member.first_name', e.target.value)}
+                                    placeholder="First Name"
+                                />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="member.last_name">
+                                    Last Name
+                                </Label>
+                                <Input
+                                    id="member.last_name"
+                                    type="text"
+                                    autoComplete="family-name"
+                                    required
+                                    value={data.member.last_name}
+                                    onChange={(e) => setData('member.last_name', e.target.value)}
+                                    placeholder="Last Name"
+                                />
+                            </div>
+                            <InputError message={errors["member.first_name"] || errors["member.last_name"]} />
+                        </div>
+                    </div>
+                }
+
                 {/* Submit Button */}
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={processing}
+                    disabled={processing || data.user_type === ''}
                 >
                     {processing ? (
                         <>
