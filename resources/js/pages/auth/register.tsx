@@ -34,6 +34,7 @@ type RegisterForm = {
     user_type: UserTypes;
     phone: string;
     address: string;
+    birthday: string;
     diet: string;
 };
 
