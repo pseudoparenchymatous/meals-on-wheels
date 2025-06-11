@@ -26,6 +26,7 @@ class UserFactory extends Factory
             'user_type' => $userType,
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
+            'birth_date' => $this->faker->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
             'emergency_contact' => $this->faker->name() . ' - ' . $this->faker->phoneNumber(),
             'dietary_requirements' => $userType === 'member' ? $this->faker->words(3, true) : null,
             'medical_conditions' => $userType === 'member' ? $this->faker->sentence() : null,

@@ -11,12 +11,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
 
+import { ChevronDownIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 enum UserTypes {
     Member = "member",
     Caregiver = "caregiver",
     Partner = "partner",
     Volunteer = "volunteer",
-    Donor = "donor",
 };
 
 type RegisterForm = {
@@ -35,6 +42,7 @@ type RegisterForm = {
     user_type: UserTypes;
     phone: string;
     address: string;
+    birth_date: Date;
     diet: string;
 };
 
@@ -43,7 +51,6 @@ const userTypes: { value: UserTypes, label: string } = [
     { value: UserTypes.Caregiver, label: 'Caregiver' },
     { value: UserTypes.Partner,   label: 'Partner' },
     { value: UserTypes.Volunteer, label: 'Volunteer' },
-    { value: UserTypes.Donor,     label: 'Donor/Supporter' }
 ];
 
 const partnerServices = [
@@ -99,6 +106,44 @@ const PersonalInfo = function({ data, setData, errors }) {
                 />
                 <InputError message={errors.last_name} />
             </div>
+            
+            {/* Birthday - Only for Members */}
+            {data.user_type === 'member' && (
+                <div className="grid gap-2 col-span-2">
+                    <Label htmlFor="birth_date">Birthday *</Label>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                id="birth_date"
+                                className="w-full justify-between font-normal text-left"
+                            >
+                                {data.birth_date 
+                                    ? new Date(data.birth_date).toLocaleDateString() 
+                                    : "Select birthday"}
+                                <ChevronDownIcon className="h-4 w-4 ml-2" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={data.birth_date ? new Date(data.birth_date) : undefined}
+                                captionLayout="dropdown"
+                                onSelect={(date) =>
+                                    setData('birth_date', date?.toISOString().split('T')[0] ?? '')
+                                }
+                                disabled={(date) =>
+                                    date > new Date() || date < new Date("1900-01-01")
+                                }
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                    <InputError message={errors.birth_date} />
+                </div>
+            )}
+
+
         </div>
     );
 };
@@ -193,6 +238,7 @@ export default function Register() {
         password_confirmation: '',
         phone: '',
         address: '',
+        birthday: '',
         diet: '',
     });
 

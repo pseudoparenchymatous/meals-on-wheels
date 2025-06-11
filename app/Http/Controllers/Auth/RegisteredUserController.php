@@ -60,6 +60,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'address' => $request->address,
+                'birth_date' => $request->birth_date,
             ]);
 
             $this->createUserType($user, $request);
