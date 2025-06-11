@@ -42,7 +42,7 @@ type RegisterForm = {
     user_type: UserTypes;
     phone: string;
     address: string;
-    birthday: string;
+    birth_date: Date;
     diet: string;
 };
 
@@ -110,28 +110,28 @@ const PersonalInfo = function({ data, setData, errors }) {
             {/* Birthday - Only for Members */}
             {data.user_type === 'member' && (
                 <div className="grid gap-2 col-span-2">
-                    <Label htmlFor="birthday">
-                        Birthday *
-                    </Label>
+                    <Label htmlFor="birth_date">Birthday *</Label>
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
                                 variant="outline"
-                                id="birthday"
+                                id="birth_date"
                                 className="w-full justify-between font-normal text-left"
                             >
-                                {data.birthday ? new Date(data.birthday).toLocaleDateString() : "Select birthday"}
-                                <ChevronDownIcon className="h-4 w-4" />
+                                {data.birth_date 
+                                    ? new Date(data.birth_date).toLocaleDateString() 
+                                    : "Select birthday"}
+                                <ChevronDownIcon className="h-4 w-4 ml-2" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
                                 mode="single"
-                                selected={data.birthday ? new Date(data.birthday) : undefined}
+                                selected={data.birth_date ? new Date(data.birth_date) : undefined}
                                 captionLayout="dropdown"
-                                onSelect={(date) => {
-                                    setData('birthday', date ? date.toISOString().split('T')[0] : '')
-                                }}
+                                onSelect={(date) =>
+                                    setData('birth_date', date?.toISOString().split('T')[0] ?? '')
+                                }
                                 disabled={(date) =>
                                     date > new Date() || date < new Date("1900-01-01")
                                 }
@@ -139,9 +139,10 @@ const PersonalInfo = function({ data, setData, errors }) {
                             />
                         </PopoverContent>
                     </Popover>
-                    <InputError message={errors.birthday} />
+                    <InputError message={errors.birth_date} />
                 </div>
             )}
+
 
         </div>
     );
