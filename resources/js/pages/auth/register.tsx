@@ -11,6 +11,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
 
+import { ChevronDownIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 enum UserTypes {
     Member = "member",
     Caregiver = "caregiver",
@@ -98,6 +106,25 @@ const PersonalInfo = function({ data, setData, errors }) {
                 />
                 <InputError message={errors.last_name} />
             </div>
+            {/* Birthday - Only for Members */}
+            {data.user_type === 'member' && (
+                <div className="grid gap-2">
+                    <Label htmlFor="birthday">
+                        Birthday
+                    </Label>
+                    <Input
+                        id="birthday"
+                        type="date"
+                        autoComplete="bday"
+                        required
+                        value={data.birthday}
+                        onChange={(e) => setData('birthday', e.target.value)}
+                        placeholder="Select your birthday"
+                    />
+                    <InputError message={errors.birthday} />
+                </div>
+            )}
+
         </div>
     );
 };
