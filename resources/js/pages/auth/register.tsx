@@ -106,21 +106,39 @@ const PersonalInfo = function({ data, setData, errors }) {
                 />
                 <InputError message={errors.last_name} />
             </div>
+            
             {/* Birthday - Only for Members */}
             {data.user_type === 'member' && (
-                <div className="grid gap-2">
+                <div className="grid gap-2 col-span-2">
                     <Label htmlFor="birthday">
-                        Birthday
+                        Birthday *
                     </Label>
-                    <Input
-                        id="birthday"
-                        type="date"
-                        autoComplete="bday"
-                        required
-                        value={data.birthday}
-                        onChange={(e) => setData('birthday', e.target.value)}
-                        placeholder="Select your birthday"
-                    />
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                id="birthday"
+                                className="w-full justify-between font-normal text-left"
+                            >
+                                {data.birthday ? new Date(data.birthday).toLocaleDateString() : "Select birthday"}
+                                <ChevronDownIcon className="h-4 w-4" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={data.birthday ? new Date(data.birthday) : undefined}
+                                captionLayout="dropdown"
+                                onSelect={(date) => {
+                                    setData('birthday', date ? date.toISOString().split('T')[0] : '')
+                                }}
+                                disabled={(date) =>
+                                    date > new Date() || date < new Date("1900-01-01")
+                                }
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
                     <InputError message={errors.birthday} />
                 </div>
             )}
