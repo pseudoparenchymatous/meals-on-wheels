@@ -110,7 +110,7 @@ const PersonalInfo = function({ data, setData, errors }) {
             {/* Birthday - Only for Members */}
             {data.user_type === 'member' && (
                 <div className="grid gap-2 col-span-2">
-                    <Label htmlFor="birth_date">Birthday *</Label>
+                    <Label htmlFor="birth_date">Birthday</Label>
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button

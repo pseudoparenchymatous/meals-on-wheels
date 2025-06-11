@@ -8,6 +8,7 @@ class Member extends Model
 {
     protected $fillable = [
         'user_id',
+        'birth_date',
         'diet',
     ];
 
