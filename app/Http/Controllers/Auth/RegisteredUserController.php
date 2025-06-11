@@ -43,6 +43,10 @@ class RegisteredUserController extends Controller
             'address' => 'required|string|max:255',
         ];
 
+        if ($request->user_type === 'member') {
+            $userRules['birthday'] = 'required|date|before:today|after:1900-01-01';
+        }
+
         if ($request->user_type !== 'partner') {
             $userRules['first_name'] = 'required|string|max:255';
             $userRules['last_name'] = 'required|string|max:255';
