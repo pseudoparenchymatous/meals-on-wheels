@@ -33,6 +33,11 @@ return new class extends Migration
             $table->string('transaction_id')->nullable(); // PayPal transaction ID or Stripe charge ID
             $table->string('subscription_id')->nullable(); // For recurring donations
             
+            // PayPal specific fields
+            $table->string('paypal_payment_id')->nullable();
+            $table->string('paypal_payer_id')->nullable();
+            $table->json('payment_details')->nullable(); // Store additional payment info
+            
             // Metadata
             $table->json('payment_metadata')->nullable(); // Store additional payment processor data
             $table->timestamp('payment_date')->nullable();
@@ -48,6 +53,8 @@ return new class extends Migration
             $table->index('payment_intent_id');
             $table->index('transaction_id');
             $table->index('subscription_id');
+            $table->index('paypal_payment_id');
+            $table->index('paypal_payer_id');
         });
     }
 
