@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Caregiver extends Model
 {
     protected $fillable = [
-        'user_id',
         'member_id',
     ];
 
-    public function user(): BelongsTo
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
     }
 }

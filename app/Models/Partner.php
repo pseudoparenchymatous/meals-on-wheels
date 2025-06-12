@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Partner extends Model
 {
     protected $fillable = [
-        'user_id',
         'org_name',
         'service',
     ];
 
-    public function user(): BelongsTo
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
     }
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('org_name');
             $table->enum('service', ['kitchen', 'delivery']);
             $table->timestamps();

@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -36,24 +36,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function caregiver()
+    public function userable(): MorphTo
     {
-        return $this->hasOne(Caregiver::class);
-    }
-
-    public function member()
-    {
-        return $this->hasOne(Member::class);
-    }
-
-    public function partner()
-    {
-        return $this->hasOne(Partner::class);
-    }
-
-    public function volunteer()
-    {
-        return $this->hasOne(Partner::class);
+        return $this->morphTo();
     }
 
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->date('birth_date')->nullable();
             $table->string('diet')->nullable();
             $table->timestamps();

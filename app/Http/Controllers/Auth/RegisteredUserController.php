@@ -53,16 +53,16 @@ class RegisteredUserController extends Controller
         $this->validateByUserType($request);
 
         DB::transaction(function () use ($request) {
-            $user = User::create([
+            $createdUserType = $this->createUserType($request);
+
+            $user = $createdUserType->user()->create([
                 'first_name' => $request->first_name,
                 'last_name'=> $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'address' => $request->address,	
+                'address' => $request->address,
             ]);
-
-            $this->createUserType($user, $request);
 
             event(new Registered($user));
 
@@ -86,7 +86,7 @@ class RegisteredUserController extends Controller
 
         $rules = match($request->user_type) {
             'member' => [
-                'birth_date' => 'required|date|before:today',	
+                'birth_date' => 'required|date|before:today',
                 'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
             ],
             'caregiver' => [],
@@ -102,28 +102,24 @@ class RegisteredUserController extends Controller
         $request->validate($rules);
     }
 
-    public function createUserType(User $user, Request $request)
+    public function createUserType(Request $request)
     {
-        match($request->user_type) {
+        return match($request->user_type) {
             'member' => Member::create([
-                'user_id' => $user->id,
                 'birth_date'=> $request->birth_date,
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
-                'user_id' => $user->id,
                 'member_id' => User::firstWhere('first_name', $request->member["first_name"])
                     ->firstWhere('last_name', $request->member["last_name"])
-                    ->member
+                    ->userable
                     ->id,
             ]),
             'partner' => Partner::create([
-                'user_id' => $user->id,
                 'org_name' => $request->org_name,
                 'service' => $request->partner_service,
             ]),
             'volunteer' => Volunteer::create([
-                'user_id' => $user->id,
                 'service' => $request->volunteer_service,
             ]),
         };
