@@ -13,7 +13,9 @@ Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/donation','Donation')->name('donation');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', function () {
+        return Inertia::render('dashboard');
+    })->name('dashboard');
 });
 
 Route::get('/delivery-tracker', function () {
