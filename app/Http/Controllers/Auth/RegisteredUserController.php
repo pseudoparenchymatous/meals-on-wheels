@@ -59,8 +59,7 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'address' => $request->address,
-                'birth_date' => $request->birth_date,
+                'address' => $request->address,	
             ]);
 
             $this->createUserType($user, $request);
@@ -87,6 +86,7 @@ class RegisteredUserController extends Controller
 
         $rules = match($request->user_type) {
             'member' => [
+                'birth_date' => 'required|date|before:today',	
                 'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
             ],
             'caregiver' => [],
@@ -107,6 +107,7 @@ class RegisteredUserController extends Controller
         match($request->user_type) {
             'member' => Member::create([
                 'user_id' => $user->id,
+                'birth_date'=> $request->birth_date,
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
