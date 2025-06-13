@@ -4,6 +4,7 @@ import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import { usePage } from '@inertiajs/react';
 
+
 export default function MealAdminDashboard() {
     const { props } = usePage();
     const meals = props.meals || [];

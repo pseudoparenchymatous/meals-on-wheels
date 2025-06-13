@@ -32,6 +32,5 @@ Route::get('/delivery-tracker', function () {
     return Inertia::render('DeliveryTracker');
 })->name('delivery-tracker');
 
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
