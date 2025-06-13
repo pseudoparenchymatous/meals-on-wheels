@@ -29,6 +29,7 @@
         laravel
         nodejs_22
         blade-formatter
+        phpactor
 
         sql-studio
       ];
