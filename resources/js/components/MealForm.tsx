@@ -153,7 +153,6 @@ export default function MealForm({ fetchMeals, selected, setSelectedMeal }) {
                             className="mt-1 w-full border border-gray-300 rounded-md p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#4361EE]/90"
                         />
                     </div>
-                    
 
                     <Button
                         type="submit"
