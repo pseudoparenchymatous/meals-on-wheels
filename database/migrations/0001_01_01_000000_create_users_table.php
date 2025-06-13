@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->text('address');
-            $table->date('birth_date')->nullable();
+            $table->text('address');   
             $table->morphs('userable');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
