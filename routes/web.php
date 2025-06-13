@@ -21,13 +21,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/meals', [MealController::class, 'index'])->name('admin.meals');
-    Route::post('/meals', [MealController::class, 'store'])->name('admin.meals.store');
-    Route::post('/meals/{meal}', [MealController::class, 'update'])->name('admin.meals.update');
-    Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('admin.meals.destroy');
-});
-
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
