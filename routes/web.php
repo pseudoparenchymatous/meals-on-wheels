@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\Meal;
 use App\Http\Controllers\MealController;
 
 Route::get('/welcome', function () {
