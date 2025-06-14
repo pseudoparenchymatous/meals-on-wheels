@@ -17,7 +17,10 @@
   outputs = { self, nixpkgs }:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      system = system;
+      config.allowUnfree = true;
+    };
   in {
     devShells.${system}.default = pkgs.mkShell {
       name = "laravel-devshell";
