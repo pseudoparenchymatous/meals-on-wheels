@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\MealController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +31,10 @@ Route::prefix('admin')->group(function () {
 Route::get('/delivery-tracker', function () {
     return Inertia::render('DeliveryTracker');
 })->name('delivery-tracker');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
