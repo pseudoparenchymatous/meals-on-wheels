@@ -12,6 +12,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Delivery Tracker',
         href: '/delivery-tracker',
     },
+    {
+        title: 'Meals',
+        href: '/meals',
+    },
 ];
 
 export default function Dashboard() {
