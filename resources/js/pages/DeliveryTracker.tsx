@@ -8,12 +8,7 @@ interface PageProps {
 
 export default function DeliveryTracker({ deliveries }: PageProps) {
   return (
-    <AppLayout
-      breadcrumbs={[
-        { title: 'Dashboard', href: '/dashboard' },
-        { title: 'Delivery Tracker', href: '/delivery-tracker' },
-      ]}
-    >
+    <AppLayout>
       <Head title="Meal Delivery Tracker" />
       <div className="p-4 space-y-4">
         <h1 className="text-xl font-semibold">Your Meal Deliveries</h1>
