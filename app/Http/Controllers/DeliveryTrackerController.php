@@ -18,7 +18,7 @@ class DeliveryTrackerController extends Controller
             ->get();
 
         return Inertia::render('DeliveryTracker', [
-            'deliveries' => $deliveries
+            'deliveries' => $deliveries,
         ]);
     }
 }
