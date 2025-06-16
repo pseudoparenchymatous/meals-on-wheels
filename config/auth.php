@@ -43,6 +43,9 @@ return [
         'admin' => [
             'driver' => 'admin',
         ],
+        'member' => [
+            'driver' => 'member',
+        ],
     ],
 
     /*

@@ -27,5 +27,13 @@ class AppServiceProvider extends ServiceProvider
                 return null;
             }
         });
+
+        Auth::viaRequest('member', function ($request) {
+            if (Auth::user()->userable instanceof \App\Models\Member) {
+                return Auth::user();
+            } else {
+                return null;
+            }
+        });
     }
 }

@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return match (get_class(Auth::user()->userable)) {
-            'App\Models\Member' => redirect(route('dashboard')),
+            'App\Models\Member' => redirect(route('member.dashboard')),
             'App\Models\Admin' => redirect(route('admin.dashboard')),
         };
     }
