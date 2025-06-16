@@ -21,6 +21,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::middleware('auth:admin')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::name('admin.')->group(function () {
+            Route::get('/dashboard', function () {
+                return Inertia::render('Admin/Dashboard');
+            })->name('dashboard');
+        });
+    });
+});
+
 Route::prefix('admin')->group(function () {
     Route::get('/meals', [MealController::class, 'index'])->name('admin.meals');
     Route::post('/meals', [MealController::class, 'store'])->name('admin.meals.store');

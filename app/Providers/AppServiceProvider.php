@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Auth::viaRequest('admin', function ($request) {
+            if (Auth::user()->userable instanceof \App\Models\Admin) {
+                return Auth::user();
+            } else {
+                return null;
+            }
+        });
     }
 }
