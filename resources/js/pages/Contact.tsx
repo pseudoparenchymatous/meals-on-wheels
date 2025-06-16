@@ -1,6 +1,7 @@
 import Layout from '@/layouts/Layout';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'react-hot-toast'; // for success/error message
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faMapMarkerAlt,
@@ -15,56 +16,71 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 
 const Contact = () => {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: '',
+        email: '',
+        message: '',
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        post('/contact', {
+            onSuccess: () => {
+                toast.success('Message sent successfully!');
+                reset();
+            },
+            onError: () => {
+                toast.error('Please fix the form errors.');
+            },
+        });
+    };
+
     return (
         <Layout>
             <Head title="Contact" />
             <section className="m-10">
                 <div>
-                <h1 className="text-center text-xl font-bold">
-                    Contact Us
-                </h1>
+                    <h1 className="text-center text-xl font-bold">Contact Us</h1>
                 </div>
 
-                {/* Main Section */}
                 <div className="max-w-6xl mx-auto mt-12 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
                     {/* LEFT: Contact Info */}
                     <div className="space-y-8">
                         <div className="p-6 rounded-xl shadow-md">
                             <h2 className="text-lg font-semibold border-b pb-2">Get in Touch</h2>
                             <p className="mt-2">
-                                <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2"/>
+                                <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
                                 023 University Of Cebu, Banilad Campus
                             </p>
-                            <p className="">
-                                <FontAwesomeIcon icon={faPhone} className="mr-2"/>
+                            <p>
+                                <FontAwesomeIcon icon={faPhone} className="mr-2" />
                                 (023) 416-7810
                             </p>
-                            <p className="">
-                                <FontAwesomeIcon icon={faEnvelope} className="mr-2 " />
+                            <p>
+                                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
                                 contact@mealsonwheels.org
                             </p>
                         </div>
 
-                        {/* Social Icons */}
                         <div className="p-6 rounded-xl shadow-md">
                             <h3 className="text-lg font-medium mb-2">Follow Us</h3>
-                            <div className="flex gap-4 ">
-                                <a href="https://facebook.com" className="hover:scale-110 transition" target="_blank" rel="noopener noreferrer">
+                            <div className="flex gap-4">
+                                <a href="https://facebook.com" target="_blank" className="hover:scale-110 transition">
                                     <FontAwesomeIcon icon={faFacebook} />
                                 </a>
-                                <a href="https://instagram.com/mealswheelsppl/" className="hover:scale-110 transition" target="_blank" rel="noopener noreferrer">
+                                <a href="https://instagram.com/mealswheelsppl/" target="_blank" className="hover:scale-110 transition">
                                     <FontAwesomeIcon icon={faInstagram} />
                                 </a>
-                                <a href="https://twitter.com" className="hover:scale-110 transition" target="_blank" rel="noopener noreferrer">
+                                <a href="https://twitter.com" target="_blank" className="hover:scale-110 transition">
                                     <FontAwesomeIcon icon={faXTwitter} />
                                 </a>
-                                <a href="https://youtube.com" className="hover:scale-110 transition" target="_blank" rel="noopener noreferrer">
+                                <a href="https://youtube.com" target="_blank" className="hover:scale-110 transition">
                                     <FontAwesomeIcon icon={faYoutube} />
                                 </a>
                             </div>
                         </div>
 
-                        {/* Map */}
                         <div className="h-64 overflow-hidden rounded-xl shadow-md border border-gray-700">
                             <iframe
                                 className="w-full h-full"
@@ -78,31 +94,43 @@ const Contact = () => {
                     {/* RIGHT: Contact Form */}
                     <div className="shadow-xl rounded-xl p-8 border animate-fade-in">
                         <h2 className="text-lg font-bold mb-6">Send a Message</h2>
-                        <form className="space-y-5">
+                        <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
                                 <label className="block mb-1">Full Name</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-gray-700 p-3 rounded-md placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    className="w-full border border-gray-700 p-3 rounded-md"
                                     placeholder="Full Name"
                                 />
+                                {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
                             </div>
+
                             <div>
                                 <label className="block mb-1">Email Address</label>
                                 <input
                                     type="email"
-                                    className="w-full border border-gray-700 p-3 rounded-md placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    className="w-full border border-gray-700 p-3 rounded-md"
                                     placeholder="Email Address"
                                 />
+                                {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
                             </div>
+
                             <div>
                                 <label className="block mb-1">Message</label>
                                 <textarea
-                                    className="w-full border border-gray-700 p-3 rounded-md h-32 resize-none placeholder-gray-500 focus:ring-2 focus:ring-blue-500"
+                                    value={data.message}
+                                    onChange={(e) => setData('message', e.target.value)}
+                                    className="w-full border border-gray-700 p-3 rounded-md h-32 resize-none"
                                     placeholder="Your message..."
                                 ></textarea>
+                                {errors.message && <div className="text-red-500 text-sm">{errors.message}</div>}
                             </div>
-                            <Button>
+
+                            <Button type="submit" disabled={processing}>
                                 Send
                             </Button>
                         </form>

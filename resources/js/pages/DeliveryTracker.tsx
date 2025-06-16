@@ -33,3 +33,4 @@ export default function DeliveryTracker({ deliveries }: PageProps) {
     </AppLayout>
   );
 }
+  
