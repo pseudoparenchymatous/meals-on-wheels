@@ -26,6 +26,11 @@ const navItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Users',
+        href: '/admin/users',
+        icon: Users,
+    },
+    {
         title: 'Meals',
         href: '/admin/meals',
         icon: Apple,
