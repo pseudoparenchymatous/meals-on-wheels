@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Caregiver;
 use App\Models\Member;
 use App\Models\Partner;
@@ -97,6 +98,7 @@ class RegisteredUserController extends Controller
             'volunteer' => [
                 'volunteer_service' => 'required|in:kitchen_staff,rider',
             ],
+            'admin' => [],
         };
 
         $request->validate($rules);
@@ -122,6 +124,7 @@ class RegisteredUserController extends Controller
             'volunteer' => Volunteer::create([
                 'service' => $request->volunteer_service,
             ]),
+            'admin' => Admin::create(),
         };
     }
 }

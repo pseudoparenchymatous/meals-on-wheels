@@ -24,6 +24,7 @@ enum UserTypes {
     Caregiver = "caregiver",
     Partner = "partner",
     Volunteer = "volunteer",
+    Admin = "admin",
 };
 
 type RegisterForm = {
@@ -51,6 +52,7 @@ const userTypes: { value: UserTypes, label: string } = [
     { value: UserTypes.Caregiver, label: 'Caregiver' },
     { value: UserTypes.Partner,   label: 'Partner' },
     { value: UserTypes.Volunteer, label: 'Volunteer' },
+    { value: UserTypes.Admin, label: 'Admin' },
 ];
 
 const partnerServices = [
