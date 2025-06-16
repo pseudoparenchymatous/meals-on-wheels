@@ -15,15 +15,18 @@ class MealDelivery extends Model
         'delivered_at',
     ];
 
-    public function meal() {
+    public function meal()
+    {
         return $this->belongsTo(Meal::class);
     }
 
-    public function member() {
+    public function member()
+    {
         return $this->belongsTo(Member::class);
     }
 
-    public function partner() {
+    public function partner()
+    {
         return $this->belongsTo(Partner::class);
     }
 }

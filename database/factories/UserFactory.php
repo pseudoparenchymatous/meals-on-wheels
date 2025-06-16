@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -27,7 +26,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'birth_date' => $this->faker->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
-            'emergency_contact' => $this->faker->name() . ' - ' . $this->faker->phoneNumber(),
+            'emergency_contact' => $this->faker->name().' - '.$this->faker->phoneNumber(),
             'dietary_requirements' => $userType === 'member' ? $this->faker->words(3, true) : null,
             'medical_conditions' => $userType === 'member' ? $this->faker->sentence() : null,
             'status' => 'active',

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -31,7 +31,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation errors',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
                 'dietary_requirements' => $request->dietary_requirements,
                 'medical_conditions' => $request->medical_conditions,
                 'email_verification_token' => Str::random(64),
-                'status' => 'pending_verification'
+                'status' => 'pending_verification',
             ]);
 
             // Send verification email
@@ -56,14 +56,14 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful. Please check your email for verification.',
-                'user' => $user->makeHidden(['password', 'email_verification_token'])
+                'user' => $user->makeHidden(['password', 'email_verification_token']),
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Registration failed. Please try again.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -79,14 +79,14 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation errors',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
@@ -94,9 +94,10 @@ class AuthController extends Controller
 
         if ($user->status !== 'active') {
             Auth::logout();
+
             return response()->json([
                 'success' => false,
-                'message' => 'Account not verified or inactive. Please verify your email.'
+                'message' => 'Account not verified or inactive. Please verify your email.',
             ], 401);
         }
 
@@ -106,7 +107,7 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Login successful',
             'user' => $user->makeHidden(['password']),
-            'token' => $token
+            'token' => $token,
         ]);
     }
 
@@ -116,7 +117,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully',
         ]);
     }
 
@@ -124,29 +125,29 @@ class AuthController extends Controller
     {
         return response()->json([
             'success' => true,
-            'user' => $request->user()->makeHidden(['password'])
+            'user' => $request->user()->makeHidden(['password']),
         ]);
     }
 
     public function forgotPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:users,email',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
         $token = Str::random(64);
-        
+
         $user->update([
             'password_reset_token' => $token,
-            'password_reset_expires_at' => Carbon::now()->addHour()
+            'password_reset_expires_at' => Carbon::now()->addHour(),
         ]);
 
         // Send password reset email
@@ -154,7 +155,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Password reset link sent to your email'
+            'message' => 'Password reset link sent to your email',
         ]);
     }
 
@@ -163,37 +164,37 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'token' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)
-                   ->where('password_reset_token', $request->token)
-                   ->where('password_reset_expires_at', '>', Carbon::now())
-                   ->first();
+            ->where('password_reset_token', $request->token)
+            ->where('password_reset_expires_at', '>', Carbon::now())
+            ->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid or expired reset token'
+                'message' => 'Invalid or expired reset token',
             ], 400);
         }
 
         $user->update([
             'password' => Hash::make($request->password),
             'password_reset_token' => null,
-            'password_reset_expires_at' => null
+            'password_reset_expires_at' => null,
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Password reset successfully'
+            'message' => 'Password reset successfully',
         ]);
     }
 
@@ -201,36 +202,36 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required|string',
-            'email' => 'required|email'
+            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)
-                   ->where('email_verification_token', $request->token)
-                   ->first();
+            ->where('email_verification_token', $request->token)
+            ->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid verification token'
+                'message' => 'Invalid verification token',
             ], 400);
         }
 
         $user->update([
             'email_verified_at' => Carbon::now(),
             'email_verification_token' => null,
-            'status' => 'active'
+            'status' => 'active',
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Email verified successfully'
+            'message' => 'Email verified successfully',
         ]);
     }
 
