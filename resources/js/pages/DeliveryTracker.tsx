@@ -1,14 +1,33 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, usePage } from '@inertiajs/react';
-import { type Delivery } from '@/types';
+import { NavItem, type Delivery } from '@/types';
+import { LayoutGrid, Truck, Apple } from 'lucide-react';
 
 interface PageProps {
   deliveries: Delivery[];
 }
 
+const navItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Delivery Tracker',
+        href: '/delivery-tracker',
+        icon: Truck,
+    },
+    {
+        title: 'Meals',
+        href: '/admin/meals',
+        icon: Apple,
+    },
+];
+
 export default function DeliveryTracker({ deliveries }: PageProps) {
   return (
-    <AppLayout>
+    <AppLayout navItems={navItems}>
       <Head title="Meal Delivery Tracker" />
       <div className="p-4 space-y-4">
         <h1 className="text-xl font-semibold">Your Meal Deliveries</h1>

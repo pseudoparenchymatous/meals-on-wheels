@@ -40,11 +40,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('admin.meals.destroy');
 });
 
-Route::get('/delivery-tracker', function () {
-    return Inertia::render('DeliveryTracker');
-})->name('delivery-tracker');
-
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
