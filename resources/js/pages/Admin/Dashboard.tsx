@@ -2,13 +2,18 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { Apple, LayoutGrid } from 'lucide-react';
 
 const navItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: '/admin/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Meals',
+        href: '/admin/meals',
+        icon: Apple,
     },
 ];
 

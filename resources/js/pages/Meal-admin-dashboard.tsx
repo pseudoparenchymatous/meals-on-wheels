@@ -4,13 +4,28 @@ import Meallist from "@/components/Meallist";
 import Layout from "@/layouts/Layout";
 import { Head } from "@inertiajs/react";
 import { usePage } from '@inertiajs/react';
+import { NavItem } from '@/types';
+import { LayoutGrid, Apple } from 'lucide-react';
+
+const navItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/admin/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Meals',
+        href: '/admin/meals',
+        icon: Apple,
+    },
+];
 
 export default function MealAdminDashboard() {
     const { props } = usePage();
     const meals = props.meals || [];
 
     return (
-        <AppLayout>
+        <AppLayout navItems={navItems}>
             <Head title="Add | Menu" />
             <div>
                 <div className="fg-foreground text-2xl p-10 m-1">

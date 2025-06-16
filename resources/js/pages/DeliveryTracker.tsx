@@ -18,11 +18,6 @@ const navItems: NavItem[] = [
         href: '/delivery-tracker',
         icon: Truck,
     },
-    {
-        title: 'Meals',
-        href: '/admin/meals',
-        icon: Apple,
-    },
 ];
 
 export default function DeliveryTracker({ deliveries }: PageProps) {
