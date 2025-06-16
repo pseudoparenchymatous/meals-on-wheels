@@ -11,28 +11,9 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Apple, BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BookOpen, Folder, Menu, } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { Truck } from 'lucide-react';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Delivery Tracker',
-        href: '/delivery-tracker',
-        icon: Truck,
-    },
-    {
-        title: 'Meals',
-        href: '/admin/meals',
-        icon: Apple,
-    },
-];
 
 const rightNavItems: NavItem[] = [
     {
@@ -50,10 +31,11 @@ const rightNavItems: NavItem[] = [
 const activeItemStyles = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 interface AppHeaderProps {
+    navItems: NavItem[];
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
+export function AppHeader({ navItems, breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();
@@ -77,7 +59,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
-                                            {mainNavItems.map((item) => (
+                                            {navItems.map((item) => (
                                                 <Link key={item.title} href={item.href} className="flex items-center space-x-2 font-medium">
                                                     {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
                                                     <span>{item.title}</span>
@@ -113,7 +95,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
+                                {navItems.map((item, index) => (
                                     <NavigationMenuItem key={index} className="relative flex h-full items-center">
                                         <Link
                                             href={item.href}
