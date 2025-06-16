@@ -4,6 +4,10 @@ use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\MealController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ContactController;
+
+
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::get('/welcome', function () {
     return Inertia::render('welcome');
