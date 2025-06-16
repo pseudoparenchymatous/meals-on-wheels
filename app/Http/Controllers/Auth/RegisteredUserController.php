@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $userRules = [
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
@@ -69,8 +69,6 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
         });
-
-        return to_route('dashboard');
     }
 
     public function validateByUserType(Request $request)
