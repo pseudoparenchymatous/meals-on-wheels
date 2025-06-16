@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,5 +36,13 @@ class AppServiceProvider extends ServiceProvider
                 return null;
             }
         });
+
+        Relation::enforceMorphMap([
+            'admin' => 'App\Models\Admin',
+            'member' => 'App\Models\Member',
+            'caregiver' => 'App\Models\Caregiver',
+            'volunteer' => 'App\Models\Volunteer',
+            'partner' => 'App\Models\Partner',
+        ]);
     }
 }
