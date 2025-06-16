@@ -20,9 +20,7 @@ Route::inertia('/donation', 'Donation')->name('donation');
 Route::inertia('/menu', 'Menu')->name('menu');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::inertia('/dashboard', 'Member/Dashboard')->name('dashboard');
 });
 
 Route::middleware('auth:admin')->group(function () {
