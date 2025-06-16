@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/footer';
-import { Toaster } from 'react-hot-toast'; 
+import { Toaster } from 'react-hot-toast';
 
 export default function Layout({ children }) {
     return (
@@ -10,8 +10,8 @@ export default function Layout({ children }) {
 
             {/* Site Layout */}
             <Header />
-            <main>
-                {children}
+            <main className="m-10">
+                { children }
             </main>
             <Footer />
         </>
