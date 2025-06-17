@@ -4,8 +4,11 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { router } from '@inertiajs/react';
+import { toast } from 'sonner';
 
 export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [form, setForm] = useState({
         title: '',
@@ -23,7 +26,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
         { value: 'Vegetarian', label: 'Vegetarian' },
     ];
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    
 
     useEffect(() => {
         if (selected) {
@@ -55,9 +58,8 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
         e.preventDefault();
     
         if (isSubmitting) return;
-        
         setIsSubmitting(true);
-        
+
         const data = new FormData();
             data.append('title', form.title);
             data.append('meal_tag', form.meal_tag);
@@ -75,6 +77,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                 setOpen(false);
                 setSelectedMeal(null);
                 setIsSubmitting(false);
+                toast.success("Meal has been Updated!");
                 router.reload({ only: ['meals'] });
             },
         });
@@ -84,6 +87,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                 setOpen(false);
                 setSelectedMeal(null);
                 setIsSubmitting(false);
+                toast.success("Meal has been Added!");
                 router.reload({ only: ['meals'] });
             },
         });
@@ -186,7 +190,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                     <Button
                         disabled={isSubmitting}
                         type="submit"
-                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6"
+                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6 "
                     >
                         {isSubmitting ? "Submiting... " : (selected ? 'Update Meal' : 'Add Meal')}
                     </Button>
