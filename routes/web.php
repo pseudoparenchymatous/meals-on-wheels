@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DonationController;
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -22,8 +24,9 @@ Route::inertia('/menu', 'Menu')->name('menu');
 
 Route::post('/donations', [DonationController::class, 'store']);
 
-Route::middleware(['auth:member', 'verified'])->group(function () {
-    Route::inertia('/dashboard', 'Member/Dashboard')->name('member.dashboard');
+Route::name('member.')->group(function () {
+    Route::middleware(['auth:member',])->group(function () {
+        Route::inertia('/dashboard', 'Member/Dashboard')->name('dashboard');
 });
 
 Route::middleware('auth:admin')->group(function () {
@@ -39,7 +42,6 @@ Route::middleware('auth:admin')->group(function () {
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
-
         });
     });
 });
@@ -47,6 +49,13 @@ Route::middleware('auth:admin')->group(function () {
 Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
+
+Route::post('/members/verify', function(Request $request) {
+    $user = User::find($request->user_id);
+    $member = $user->userable;
+    $member->verified = true;
+    $member->save();
+})->name('members.verify');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

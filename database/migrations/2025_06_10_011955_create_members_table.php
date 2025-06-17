@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('proof_of_identity');
             $table->string('medical_condition')->nullable();
             $table->string('diet')->nullable();
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }
