@@ -1,4 +1,8 @@
 import { router } from "@inertiajs/react";
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { DialogHeader } from "./ui/dialog";
+import MealForm from "./MealForm";
 
 import {
   Table,
@@ -10,15 +14,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+    
+    
 
 export default function Meallist({ meals, onEdit, fetchMeals }) {
+    const [selected, setSelected] = useState(null);
+    const [open, setOpen] = useState(false);
+    
     const deleteMeal = (id) => {
         if (!confirm("Delete meal?")) return;
         router.delete(`/admin/meals/${id}`);
     };
 
     return (
+        <div>
+        <MealForm
+                selected={selected}
+                setSelectedMeal={setSelected}
+                open={open}
+                setOpen={setOpen}
+            />
         <div className="border rounded-xl">
+
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -34,11 +51,6 @@ export default function Meallist({ meals, onEdit, fetchMeals }) {
                     {meals.map(meal => (
                         <TableRow key={meal.id}>
                             <TableCell className="font-medium">
-                                <img
-                                    src={meal.image_path}
-                                    alt={meal.title}
-                                    className="h-16 w-16 object-cover rounded"
-                                />
                             </TableCell>
                             <TableCell>{meal.title}</TableCell>
                             <TableCell>{meal.prepared_by}</TableCell>
@@ -52,6 +64,7 @@ export default function Meallist({ meals, onEdit, fetchMeals }) {
                     ))}
                 </TableBody>
             </Table>
+        </div>
         </div>
     );
 }

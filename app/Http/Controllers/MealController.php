@@ -16,7 +16,7 @@ class MealController extends Controller
                 'title' => $meal->title,
                 'prepared_by' => $meal->prepared_by,
                 'preparation_time' => $meal->preparation_time,
-                'meal_type' => $meal->meal_type,
+                'meal_tag' => $meal->meal_tag,
                 'image_path' => $meal->image_path ? asset('storage/'.$meal->image_path) : null,
             ];
         });
@@ -32,9 +32,9 @@ class MealController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string',
-            'meal_type' => 'required|string',
+            'meal_tag' => 'required|string',
             'prepared_by' => 'required|string',
-            'preparation_time' => 'required|numeric',
+            'preparation_time' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -45,7 +45,7 @@ class MealController extends Controller
 
         Meal::create([
             'title' => $validated['title'],
-            'meal_type' => $validated['meal_type'],
+            'meal_tag' => $validated['meal_tag'],
             'prepared_by' => $validated['prepared_by'],
             'preparation_time' => $validated['preparation_time'],
             'image_path' => $path,
@@ -54,18 +54,31 @@ class MealController extends Controller
         return redirect()->back()->with('success', 'Meal added!');
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $meal = Meal::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'meal_tag' => 'required|string',
+            'prepared_by' => 'required|string',
+            'preparation_time' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('meals', 'public');
             $meal->image_path = $path;
         }
 
-        $meal->update($request->only(['title', 'meal_type', 'prepared_by', 'preparation_time']));
+        $meal->update([
+            'title' => $validated['title'],
+            'meal_tag' => $validated['meal_tag'],
+            'prepared_by' => $validated['prepared_by'],
+            'preparation_time' => $validated['preparation_time']
+        ]);
 
-        return response()->json($meal);
-    }
+    return redirect()->back()->with('success', 'Meal updated successfully!');
+}
 
     public function destroy(Meal $meal)
     {

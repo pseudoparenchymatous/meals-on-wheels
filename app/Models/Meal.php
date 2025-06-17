@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Meal extends Model
 {
-    protected $fillable = ['title', 'meal_type', 'prepared_by', 'preparation_time', 'image_path'];
+    protected $fillable = ['title', 'meal_tag', 'prepared_by', 'preparation_time', 'image_path'];
 }
