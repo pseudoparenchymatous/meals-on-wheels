@@ -18,7 +18,7 @@ export default function Meallist({ meals, onEdit, fetchMeals }) {
     };
 
     return (
-        <div>
+        <div className="border rounded-xl">
             <Table>
                 <TableHeader>
                     <TableRow>
