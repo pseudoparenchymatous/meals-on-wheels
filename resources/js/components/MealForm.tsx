@@ -6,6 +6,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
 import { router } from '@inertiajs/react';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SheetDescription } from './ui/sheet';
 
 export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
 
@@ -102,7 +103,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                 setSelectedMeal(null);
             }
         }}>
-            <div className="flex justify-end mb-4 mr-8">
+            <div className="flex justify-end mb-4 mr-10">
                 <DialogTrigger asChild>
                     <Button onClick={() => {
                         setForm({
@@ -121,8 +122,9 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>{selected ? 'Edit Meal' : 'Add New Meal'}</DialogTitle>
+                        <SheetDescription className="">{selected ? 'Admin can update the information of the meal in this form.' : 'Admin can add/create new meal in this form.'}</SheetDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5 ">
                     <div className="grid gap-2">
                         <Label>Food Name:</Label>
                         <Input
