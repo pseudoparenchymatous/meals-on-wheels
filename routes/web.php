@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DonationController;
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -18,6 +19,8 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/donation', 'Donation')->name('donation');
 Route::inertia('/menu', 'Menu')->name('menu');
+
+Route::post('/donations', [DonationController::class, 'store']);
 
 Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Member/Dashboard')->name('member.dashboard');
@@ -34,7 +37,7 @@ Route::middleware('auth:admin')->group(function () {
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
-            Route::post('/meals/{meal}', [MealController::class, 'update'])->name('meals.update');
+            Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 
         });
