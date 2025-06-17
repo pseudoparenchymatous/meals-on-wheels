@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->date('birth_date')->nullable();
+            $table->string('proof_of_identity');
+            $table->string('medical_condition')->nullable();
             $table->string('diet')->nullable();
             $table->timestamps();
         });
