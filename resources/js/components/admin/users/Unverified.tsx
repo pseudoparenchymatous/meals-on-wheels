@@ -9,8 +9,11 @@ import {
  } from "@/components/ui/dialog";
 import { Link } from "@inertiajs/react";
 import { TableRow, TableCell } from "@/components/ui/table";
+import { useState } from "react";
 
 export default function Unverified({ users }) {
+    const [userId, setUserId] = useState(null);
+
     return (
         <Dialog>
             {users.map(user => (
@@ -21,11 +24,8 @@ export default function Unverified({ users }) {
                     <TableCell>{user.userable_type}</TableCell>
                     <TableCell className="flex gap-2">
                         <DialogTrigger asChild>
-                            <Button variant="outline">Check</Button>
+                            <Button variant="outline" onClick={()=>setUserId(user.id)}>Check</Button>
                         </DialogTrigger>
-                        <Button>
-                            <Link href={route('members.verify')} method="post" data={{ user_id: user.id }}>Verify</Link>
-                        </Button>
                     </TableCell>
                 </TableRow>
             ))}
@@ -36,7 +36,9 @@ export default function Unverified({ users }) {
                         This action cannot be undone. This will permanently delete your account
                         and remove your data from our servers.
                     </DialogDescription>
-                    <Button>Verify</Button>
+                    <Button asChild>
+                        <Link href={route('members.verify')} method="post" data={{ user_id: userId }}>Verify</Link>
+                    </Button>
                 </DialogHeader>
             </DialogContent>
         </Dialog>
