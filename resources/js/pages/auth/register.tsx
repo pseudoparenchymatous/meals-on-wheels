@@ -52,7 +52,6 @@ const userTypes: { value: UserTypes, label: string } = [
     { value: UserTypes.Caregiver, label: 'Caregiver' },
     { value: UserTypes.Partner,   label: 'Partner' },
     { value: UserTypes.Volunteer, label: 'Volunteer' },
-    { value: UserTypes.Admin, label: 'Admin' },
 ];
 
 const partnerServices = [
