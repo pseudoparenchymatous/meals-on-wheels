@@ -34,12 +34,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::viaRequest('member', function ($request) {
-            if (!auth()->check()) {
+            $user = auth()->user();
+            if (!$user) {
                 return null;
             }
 
-            if (Auth::user()->userable instanceof \App\Models\Member) {
-                return Auth::user();
+            if ($user->userable instanceof \App\Models\Member) {
+                return $user;
             } else {
                 return null;
             }
