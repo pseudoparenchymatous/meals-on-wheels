@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -7,17 +6,6 @@ import {
     LayoutGrid,
     Users,
 } from 'lucide-react';
-
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 
 const navItems: NavItem[] = [
     {
