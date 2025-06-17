@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\MealController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonationController;
-
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -32,6 +32,8 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/dashboard', function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
+
+            Route::resource('users', UserController::class);
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');

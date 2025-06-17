@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::viaRequest('admin', function ($request) {
+            if (!auth()->check()) {
+                return null;
+            }
+
             if (Auth::user()->userable instanceof \App\Models\Admin) {
                 return Auth::user();
             } else {
@@ -29,11 +34,23 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::viaRequest('member', function ($request) {
+            if (!auth()->check()) {
+                return null;
+            }
+
             if (Auth::user()->userable instanceof \App\Models\Member) {
                 return Auth::user();
             } else {
                 return null;
             }
         });
+
+        Relation::enforceMorphMap([
+            'admin' => 'App\Models\Admin',
+            'member' => 'App\Models\Member',
+            'caregiver' => 'App\Models\Caregiver',
+            'volunteer' => 'App\Models\Volunteer',
+            'partner' => 'App\Models\Partner',
+        ]);
     }
 }

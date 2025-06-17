@@ -21,7 +21,7 @@ class MealController extends Controller
             ];
         });
 
-        return Inertia::render('Meal-admin-dashboard', [
+        return Inertia::render('Admin/Meals', [
             'meals' => $meals,
         ]);
     }
