@@ -5,12 +5,14 @@ import { Button } from './ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { router } from '@inertiajs/react';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SheetDescription } from './ui/sheet';
 
 export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [form, setForm] = useState({
+    const [form, setForm, setData] = useState({
         title: '',
         meal_tag: '',
         prepared_by: '',
@@ -101,7 +103,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                 setSelectedMeal(null);
             }
         }}>
-            <div className="flex justify-end mb-4 mr-8">
+            <div className="flex justify-end mb-4 mr-10">
                 <DialogTrigger asChild>
                     <Button onClick={() => {
                         setForm({
@@ -120,8 +122,9 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>{selected ? 'Edit Meal' : 'Add New Meal'}</DialogTitle>
+                        <SheetDescription className="">{selected ? 'Admin can update the information of the meal in this form.' : 'Admin can add/create new meal in this form.'}</SheetDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5 ">
                     <div className="grid gap-2">
                         <Label>Food Name:</Label>
                         <Input
@@ -155,24 +158,27 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                         />
                     </div>
 
-                    <div className="relative">
-                        <Label>Meal Tag:</Label>
-                        <select
-                            name="meal_tag"
-                            id="meal_tag"
-                            required
-                            value={form.meal_tag}
-                            onChange={handleChange}
-                            className="block w-full appearance-none rounded-md border border-input bg-background mt-2 px-4 py-2 pr-10 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                        >
-                            <option value="" disabled>Choose Meal type </option>
-                                {mealTags.map((type) => (
-                            <option key={type.value} value={type.value}>{type.label}</option>
+                    <div className="grid gap-2">
+                    <Label htmlFor="meal_tag">
+                        Meal Tag:
+                    </Label>
+                        <Select
+                        name="meal_tag"
+                        value={form.meal_tag}
+                        onValueChange={(value) => setForm((prev) => ({...prev, meal_tag: value, })) }
+                        required
+                    >
+                        <SelectTrigger id="meal_tag" autoFocus>
+                            <SelectValue placeholder="Select meal tag" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {mealTags.map((type) => (
+                                <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                </SelectItem>
                             ))}
-                        </select>
-                            <div className="pointer-events-none absolute inset-y-12 right-3 flex items-center text-gray-500">
-                                v
-                            </div>
+                        </SelectContent>
+                    </Select>
                     </div>
 
                     <div className="grid gap-2">
