@@ -2,40 +2,76 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { LayoutGrid, Truck, Apple } from 'lucide-react';
-
-const navItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Delivery Tracker',
-        href: '/delivery-tracker',
-        icon: Truck,
-    },
-];
-
+import { useState } from 'react';
 
 export default function Dashboard() {
+    const [orderPlaced, setOrderPlaced] = useState(false);
+
+    // Dummy data – replace with real data from backend
+    const todaysMeal = {
+        title: "Chicken Adobo",
+        description: "Served with rice and vegetables.",
+        image: "/images/chicken-adobo.jpg" // Replace with a real image URL
+    };
+
+    const tomorrowsMeal = {
+        title: "Fish Fillet",
+        description: "Crispy fish fillet with tartar sauce and steamed veggies.",
+        image: "/images/fish-fillet.jpg" // Replace with a real image URL
+    };
+
+    const handleOrder = () => {
+        // You can replace this with Inertia.post('/order-meal') if connected to Laravel backend
+        setOrderPlaced(true);
+    };
+
     return (
-        <AppLayout navItems={navItems}>
-            <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+        <AppLayout>
+            <Head title="Member Dashboard" />
+            <div className="p-6 space-y-6">
+                <h1 className="text-2xl font-bold">Welcome to your dashboard</h1>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                    {/* TODAY'S MEAL */}
+                    <div className="rounded-xl border border-gray-300 dark:border-gray-700 shadow-md overflow-hidden">
+                        <img
+                            src={todaysMeal.image}
+                            alt="Today's Meal"
+                            className="h-48 w-full object-cover"
+                        />
+                        <div className="p-4">
+                            <h2 className="text-xl font-semibold text-blue-700">Today's Meal</h2>
+                            <p className="font-bold">{todaysMeal.title}</p>
+                            <p className="text-gray-600 dark:text-gray-300">{todaysMeal.description}</p>
+
+                            <div className="mt-4">
+                                {orderPlaced ? (
+                                    <p className="text-green-600 font-semibold">Order placed! Your meal is on the way.</p>
+                                ) : (
+                                    <button
+                                        onClick={handleOrder}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                                    >
+                                        Request Delivery
+                                    </button>
+                                )}
+                            </div>
+                        </div>
                     </div>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+                    {/* TOMORROW'S MEAL */}
+                    <div className="rounded-xl border border-gray-300 dark:border-gray-700 shadow-md overflow-hidden">
+                        <img
+                            src={tomorrowsMeal.image}
+                            alt="Tomorrow's Meal"
+                            className="h-48 w-full object-cover"
+                        />
+                        <div className="p-4">
+                            <h2 className="text-xl font-semibold text-green-700">Tomorrow's Meal</h2>
+                            <p className="font-bold">{tomorrowsMeal.title}</p>
+                            <p className="text-gray-600 dark:text-gray-300">{tomorrowsMeal.description}</p>
+                        </div>
                     </div>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                 </div>
             </div>
         </AppLayout>
