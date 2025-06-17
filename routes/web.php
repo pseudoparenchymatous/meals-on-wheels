@@ -37,7 +37,7 @@ Route::middleware('auth:admin')->group(function () {
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
-            Route::post('/meals/{meal}', [MealController::class, 'update'])->name('meals.update');
+            Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 
         });
