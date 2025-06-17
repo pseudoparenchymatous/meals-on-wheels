@@ -5,6 +5,7 @@ use App\Http\Controllers\MealController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DonationController;
 
 
 Route::post('/contact', [ContactController::class, 'store']);
@@ -18,6 +19,8 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/donation', 'Donation')->name('donation');
 Route::inertia('/menu', 'Menu')->name('menu');
+
+Route::post('/donations', [DonationController::class, 'store']);
 
 Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Member/Dashboard')->name('member.dashboard');
