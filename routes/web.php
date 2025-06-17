@@ -27,7 +27,13 @@ Route::post('/donations', [DonationController::class, 'store']);
 Route::name('member.')->group(function () {
     Route::middleware(['auth:member',])->group(function () {
         Route::inertia('/dashboard', 'Member/Dashboard')->name('dashboard');
+    });
+
+    Route::get('/verify', function () {
+        return Inertia::render('Member/Verify');
+    })->name('verify');
 });
+
 
 Route::middleware('auth:admin')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -48,6 +54,11 @@ Route::middleware('auth:admin')->group(function () {
 
 Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
+});
+
+Route::delete('/users/{id}', function ($id) {
+    User::destroy($id);
+    return redirect('admin/users');
 });
 
 Route::post('/members/verify', function(Request $request) {

@@ -1,5 +1,5 @@
 import AdminLayout from '@/layouts/AdminLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import {
   Table,
   TableBody,
@@ -9,17 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Unverified from "@/components/admin/users/Unverified";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { DialogTrigger } from '@radix-ui/react-dialog';
-import { verify } from 'crypto';
+import { useState } from 'react';
 
 export default function Users({ users }) {
-    function verifyUser(userId) {
-        console.log(`Verifying user with ID: ${userId}`);
-    }
+    const [userId, setUserId] = useState(null);
+
     return (
         <AdminLayout>
             <Head title="Users" />
@@ -50,10 +48,10 @@ export default function Users({ users }) {
                                             <TableCell>{user.last_name}</TableCell>
                                             <TableCell>{user.userable_type}</TableCell>
                                             <TableCell className="flex gap-2">
+                                                <Button>Edit</Button>
                                                 <DialogTrigger asChild>
-                                                    <Button>Edit</Button>
+                                                    <Button variant="destructive" onClick={()=>setUserId(user.id)}>Delete</Button>
                                                 </DialogTrigger>
-                                                <Button variant="destructive">Delete</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -61,10 +59,14 @@ export default function Users({ users }) {
                                             <DialogHeader>
                                                 <DialogTitle>Are you absolutely sure?</DialogTitle>
                                                 <DialogDescription>
-                                                    This action cannot be undone. This will permanently delete your account
-                                                    and remove your data from our servers.
+                                                    This action cannot be undone. This will permanently delete this user.
                                                 </DialogDescription>
                                             </DialogHeader>
+                                            <Button variant="destructive" asChild>
+                                                <Link href={`/users/${userId}`} method="delete">
+                                                    Confirm Delete
+                                                </Link>
+                                            </Button>
                                         </DialogContent>
                                     </Dialog>
                                 </TableBody>
