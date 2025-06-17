@@ -9,6 +9,8 @@ class Member extends Model
 {
     protected $fillable = [
         'birth_date',
+        'proof_of_identity',
+        'medical_condition',
         'diet',
     ];
 
