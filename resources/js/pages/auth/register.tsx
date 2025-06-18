@@ -160,8 +160,8 @@ export default function Register() {
 
                     <div className="flex flex-col gap-4">
 
-                        {/* Member Information */}
-                        {data.user_type === 'member' && (
+                        {/* Personal Information */}
+                        {data.user_type !== 'kitchen partner' && (
                             <div className="grid grid-cols-2 gap-4">
                                 {/* Name Fields */}
                                 <div className="grid gap-2">
