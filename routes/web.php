@@ -34,6 +34,11 @@ Route::name('member.')->group(function () {
     })->name('verify');
 });
 
+Route::name('kitchen-partner.')->group(function () {
+    Route::prefix('kitchen-partner')->group(function () {
+        Route::inertia('/dashboard', 'KitchenPartner/Dashboard')->name('dashboard');
+    });
+});
 
 Route::middleware('auth:admin')->group(function () {
     Route::prefix('admin')->group(function () {
