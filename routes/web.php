@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\MemberDashboardController;
+
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -26,7 +28,7 @@ Route::post('/donations', [DonationController::class, 'store']);
 
 Route::name('member.')->group(function () {
     Route::middleware(['auth:member',])->group(function () {
-        Route::inertia('/dashboard', 'Member/Dashboard')->name('dashboard');
+    Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
     });
 
     Route::get('/verify', function () {
@@ -78,6 +80,8 @@ Route::post('/members/verify', function(Request $request) {
     $member->verified = true;
     $member->save();
 })->name('members.verify');
+
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
