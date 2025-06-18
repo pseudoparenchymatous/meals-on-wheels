@@ -36,6 +36,7 @@ class AuthenticatedSessionController extends Controller
         return match (auth()->user()->userable_type) {
             'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
             'member' => redirect(route('member.dashboard')),
+            'rider' => redirect(route('rider.dashboard')),
             'admin' => redirect(route('admin.dashboard')),
         };
     }

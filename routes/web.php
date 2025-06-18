@@ -40,6 +40,12 @@ Route::name('kitchen-partner.')->group(function () {
     });
 });
 
+Route::name('rider.')->group(function () {
+    Route::prefix('rider')->group(function () {
+        Route::inertia('/dashboard', 'Rider/Dashboard')->name('dashboard');
+    });
+});
+
 Route::middleware('auth:admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
