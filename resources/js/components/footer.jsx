@@ -24,8 +24,8 @@ function Footer() {
         <div className="lg:col-span-2">
           <h3 className="text-lg font-semibold mb-4">Support & Hours</h3>
           <p className="text-gray-400 mb-2">Need help or have questions?</p>
-          <p className="text-gray-300">Email: support@mealsonwheels.org</p>
-          <p className="text-gray-300">Phone: (123) 456-7890</p>
+          <p className="text-gray-300">Email: contact@mealsonwheels.org</p>
+          <p className="text-gray-300">Phone: (023) 416-7810</p>
           <div className="mt-4">
             <h4 className="text-white font-medium">Operating Hours</h4>
             <ul className="text-gray-400 text-sm mt-1">
@@ -72,7 +72,7 @@ function Footer() {
 
       {/* Footer Bottom */}
       <div className="text-center text-gray-500 border-t border-gray-700 py-4 text-xs">
-        © 2025 Meals on Wheels. All rights reserved. |Tax ID: 12-3456789
+        © 2025 Meals on Wheels. All rights reserved. |Tax ID: 02-3416509
       </div>
     </footer>
   );
