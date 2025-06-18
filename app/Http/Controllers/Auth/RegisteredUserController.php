@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Caregiver;
+use App\Models\KitchenPartner;
 use App\Models\Member;
-use App\Models\Partner;
 use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Auth\Events\Registered;
@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'address' => 'required|string|max:255',
         ];
 
-        if ($request->user_type !== 'partner') {
+        if ($request->user_type !== 'kitchen partner') {
             $userRules['first_name'] = 'required|string|max:255';
             $userRules['last_name'] = 'required|string|max:255';
         }
@@ -91,9 +91,8 @@ class RegisteredUserController extends Controller
                 'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
             ],
             'caregiver' => [],
-            'partner' => [
+            'kitchen partner' => [
                 'org_name' => 'required|string|max:255',
-                'partner_service' => 'required|in:kitchen,delivery',
             ],
             'volunteer' => [
                 'volunteer_service' => 'required|in:kitchen_staff,rider',
@@ -119,9 +118,8 @@ class RegisteredUserController extends Controller
                     ->userable
                     ->id,
             ]),
-            'partner' => Partner::create([
+            'kitchen partner' => KitchenPartner::create([
                 'org_name' => $request->org_name,
-                'service' => $request->partner_service,
             ]),
             'volunteer' => Volunteer::create([
                 'service' => $request->volunteer_service,

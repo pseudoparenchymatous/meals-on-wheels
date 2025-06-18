@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners', function (Blueprint $table) {
+        Schema::create('kitchen_partners', function (Blueprint $table) {
             $table->id();
             $table->string('org_name');
-            $table->enum('service', ['kitchen', 'delivery']);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners');
+        Schema::dropIfExists('kitchen_partners');
     }
 };
