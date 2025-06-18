@@ -6,11 +6,11 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use App\Models\WeeklyPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MemberDashboardController;
-
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -57,6 +57,8 @@ Route::middleware('auth:admin')->group(function () {
 
             Route::resource('users', UserController::class);
 
+            Route::inertia('/planning', 'Admin/Plan')->name('planning');
+
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
@@ -64,6 +66,13 @@ Route::middleware('auth:admin')->group(function () {
         });
     });
 });
+
+Route::post('/weekly-plans', function (Request $request) {
+    WeeklyPlan::create([
+        'start_date' => $request->startDate
+    ]);
+    return to_route('admin.planning');
+})->name('weekly-plans.store');
 
 Route::middleware(['auth:member', 'verified'])->group(function () {
     Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
