@@ -44,10 +44,12 @@ type RegisterForm = {
     phone: string;
     address: string;
     birth_date: Date;
+    proof_of_identity?: File | null;
+    medical_condition?: File | null;
     diet: string;
 };
 
-const userTypes: { value: UserTypes, label: string } = [
+const userTypes: { value: UserTypes, label: string }[] = [
     { value: UserTypes.Member,    label: 'Member (Meal Recipient)' },
     { value: UserTypes.Caregiver, label: 'Caregiver' },
     { value: UserTypes.Partner,   label: 'Partner' },
@@ -385,14 +387,27 @@ export default function Register() {
                     <div className="rounded-lg border p-6">
                         <h3 className="text-xl font-semibold mb-4">
                             Additional Information
-                            <span className="text-sm text-muted-foreground ml-2">(Optional)</span>
                         </h3>
-
-                        <div className="space-y-4">
+                        <div className="grid gap-3">
+                            <div className="grid gap-2">
+                                <Label htmlFor="proof_of_identity">
+                                    Proof of Identity
+                                </Label>
+                                <Input id="proof_of_identity" required type="file" accept="image/png, image/jpeg" onChange={(e) => setData('proof_of_identity', e.target.files?.[0])} />
+                                <InputError message={errors.proof_of_identity} />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="medical_condition">
+                                    Medical Condition
+                                </Label>
+                                <Input id="medical_condition" type="file" accept="image/png, image/jpeg" onChange={(e) => setData('medical_condition', e.target.files?.[1])} />
+                                <InputError message={errors.medical_condition} />
+                            </div>
                             {/* Dietary Requirements */}
                             <div className="grid gap-2">
                                 <Label htmlFor="diet">
                                     Diet
+                                    <span className="text-sm text-muted-foreground ml-1">(Optional)</span>
                                 </Label>
                                 <Select
                                     id="diet"

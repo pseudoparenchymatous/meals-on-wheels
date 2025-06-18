@@ -2,34 +2,26 @@ import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import {
-    Apple,
     LayoutGrid,
-    Users,
+    Truck,
 } from 'lucide-react';
 
 const navItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/admin/dashboard',
+        href: '/dashboard',
         icon: LayoutGrid,
     },
     {
-        title: 'Users',
-        href: '/admin/users',
-        icon: Users,
-    },
-    {
-        title: 'Meals',
-        href: '/admin/meals',
-        icon: Apple,
+        title: 'Delivery Tracker',
+        href: '/delivery-tracker',
+        icon: Truck,
     },
 ];
 
-
-export default function AdminLayout({ children }) {
+export default function MemberLayout({ children }) {
     return (
         <AppLayout navItems={navItems} >
-            <Head title="Admin" />
             <div>
                 { children }
             </div>

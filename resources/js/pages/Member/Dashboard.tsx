@@ -1,8 +1,6 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import AppLayout from '@/layouts/app-layout';
-import { NavItem } from '@/types';
+import MemberLayout from '@/layouts/MemberLayout';
 import { Head } from '@inertiajs/react';
-import { useState } from 'react';
 
 export default function Dashboard() {
     const [orderPlaced, setOrderPlaced] = useState(false);
@@ -26,37 +24,12 @@ export default function Dashboard() {
     };
 
     return (
-        <AppLayout>
+        <MemberLayout>
             <Head title="Member Dashboard" />
-            <div className="p-6 space-y-6">
-                <h1 className="text-2xl font-bold">Welcome to your dashboard</h1>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                    {/* TODAY'S MEAL */}
-                    <div className="rounded-xl border border-gray-300 dark:border-gray-700 shadow-md overflow-hidden">
-                        <img
-                            src={todaysMeal.image}
-                            alt="Today's Meal"
-                            className="h-48 w-full object-cover"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-blue-700">Today's Meal</h2>
-                            <p className="font-bold">{todaysMeal.title}</p>
-                            <p className="text-gray-600 dark:text-gray-300">{todaysMeal.description}</p>
-
-                            <div className="mt-4">
-                                {orderPlaced ? (
-                                    <p className="text-green-600 font-semibold">Order placed! Your meal is on the way.</p>
-                                ) : (
-                                    <button
-                                        onClick={handleOrder}
-                                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                                    >
-                                        Request Delivery
-                                    </button>
-                                )}
-                            </div>
-                        </div>
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
+                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                     </div>
 
                     {/* TOMORROW'S MEAL */}
@@ -74,6 +47,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </MemberLayout>
     );
 }

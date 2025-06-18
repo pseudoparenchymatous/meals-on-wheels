@@ -86,6 +86,8 @@ class RegisteredUserController extends Controller
         $rules = match ($request->user_type) {
             'member' => [
                 'birth_date' => 'required|date|before:today',
+                'proof_of_identity' => 'required|file',
+                'medical_condition' => 'nullable|file',
                 'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
             ],
             'caregiver' => [],
@@ -107,6 +109,8 @@ class RegisteredUserController extends Controller
         return match ($request->user_type) {
             'member' => Member::create([
                 'birth_date' => $request->birth_date,
+                'proof_of_identity' => $request->file('proof_of_identity')->store(),
+                'medical_condition' => $request->file('medical_condition')?->store(),
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
