@@ -7,8 +7,8 @@ use App\Models\Admin;
 use App\Models\Caregiver;
 use App\Models\KitchenPartner;
 use App\Models\Member;
+use App\Models\Rider;
 use App\Models\User;
-use App\Models\Volunteer;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -94,9 +94,7 @@ class RegisteredUserController extends Controller
             'kitchen partner' => [
                 'org_name' => 'required|string|max:255',
             ],
-            'volunteer' => [
-                'volunteer_service' => 'required|in:kitchen_staff,rider',
-            ],
+            'rider' => [],
             'admin' => [],
         };
 
@@ -121,9 +119,7 @@ class RegisteredUserController extends Controller
             'kitchen partner' => KitchenPartner::create([
                 'org_name' => $request->org_name,
             ]),
-            'volunteer' => Volunteer::create([
-                'service' => $request->volunteer_service,
-            ]),
+            'rider' => Rider::create(),
             'admin' => Admin::create(),
         };
     }

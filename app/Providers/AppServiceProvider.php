@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             'admin' => 'App\Models\Admin',
             'member' => 'App\Models\Member',
             'caregiver' => 'App\Models\Caregiver',
-            'volunteer' => 'App\Models\Volunteer',
+            'rider' => 'App\Models\Rider',
             'kitchen partner' => 'App\Models\KitchenPartner',
         ]);
     }

@@ -23,7 +23,7 @@ enum UserTypes {
     Member = "member",
     Caregiver = "caregiver",
     KitchenPartner = "kitchen partner",
-    Volunteer = "volunteer",
+    Rider = "rider",
     Admin = "admin",
 };
 
@@ -31,7 +31,6 @@ type RegisterForm = {
     first_name: string;
     last_name: string;
     org_name: string,
-    volunteer_service: string,
     member: {
         first_name: string,
         last_name: string,
@@ -52,12 +51,7 @@ const userTypes: { value: UserTypes, label: string }[] = [
     { value: UserTypes.Member,    label: 'Member (Meal Recipient)' },
     { value: UserTypes.Caregiver, label: 'Caregiver' },
     { value: UserTypes.KitchenPartner,   label: 'Kitchen Partner' },
-    { value: UserTypes.Volunteer, label: 'Volunteer' },
-];
-
-const volunteerServices = [
-    { value: 'rider', label: 'Rider' },
-    { value: 'kitchen_staff', label: 'Kitchen Staff' },
+    { value: UserTypes.Rider, label: 'Rider' },
 ];
 
 const availableDiets = [
@@ -68,42 +62,12 @@ const availableDiets = [
     { value: 'diabetic', label: 'Diabetic' },
 ];
 
-const VolunteerService = function({ data, setData, errors }) {
-    return (
-        <div>
-            <Label htmlFor="volunteer_service">
-                Type of service
-            </Label>
-            <Select
-                id="volunteer_service"
-                value={data.volunteer_service}
-                onValueChange={(value) => setData('volunteer_service', value)}
-                autoFocus
-            >
-                <SelectTrigger className="my-1">
-                    <SelectValue placeholder="I volunteer as..." />
-                </SelectTrigger>
-                <SelectContent>
-                    {volunteerServices.map((service) => (
-                        <SelectItem key={service.value} value={service.value}>
-                            {service.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <InputError message={errors.volunteer_service} />
-        </div>
-    );
-};
-
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         user_type: '',
         first_name: '',
         last_name: '',
         org_name: '',
-        partner_service: '',
-        volunteer_service: '',
         member: {
             first_name: '',
             last_name: '',
