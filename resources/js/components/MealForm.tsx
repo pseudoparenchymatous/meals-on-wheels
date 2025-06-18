@@ -152,7 +152,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                         <Input
                             name="preparation_time"
                             required
-                            placeholder="Prepared Meal time"
+                            placeholder="e.g. 30min/1hr"
                             value={form.preparation_time}
                             onChange={handleChange}
                         />
@@ -198,7 +198,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                         type="submit"
                         className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6 "
                     >
-                        {isSubmitting ? "Submiting... " : (selected ? 'Update Meal' : 'Add Meal')}
+                        {isSubmitting ? (selected ? "Updating…" : "Submitting…") : (selected ? "Update Meal" : "Add Meal")}
                     </Button>
                 </form>
             </DialogContent>

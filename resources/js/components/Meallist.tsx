@@ -68,27 +68,37 @@ export default function Meallist({ meals }) {
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const [mealToDelete, setMealtoDelete] = useState(null);
-    const [openconfirmDialog, setOpenConfirmDialog] = useState(false);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-
     const deleteMeal = (id) => {
-        router.delete(`/admin/meals/${id}`);
-        setOpenConfirmDialog(false);
-        toast.success("Meal has been deleted");
-        setMealtoDelete(null);
+        setIsSubmitting(true);
+        router.delete(`/admin/meals/${id}`, {
+            onSuccess: () => {
+                toast.success("Meal has been deleted.");
+                setOpenConfirmDialog(false);
+                setMealtoDelete(null);
+                setIsSubmitting(false);
+                },
+            onError: (error) => {
+                console.error(error);
+                toast.error("Meal has run into an error!")
+                setIsSubmitting(false);
+            },
+        });
     };
-
+    
     return (
         <div>
         <Toaster position="top-center" richColors/>
+        {/*this is the componnet of the admin to add meals */}
             <MealForm
                 selected={selected}
                 setSelectedMeal={setSelected}
                 open={open}
                 setOpen={setOpen}
             />
-
+        {/*Meals Table view and actions */}
         <div className="border rounded-xl">
             <Table>
                 <TableHeader>
@@ -103,12 +113,12 @@ export default function Meallist({ meals }) {
                 </TableHeader>
                 <TableBody>
                     {meals.map(meal => (
-                        <TableRow key={meal.id}>
-                            <TableCell className="font-medium">
+                        <TableRow key={meal.id} className="">
+                            <TableCell>
                                 <img 
-                                src={meal.image_path}
-                                alt={meal.title}
-                                className="h-16 w-20 object-cover rounded place-content-center"
+                                src={meal.image_path} 
+                                alt={meal.title} 
+                                className="h-16 w-20 object-cover rounded place-content-center" 
                                 />
                             </TableCell>
                             <TableCell>{meal.title}</TableCell>
@@ -116,8 +126,19 @@ export default function Meallist({ meals }) {
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
                             <TableCell className="space-x-2">
-                                <button onClick={() => {setSelected(meal); setOpen(true);}} className="text-blue-600 hover:underline spacee">Edit</button>
-                                <button onClick={() => {setMealtoDelete(meal.id); setOpenConfirmDialog(true);}} className="text-red-600 hover:underline ">Delete</button>
+                                <button
+                                   onClick={() => {setSelected(meal); setOpen(true)}}
+                                   className="text-blue-600 hover:underline">
+                                   Edit
+                                </button>
+                                <button
+                                   onClick={() => {
+                                      setMealtoDelete(meal);
+                                      setOpenConfirmDialog(true);
+                                   }}
+                                   className="text-red-600 hover:underline">
+                                   Delete
+                                </button>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -125,8 +146,9 @@ export default function Meallist({ meals }) {
             </Table>
         </div>
         
+        {/* Confirm delete dialog*/}
         <AlertDialog
-                open={openconfirmDialog}
+                open={openConfirmDialog}
                 onOpenChange={(isOpen) => {
                     setOpenConfirmDialog(isOpen);
                     if (!isOpen) setMealtoDelete(null);
@@ -135,19 +157,23 @@ export default function Meallist({ meals }) {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
                         <AlertDialogDescription>
-                            <p>Are you sure you want to delete this meal?</p>
+                            <p>Are you sure you want to delete this meal  <br/>
+                                <strong className="text-red-600 font-bold text-lg">{mealToDelete?.title}</strong>?
+                            </p>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={ () => setOpenConfirmDialog(false)} disabled={isSubmitting}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={isSubmitting} onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
                         <AlertDialogAction
-                            onClick={() => deleteMeal(mealToDelete)} disabled={isSubmitting}
+                            disabled={isSubmitting}
+                            onClick={() => deleteMeal(mealToDelete.id)}
                         > {isSubmitting ? 'Processing...' : 'Delete'}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
         </div>
-        
     );
 }
+
+
