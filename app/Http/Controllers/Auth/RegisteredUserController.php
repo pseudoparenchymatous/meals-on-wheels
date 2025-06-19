@@ -66,9 +66,11 @@ class RegisteredUserController extends Controller
             ]);
 
             event(new Registered($user));
+
+            Auth::login($user);
         });
 
-        return to_route('home');
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     public function validateByUserType(Request $request)

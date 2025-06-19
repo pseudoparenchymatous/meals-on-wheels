@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MemberDashboardController;
 
+Route::get('dashboard', function () {
+    if (!auth()->check()) {
+        return redirect('home');
+    }
+
+    return match (auth()->user()->userable_type) {
+        'admin' => redirect(route('admin.dashboard')),
+        'member' => redirect(route('member.dashboard')),
+        'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
+        'rider' => redirect(route('rider.dashboard')),
+        default => redirect(route('home'))
+    };
+})->name('dashboard');
+
 Route::post('/contact', [ContactController::class, 'store']);
 
 Route::get('/welcome', function () {
