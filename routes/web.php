@@ -49,7 +49,9 @@ Route::name('member.')->group(function () {
             Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
 
             Route::get('verify', function () {
-                return Inertia::render('Member/Verify');
+                return Inertia::render('Member/Verify', [
+                    'verified' => auth()->user()->userable->verified,
+                ]);
             })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
         });
 
