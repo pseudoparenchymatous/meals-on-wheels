@@ -13,7 +13,7 @@ class MealController extends Controller
         $meals = Meal::all()->map(function ($meal) {
             return [
                 'id' => $meal->id,
-                'title' => $meal->title,
+                'name' => $meal->name,
                 'prepared_by' => $meal->prepared_by,
                 'preparation_time' => $meal->preparation_time,
                 'meal_tag' => $meal->meal_tag,
@@ -31,7 +31,7 @@ class MealController extends Controller
         logger($request->all());
 
         $validated = $request->validate([
-            'title' => 'required|string',
+            'name' => 'required|string',
             'meal_tag' => 'required|string',
             'prepared_by' => 'required|string',
             'preparation_time' => 'required|string',
@@ -44,7 +44,7 @@ class MealController extends Controller
         }
 
         Meal::create([
-            'title' => $validated['title'],
+            'name' => $validated['name'],
             'meal_tag' => $validated['meal_tag'],
             'prepared_by' => $validated['prepared_by'],
             'preparation_time' => $validated['preparation_time'],
@@ -58,7 +58,7 @@ class MealController extends Controller
         $meal = Meal::findOrFail($id);
 
         $validated = $request->validate([
-            'title' => 'required|string',
+            'name' => 'required|string',
             'meal_tag' => 'required|string',
             'prepared_by' => 'required|string',
             'preparation_time' => 'required|string',
@@ -71,7 +71,7 @@ class MealController extends Controller
         }
 
         $meal->update([
-            'title' => $validated['title'],
+            'name' => $validated['name'],
             'meal_tag' => $validated['meal_tag'],
             'prepared_by' => $validated['prepared_by'],
             'preparation_time' => $validated['preparation_time']

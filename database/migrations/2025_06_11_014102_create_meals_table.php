@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
-            $table->String('title');
-            $table->String('meal_tag');
-            $table->String('prepared_by');
-            $table->String('preparation_time');
-            $table->String('image_path')->nullable();
+            $table->string('name');
+            $table->string('meal_tag');
+            $table->string('prepared_by');
+            $table->string('preparation_time');
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

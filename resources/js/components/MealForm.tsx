@@ -13,7 +13,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [form, setForm, setData] = useState({
-        title: '',
+        name: '',
         meal_tag: '',
         prepared_by: '',
         preparation_time: '',
@@ -33,7 +33,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
     useEffect(() => {
         if (selected) {
             setForm({ 
-                title: selected.title,
+                name: selected.name,
                 meal_tag: selected.meal_tag,
                 prepared_by: selected.prepared_by,
                 preparation_time: selected.preparation_time,
@@ -41,7 +41,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
             });
         } else {
             setForm({ 
-                title: '',
+                name: '',
                 meal_tag: '',
                 prepared_by: '',
                 preparation_time: '',
@@ -63,7 +63,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
         setIsSubmitting(true);
 
         const data = new FormData();
-            data.append('title', form.title);
+            data.append('name', form.name);
             data.append('meal_tag', form.meal_tag);
             data.append('prepared_by', form.prepared_by);
             data.append('preparation_time', form.preparation_time);
@@ -107,7 +107,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                 <DialogTrigger asChild>
                     <Button onClick={() => {
                         setForm({
-                            title: '',
+                            name: '',
                             meal_tag: '',
                             prepared_by: '',
                             preparation_time: '',
@@ -128,10 +128,10 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                     <div className="grid gap-2">
                         <Label>Food Name:</Label>
                         <Input
-                            name="title"
+                            name="name"
                             required
                             placeholder="Meal name"
-                            value={form.title}
+                            value={form.name}
                             onChange={handleChange}
                         />
                     </div>
