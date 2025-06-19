@@ -23,6 +23,11 @@ const navItems: NavItem[] = [
         href: '/admin/meals',
         icon: Apple,
     },
+    {
+        title: 'Planning',
+        href: '/admin/planning',
+        icon: Apple,
+    },
 ];
 
 

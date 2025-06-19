@@ -1,14 +1,14 @@
 import AdminLayout from '@/layouts/AdminLayout';
-import WeeklyPlanner from '@/components/admin/WeeklyPlanner';
 import { Head } from '@inertiajs/react';
+import WeeklyPlanner from '@/components/admin/WeeklyPlanner';
 
-export default function Plan() {
+export default function Plan({ weeklyPlans}) {
     return (
         <AdminLayout>
             <Head title="Weekly Planning" />
             <div className="m-10">
                 <div>
-                    <WeeklyPlanner />
+                    <WeeklyPlanner weeklyPlans={weeklyPlans}/>
                 </div>
             </div>
         </AdminLayout>

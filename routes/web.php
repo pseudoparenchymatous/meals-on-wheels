@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -57,12 +58,18 @@ Route::middleware('auth:admin')->group(function () {
 
             Route::resource('users', UserController::class);
 
-            Route::inertia('/planning', 'Admin/Plan')->name('planning');
+            Route::get('planning', function () {
+                return Inertia::render('Admin/Plan', [
+                    'weeklyPlans' => WeeklyPlan::all(),
+                ]);
+            })->name('planning');
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
+
+            Route::resource('meal-assignments', MealAssignmentController::class);
         });
     });
 });
