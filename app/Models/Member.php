@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 class Member extends Model
 {
     protected $fillable = [
+        'first_name',
+        'last_name',
         'birth_date',
         'proof_of_identity',
         'medical_condition',

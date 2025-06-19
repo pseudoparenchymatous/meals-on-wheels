@@ -105,6 +105,8 @@ class RegisteredUserController extends Controller
     {
         return match ($request->user_type) {
             'member' => Member::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'birth_date' => $request->birth_date,
                 'proof_of_identity' => $request->file('proof_of_identity')->store(),
                 'medical_condition' => $request->file('medical_condition')?->store(),
