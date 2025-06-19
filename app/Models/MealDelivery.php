@@ -9,7 +9,7 @@ class MealDelivery extends Model
     protected $fillable = [
         'meal_id',
         'member_id',
-        'partner_id',
+        'rider_id',
         'status',
         'scheduled_at',
         'delivered_at',
@@ -25,8 +25,8 @@ class MealDelivery extends Model
         return $this->belongsTo(Member::class);
     }
 
-    public function partner()
+    public function rider()
     {
-        return $this->belongsTo(Partner::class);
+        return $this->belongsTo(Rider::class);
     }
 }
