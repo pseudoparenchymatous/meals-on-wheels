@@ -134,7 +134,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                         </Select>
                     </div>
                     <div className="flex gap-4">
-                        <Button variant="outline">
+                        <Button asChild variant="outline">
                             <Link href={route('admin.meal-assignments.index')}>
                                 Cancel
                             </Link>
