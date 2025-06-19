@@ -6,6 +6,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
+use App\Models\Member;
 use App\Models\User;
 use App\Models\WeeklyPlan;
 use Illuminate\Http\Request;
@@ -90,14 +91,9 @@ Route::delete('/users/{id}', function ($id) {
     return redirect('admin/users');
 });
 
-Route::post('/members/verify', function(Request $request) {
-    $user = User::find($request->user_id);
-    $member = $user->userable;
-    $member->verified = true;
-    $member->save();
+Route::patch('/members/verify/{member}', function(Member $member) {
+    dd($member);
 })->name('members.verify');
-
-
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

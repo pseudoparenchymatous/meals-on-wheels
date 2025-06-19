@@ -10,7 +10,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Users', [
-            'users' => User::all(),
+            'users' => User::with('userable')->get(),
         ]);
     }
 }
