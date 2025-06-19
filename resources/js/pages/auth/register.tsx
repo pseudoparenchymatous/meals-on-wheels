@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils"
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle, } from 'lucide-react';
 import { FormEventHandler } from 'react';
-
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -10,14 +10,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
-
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { useState } from 'react';
 
 enum UserTypes {
     Member = "member",
@@ -63,6 +65,7 @@ const availableDiets = [
 ];
 
 export default function Register() {
+    const [calendarOpen, setCalendarOpen] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         user_type: '',
         first_name: '',
@@ -163,28 +166,30 @@ export default function Register() {
                                 {/* Birthday */}
                                 {data.user_type === 'member' && (
                                     <div className="grid gap-2 col-span-2">
-                                        <Label htmlFor="birth_date">Birthday</Label>
-                                        <Popover>
+                                        <Label htmlFor="birth-date">Birthday</Label>
+                                        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                                             <PopoverTrigger asChild>
                                                 <Button
+                                                    id="birth-date"
                                                     variant="outline"
-                                                    id="birth_date"
-                                                    className="w-full justify-between font-normal text-left"
+                                                    data-empty={!data.birth_date}
+                                                    className={cn(
+                                                        "justify-start text-left font-normal",
+                                                        !data.birth_date && "text-muted-foreground"
+                                                    )}
                                                 >
-                                                    {data.birth_date
-                                                        ? new Date(data.birth_date).toLocaleDateString()
-                                                        : "Select birthday"}
-                                                    <ChevronDownIcon className="h-4 w-4 ml-2" />
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {data.birth_date ? format(data.birth_date, "PPP") : <span>Pick a date</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={data.birth_date ? new Date(data.birth_date) : undefined}
-                                                    captionLayout="dropdown"
-                                                    onSelect={(date) =>
-                                                        setData('birth_date', date?.toISOString().split('T')[0] ?? '')
-                                                    }
+                                                    selected={data.birth_date}
+                                                    onSelect={date => {
+                                                        setData('birth_date', format(date, 'P'));
+                                                        setCalendarOpen(false);
+                                                    }}
                                                     disabled={(date) =>
                                                         date > new Date() || date < new Date("1900-01-01")
                                                     }
