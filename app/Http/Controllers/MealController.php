@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Ingredients;
 
 class MealController extends Controller
 {
@@ -21,8 +22,20 @@ class MealController extends Controller
             ];
         });
 
+        
+        $ingredients = Ingredients::all()->map(function ($ing) {
+        return [
+            'id' => $ing->id,
+            'ing_name' => $ing->ing_name,
+            'ing_type' => $ing->ing_type,
+            'stocks' => $ing->stocks,
+            'date_arrive' => $ing->date_arrive,
+            'expiration_date' => $ing->expiration_date,
+            ];
+        });
         return Inertia::render('Admin/Meals', [
             'meals' => $meals,
+            'ingredients' => $ingredients,
         ]);
     }
 
