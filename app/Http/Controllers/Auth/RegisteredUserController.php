@@ -121,7 +121,10 @@ class RegisteredUserController extends Controller
             'kitchen partner' => KitchenPartner::create([
                 'org_name' => $request->org_name,
             ]),
-            'rider' => Rider::create(),
+            'rider' => Rider::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]),
             'admin' => Admin::create(),
         };
     }
