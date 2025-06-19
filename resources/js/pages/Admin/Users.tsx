@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { set } from 'date-fns';
 
 export default function Users({ users }) {
+    const [dialogOpen, setDialogOpen] = useState(false);
     const [userId, setUserId] = useState(null);
     const [toVerify, setToVerify] = useState(0);
     const [proofPath, setProofPath] = useState('');
@@ -92,7 +93,7 @@ export default function Users({ users }) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <Dialog>
+                                    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                                         {unverified.map(unverified => (
                                             <TableRow key={unverified.userable.id}>
                                                 <TableCell className="font-medium">{unverified.userable.id}</TableCell>
@@ -129,7 +130,7 @@ export default function Users({ users }) {
                                                         </AccordionItem>
                                                     </Accordion>
                                                 </div>
-                                                <Button asChild disabled={true}>
+                                                <Button asChild onClick={()=>setDialogOpen(false)}>
                                                     <Link href={route('members.verify', toVerify)} method="patch">Verify</Link>
                                                 </Button>
                                             </DialogHeader>

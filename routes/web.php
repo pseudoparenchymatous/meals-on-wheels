@@ -92,7 +92,9 @@ Route::delete('/users/{id}', function ($id) {
 });
 
 Route::patch('/members/verify/{member}', function(Member $member) {
-    dd($member);
+    $member->verified = true;
+    $member->save();
+    return to_route('admin.users.index');
 })->name('members.verify');
 
 require __DIR__.'/settings.php';
