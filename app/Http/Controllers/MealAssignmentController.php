@@ -18,7 +18,15 @@ class MealAssignmentController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admin/MealAssignments', [
+            'mealAssignments' => MealAssignment::all()->load([
+                'kitchenPartner',
+                'meal',
+                'member',
+                'rider',
+                'weeklyPlan',
+            ]),
+        ]);
     }
 
     public function create()

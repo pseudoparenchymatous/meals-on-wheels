@@ -3,6 +3,8 @@ import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import {
     Apple,
+    CalendarCog,
+    HandPlatter,
     LayoutGrid,
     Users,
 } from 'lucide-react';
@@ -26,7 +28,12 @@ const navItems: NavItem[] = [
     {
         title: 'Planning',
         href: '/admin/planning',
-        icon: Apple,
+        icon: CalendarCog,
+    },
+    {
+        title: 'Meal Assignments',
+        href: '/admin/meal-assignments',
+        icon: HandPlatter,
     },
 ];
 
@@ -34,8 +41,7 @@ const navItems: NavItem[] = [
 export default function AdminLayout({ children }) {
     return (
         <AppLayout navItems={navItems} >
-            <Head title="Admin" />
-            <div>
+            <div className="m-10">
                 { children }
             </div>
         </AppLayout>

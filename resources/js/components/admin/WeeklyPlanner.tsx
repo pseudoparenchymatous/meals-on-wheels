@@ -13,7 +13,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { format } from "date-fns"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
   Popover,
@@ -23,7 +22,7 @@ import {
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner"
 import { useState } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import WeeklyPlans from "@/components/admin/WeeklyPlans";
 
 export default function WeeklyPlanner({ weeklyPlans }) {
@@ -100,9 +99,6 @@ export default function WeeklyPlanner({ weeklyPlans }) {
                         </form>
                     </DialogContent>
                 </Dialog>
-                <Button>
-                    <Link href={route('admin.meal-assignments.create')}>Assign Meal</Link>
-                </Button>
             </div>
             <div>
                 <WeeklyPlans weeklyPlans={weeklyPlans} />

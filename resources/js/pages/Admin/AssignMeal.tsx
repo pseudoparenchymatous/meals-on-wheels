@@ -40,13 +40,13 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
     return (
         <AdminLayout>
             <Toaster position="top-center" richColors />
-            <div className="m-10">
+            <div>
                 <h1 className="font-semibold text-xl mb-8">Assign a Meal</h1>
                 <form onSubmit={onSubmit} className="flex flex-col gap-6">
                     <div className="flex gap-4 items-center">
                         <Label htmlFor="week">Week</Label>
                         <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
-                            <SelectTrigger id="week"className="p-5 w-auto">
+                            <SelectTrigger id="week" className="p-5 w-auto">
                                 <SelectValue placeholder="Select week" />
                             </SelectTrigger>
                             <SelectContent>
@@ -134,8 +134,8 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                         </Select>
                     </div>
                     <div className="flex gap-4">
-                        <Button variant="secondary">
-                            <Link href={route('admin.planning')}>
+                        <Button variant="outline">
+                            <Link href={route('admin.meal-assignments.index')}>
                                 Cancel
                             </Link>
                         </Button>

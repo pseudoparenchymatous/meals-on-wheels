@@ -15,4 +15,9 @@ class KitchenPartner extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function mealAssignments()
+    {
+        return $this->hasMany(MealAssignment::class);
+    }
 }

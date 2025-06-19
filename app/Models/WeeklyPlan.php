@@ -9,4 +9,9 @@ class WeeklyPlan extends Model
     protected $fillable = [
         'start_date',
     ];
+
+    public function mealAssignments()
+    {
+        return $this->hasMany(MealAssignment::class);
+    }
 }
