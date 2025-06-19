@@ -30,7 +30,7 @@ Route::post('/donations', [DonationController::class, 'store']);
 
 Route::name('member.')->group(function () {
     Route::middleware(['auth:member',])->group(function () {
-    Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/member/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
     });
 
     Route::get('/verify', function () {
