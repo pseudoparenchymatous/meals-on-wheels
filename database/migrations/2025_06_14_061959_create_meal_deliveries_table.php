@@ -12,8 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('meal_id')->constrained()->onDelete('cascade');
             $table->foreignId('member_id')->constrained()->onDelete('cascade');
-            $table->foreignId('partner_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // if a specific user/rider is doing delivery
+            $table->foreignId('rider_id')->nullable()->constrained('volunteers'); // if a specific user/rider is doing delivery
             $table->enum('status', ['pending', 'preparing', 'out_for_delivery', 'delivered'])->default('pending');
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
