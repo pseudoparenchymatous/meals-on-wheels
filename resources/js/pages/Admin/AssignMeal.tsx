@@ -42,8 +42,8 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
             <Toaster position="top-center" richColors />
             <div>
                 <h1 className="font-semibold text-xl mb-8">Assign a Meal</h1>
-                <form onSubmit={onSubmit} className="flex flex-col gap-6">
-                    <div className="flex gap-4 items-center">
+                <form onSubmit={onSubmit} className="border flex flex-col gap-6 p-5 rounded-lg w-[300px]">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="week">Week</Label>
                         <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
                             <SelectTrigger id="week" className="p-5 w-auto">
@@ -58,7 +58,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="day">Day</Label>
                         <Select value={data.day} onValueChange={(value) => setData('day', value)}>
                             <SelectTrigger id="day" className="w-auto">
@@ -73,7 +73,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="member">Member</Label>
                         <Select value={data.memberId} onValueChange={(value) => setData('memberId', value)}>
                             <SelectTrigger id="member" className="w-auto">
@@ -88,7 +88,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="meal">Meal</Label>
                         <Select value={data.mealId} onValueChange={(value) => setData('mealId', value)}>
                             <SelectTrigger id="meal" className="w-auto">
@@ -103,7 +103,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="kitchen">Kitchen</Label>
                         <Select value={data.kitchenPartnerId} onValueChange={(value) => setData('kitchenPartnerId', value)}>
                             <SelectTrigger id="kitchen" className="w-auto">
@@ -118,7 +118,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="rider">Rider</Label>
                         <Select value={data.riderId} onValueChange={(value) => setData('riderId', value)}>
                             <SelectTrigger id="rider" className="w-auto">
