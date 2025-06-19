@@ -1,6 +1,10 @@
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import MealForm from "./MealForm";
+import { toast, Toaster } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import IngredientsTable from "./IngredientsTable";
+import IngredientForm from "./IngredientForm";
 
 import {
   Table,
@@ -12,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { toast, Toaster } from "sonner";
+
 
 const Button = ({ onClick, children, className, disabled }) => (
   <button onClick={onClick} className={className} disabled={disabled}>
@@ -64,12 +68,31 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
 
     
 
-export default function Meallist({ meals }) {
+export default function Meallist({ meals, ingredients }) {
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const [mealToDelete, setMealtoDelete] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [activeTab, setActiveTabs] =useState('Meals')
+    const [ingredientToDelete, setIngredientToDelete] = useState(null);
+
+    const deleteIngredient = (id) => {
+        setIsSubmitting(true);
+        router.delete(`/admin/ingredients/${id}`, {
+        onSuccess: () => {
+            toast.success("Ingredient has been deleted.");
+                setOpenConfirmDialog(false);
+                setIngredientToDelete(null);
+                setIsSubmitting(false);
+        },
+        onError: (error) => {
+                console.error(error);
+                toast.error("Ingredient deletion failed!");
+                setIsSubmitting(false);
+            },
+        });
+    };
 
     const deleteMeal = (id) => {
         setIsSubmitting(true);
@@ -91,14 +114,36 @@ export default function Meallist({ meals }) {
     return (
         <div>
         <Toaster position="top-center" richColors/>
+
+        
         {/*this is the componnet of the admin to add meals */}
+        {activeTab === 'Meals' && (
             <MealForm
                 selected={selected}
                 setSelectedMeal={setSelected}
                 open={open}
                 setOpen={setOpen}
+                activeTab={activeTab}
             />
+        )}
+
+        {activeTab === 'Ingredients' && (
+            <IngredientForm
+                selected={selected}
+                setSelectedIng={setSelected}
+                open={open}
+                setOpen={setOpen}
+                activeTab={activeTab}
+            />
+        )}
+        
         {/*Meals Table view and actions */}
+        <Tabs value={activeTab} onValueChange={setActiveTabs}>
+            <TabsList>
+                <TabsTrigger value="Meals">All Meals</TabsTrigger>
+                <TabsTrigger value="Ingredients">List Ingredients</TabsTrigger>
+            </TabsList>
+            <TabsContent value="Meals">
         <div className="border rounded-xl">
             <Table>
                 <TableHeader>
@@ -145,28 +190,65 @@ export default function Meallist({ meals }) {
                 </TableBody>
             </Table>
         </div>
+            </TabsContent>
+            
+            <TabsContent value="Ingredients">
+                <div className="border rounded-xl">
+                    <Table>
+                        <TableHeader>
+                            <TableRow className="text-xs uppercase">
+                                <TableHead>ID</TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Type</TableHead>
+                                <TableHead>Stocks</TableHead>
+                                <TableHead>Date Purchased</TableHead>
+                                <TableHead>Expiration Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                            <IngredientsTable
+                                Ingredients={ingredients}
+                                setSelected={setSelected}
+                                setOpen={setOpen}
+                                setIngToDelete={setIngredientToDelete}
+                                setOpenConfirmDialog={setOpenConfirmDialog}
+                            />
+                    </Table>
+                </div>
+            </TabsContent>
+        </Tabs>
         
         {/* Confirm delete dialog*/}
         <AlertDialog
                 open={openConfirmDialog}
                 onOpenChange={(isOpen) => {
                     setOpenConfirmDialog(isOpen);
-                    if (!isOpen) setMealtoDelete(null);
+                    if (!isOpen) {
+                        setMealtoDelete(null);
+                        setIngredientToDelete(null);
+                    }
                 }}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
                         <AlertDialogDescription>
-                            <p>Are you sure you want to delete this meal  <br/>
-                                <strong className="text-red-600 font-bold text-lg">{mealToDelete?.title}</strong>?
+                            <p>Are you sure you want to delete this {''}<br/>
+                                <strong className="text-red-600 font-bold text-lg">
+                                    {activeTab === "Meals" ? mealToDelete?.title : ingredientToDelete?.ing_name}
+                                </strong> 
+                                ?
                             </p>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={isSubmitting} onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel 
+                            disabled={isSubmitting} 
+                            onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={isSubmitting}
-                            onClick={() => deleteMeal(mealToDelete.id)}
+                            onClick={() => activeTab === "Meals" ? deleteMeal(mealToDelete.id) : deleteIngredient(ingredientToDelete.id)
+                                }
                         > {isSubmitting ? 'Processing...' : 'Delete'}
                         </AlertDialogAction>
                     </AlertDialogFooter>

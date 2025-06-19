@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SheetDescription } from './ui/sheet';
 
-export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
+export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab }) {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,8 +27,6 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
         { value: 'Vegan', label: 'Vegan' },
         { value: 'Vegetarian', label: 'Vegetarian' },
     ];
-
-    
 
     useEffect(() => {
         if (selected) {
@@ -106,6 +104,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
             <div className="flex justify-end mb-4 mr-10">
                 <DialogTrigger asChild>
                     <Button onClick={() => {
+                        if(activeTab === 'Meals'){
                         setForm({
                             name: '',
                             meal_tag: '',
@@ -113,8 +112,9 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal }) {
                             preparation_time: '',
                             image: null,
                         });
+                    }    
                     }}>
-                        Add Meal
+                        {activeTab === 'Meals' ? 'Add Meal' : 'Add Ingredient'}
                     </Button>
                 </DialogTrigger>
             </div>

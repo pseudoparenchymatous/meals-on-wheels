@@ -77,23 +77,6 @@ export default function Dashboard({ auth }) {
                                 />
                                 <div className="absolute bottom-0 w-full bg-black/60 text-white p-4">
                                     <h3 className="text-lg font-semibold">{todayMeal.title}</h3>
-
-                                    {/* Add water + Order Meal */}
-                                    <div className="mt-3 flex items-center justify-between flex-wrap gap-2">
-                                        <label className="flex items-center text-sm">
-                                            <input
-                                                type="checkbox"
-                                                className="mr-2 rounded border-gray-300 text-blue-600 shadow-sm focus:ring focus:ring-blue-200"
-                                            />
-                                            Add Water Bottle
-                                        </label>
-
-                                        <button
-                                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
-                                        >
-                                            Order Meal
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
