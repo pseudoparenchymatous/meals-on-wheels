@@ -166,7 +166,7 @@ export default function Meallist({ meals, ingredients }) {
                                 className="h-16 w-20 object-cover rounded place-content-center" 
                                 />
                             </TableCell>
-                            <TableCell>{meal.name}</TableCell>
+                            <TableCell>{meal.name} </TableCell>
                             <TableCell>{meal.prepared_by}</TableCell>
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
