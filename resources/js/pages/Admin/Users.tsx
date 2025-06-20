@@ -41,8 +41,7 @@ export default function Users({ users }) {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>User ID</TableHead>
-                                        <TableHead>First Name</TableHead>
-                                        <TableHead>Last Name</TableHead>
+                                        <TableHead>Name</TableHead>
                                         <TableHead>Type</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
@@ -52,8 +51,11 @@ export default function Users({ users }) {
                                     {users.map(user => (
                                         <TableRow key={user.id}>
                                             <TableCell className="font-medium">{user.id}</TableCell>
-                                            <TableCell>{user.first_name}</TableCell>
-                                            <TableCell>{user.last_name}</TableCell>
+                                                {user.userable_type !== 'kitchen partner' ? (
+                                                    <TableCell>{user.userable.first_name} {user.userable.last_name}</TableCell>
+                                                ) : (
+                                                        <TableCell>{user.userable.org_name}</TableCell>
+                                                    )}
                                             <TableCell>{user.userable_type}</TableCell>
                                             <TableCell className="flex gap-2">
                                                 <Button>Edit</Button>
@@ -87,8 +89,7 @@ export default function Users({ users }) {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Member ID</TableHead>
-                                        <TableHead>First Name</TableHead>
-                                        <TableHead>Last Name</TableHead>
+                                        <TableHead>Name</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -97,8 +98,7 @@ export default function Users({ users }) {
                                         {unverified.map(unverified => (
                                             <TableRow key={unverified.userable.id}>
                                                 <TableCell className="font-medium">{unverified.userable.id}</TableCell>
-                                                <TableCell>{unverified.first_name}</TableCell>
-                                                <TableCell>{unverified.last_name}</TableCell>
+                                                <TableCell>{unverified.userable.first_name} {unverified.userable.last_name}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <DialogTrigger asChild>
                                                         <Button variant="outline" onClick={() => {

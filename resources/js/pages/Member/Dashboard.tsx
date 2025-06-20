@@ -3,7 +3,7 @@ import MemberLayout from '@/layouts/MemberLayout';
 import { Head } from '@inertiajs/react';
 
 export default function Dashboard({ auth }) {
-    const memberName = auth?.user ? `${auth.user.first_name} ${auth.user.last_name}` : 'Member';
+    const memberName = auth?.user ? `${auth.user.userable.first_name} ${auth.user.userable.last_name}` : 'Member';
 
     const todayMeal = {
         title: 'Chicken Adobo',
