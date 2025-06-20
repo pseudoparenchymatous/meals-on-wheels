@@ -43,6 +43,9 @@ return [
         'admin' => [
             'driver' => 'admin',
         ],
+        'kitchen-partner' => [
+            'driver' => 'kitchen-partner',
+        ],
         'member' => [
             'driver' => 'member',
         ],

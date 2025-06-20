@@ -64,21 +64,23 @@ Route::name('member.')->group(function () {
 
 Route::name('kitchen-partner.')->group(function () {
     Route::prefix('kitchen-partner')->group(function () {
-        Route::get('dashboard', function () {
-            return Inertia::render('KitchenPartner/Dashboard', [
-                'mealAssignments' => MealAssignment::all()->load([
-                    'meal',
-                    'rider'
-                ]),
-            ]);
-        })->name('dashboard');
+        Route::middleware('auth:kitchen-partner')->group(function () {
+            Route::get('dashboard', function () {
+                return Inertia::render('KitchenPartner/Dashboard', [
+                    'mealAssignments' => MealAssignment::all()->load([
+                        'meal',
+                        'rider'
+                    ]),
+                ]);
+            })->name('dashboard');
 
-        Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
-            $mealAssignment->status = $request->status;
-            $mealAssignment->save();
+            Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
+                $mealAssignment->status = $request->status;
+                $mealAssignment->save();
 
-            return redirect(route('kitchen-partner.dashboard'));
-        })->name('meal-assignments.update');
+                return redirect(route('kitchen-partner.dashboard'));
+            })->name('meal-assignments.update');
+        });
     });
 });
 

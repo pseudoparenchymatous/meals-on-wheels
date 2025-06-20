@@ -33,6 +33,18 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        Auth::viaRequest('kitchen-partner', function () {
+            if (!auth()->check()) {
+                return null;
+            }
+
+            if (auth()->user()->userable_type == 'kitchen partner') {
+                return auth()->user();
+            }
+
+            return null;
+        });
+
         Auth::viaRequest('member', function ($request) {
             if (!auth()->check()) {
                 return null;
