@@ -57,6 +57,18 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        Auth::viaRequest('rider', function ($request) {
+            if (!auth()->check()) {
+                return null;
+            }
+
+            if (auth()->user()->userable_type == 'rider') {
+                return Auth::user();
+            } else {
+                return null;
+            }
+        });
+
         Relation::enforceMorphMap([
             'admin' => 'App\Models\Admin',
             'member' => 'App\Models\Member',

@@ -49,6 +49,9 @@ return [
         'member' => [
             'driver' => 'member',
         ],
+        'rider' => [
+            'driver' => 'rider',
+        ],
     ],
 
     /*
