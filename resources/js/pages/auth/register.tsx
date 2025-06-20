@@ -185,6 +185,7 @@ export default function Register() {
                                             <PopoverContent className="w-auto p-0" align="start">
                                                 <Calendar
                                                     mode="single"
+                                                    today={ new Date(2000, 0, 1) }
                                                     selected={data.birth_date}
                                                     onSelect={date => {
                                                         setData('birth_date', format(date, 'yyyy-MM-dd'));
