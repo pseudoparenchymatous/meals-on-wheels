@@ -44,7 +44,7 @@ type RegisterForm = {
     phone: string;
     address: string;
     birth_date: Date;
-    proof_of_identity?: File | null;
+    proof_of_identity: File | null;
     medical_condition?: File | null;
     diet: string;
 };
@@ -335,7 +335,7 @@ export default function Register() {
                                 <Label htmlFor="medical_condition">
                                     Medical Condition
                                 </Label>
-                                <Input id="medical_condition" type="file" accept="image/png, image/jpeg" onChange={(e) => setData('medical_condition', e.target.files?.[1])} />
+                                <Input id="medical_condition" type="file" accept="image/png, image/jpeg" onChange={(e) => setData('medical_condition', e.target.files?.[0])}/>
                                 <InputError message={errors.medical_condition} />
                             </div>
                             {/* Dietary Requirements */}

@@ -108,8 +108,8 @@ class RegisteredUserController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'birth_date' => $request->birth_date,
-                'proof_of_identity' => $request->file('proof_of_identity')->store(),
-                'medical_condition' => $request->file('medical_condition')?->store(),
+                'proof_of_identity' => $request->file('proof_of_identity')->store('proofs'),
+                'medical_condition' => $request->file('medical_condition')?->store('medicals'),
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
