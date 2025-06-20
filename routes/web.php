@@ -18,7 +18,7 @@ use App\Http\Controllers\MemberDashboardController;
 
 Route::get('dashboard', function () {
     if (!auth()->check()) {
-        return redirect('home');
+        return redirect(route('login'));
     }
 
     return match (auth()->user()->userable_type) {
@@ -93,7 +93,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('dashboard');
 
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
-            
+
             Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
 
             Route::resource('users', UserController::class);
