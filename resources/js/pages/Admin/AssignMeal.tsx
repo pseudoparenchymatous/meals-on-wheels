@@ -42,7 +42,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
             <Toaster position="top-center" richColors />
             <div>
                 <h1 className="font-semibold text-xl mb-8">Assign a Meal</h1>
-                <form onSubmit={onSubmit} className="border flex flex-col gap-6 p-5 rounded-lg w-[300px]">
+                <form onSubmit={onSubmit} className="border flex flex-col gap-6 p-5 rounded-lg w-fit">
                     <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="week">Week</Label>
                         <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
