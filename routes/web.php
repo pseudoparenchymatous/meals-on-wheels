@@ -7,6 +7,7 @@ use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckMemberVerificationStatus;
+use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\WeeklyPlan;
@@ -60,7 +61,21 @@ Route::name('member.')->group(function () {
 
 Route::name('kitchen-partner.')->group(function () {
     Route::prefix('kitchen-partner')->group(function () {
-        Route::inertia('/dashboard', 'KitchenPartner/Dashboard')->name('dashboard');
+        Route::get('dashboard', function () {
+            return Inertia::render('KitchenPartner/Dashboard', [
+                'mealAssignments' => MealAssignment::all()->load([
+                    'meal',
+                    'rider'
+                ]),
+            ]);
+        })->name('dashboard');
+
+        Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
+            $mealAssignment->status = $request->status;
+            $mealAssignment->save();
+
+            return redirect(route('kitchen-partner.dashboard'));
+        })->name('meal-assignments.update');
     });
 });
 
@@ -76,6 +91,10 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/dashboard', function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
+
+            Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
+            
+            Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
 
             Route::resource('users', UserController::class);
 
