@@ -51,6 +51,33 @@ class DonationController extends Controller
         ]);
     }
 
+    // Add this method for donor management
+    public function manage()
+    {
+        $donations = Donation::orderBy('created_at', 'desc')->get();
+        
+        // Calculate stats
+        $stats = [
+            'total_donors' => $donations->count(),
+            'total_amount' => $donations->sum('amount'),
+            'recurring_donors' => $donations->where('donation_type', 'recurring')->count(),
+            'recent_donors' => $donations->where('created_at', '>=', now()->subDays(30))->count(),
+        ];
+
+        return Inertia::render('Admin/DonorManagement', [
+            'donors' => $donations,
+            'stats' => $stats
+        ]);
+    }
+
+    // Add delete method
+    public function destroy(Donation $donation)
+    {
+        $donation->delete();
+        
+        return redirect()->back()->with('success', 'Donor record deleted successfully.');
+    }
+
     private function processPayment(Donation $donation)
     {
         $donation->markAsCompleted();
