@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MealDelivery;
+use App\Models\MealAssignment;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -12,19 +12,23 @@ class DeliveryTrackerController extends Controller
     {
         $member = Auth::user()->userable;
 
-        $deliveries = MealDelivery::with('meal')
+        $deliveries = MealAssignment::with(['meal', 'kitchenPartner', 'rider', 'weeklyPlan'])
             ->where('member_id', $member->id)
-            ->orderByDesc('scheduled_at') // corrected column name
+            ->orderByDesc('created_at')
             ->get()
-            ->map(function ($delivery) {
+            ->map(function ($assignment) {
                 return [
-                    'id' => $delivery->id,
-                    'status' => $delivery->status,
-                    'scheduled_time' => optional($delivery->scheduled_at)->toDateTimeString(),
-                    'delivered_time' => optional($delivery->delivered_at)->toDateTimeString(),
+                    'id' => $assignment->id,
+                    'status' => $assignment->status,
+                    'day' => ucfirst($assignment->day),
+                    'week' => $assignment->weeklyPlan->id ?? 'N/A',
                     'meal' => [
-                        'title' => $delivery->meal->name ?? 'Unknown',
+                        'name' => $assignment->meal->name ?? 'Unknown',
                     ],
+                    'kitchen_partner' => $assignment->kitchenPartner->org_name ?? 'N/A',
+                    'rider' => $assignment->rider
+                        ? "{$assignment->rider->first_name} {$assignment->rider->last_name}"
+                        : 'Unassigned',
                 ];
             });
 
@@ -32,5 +36,4 @@ class DeliveryTrackerController extends Controller
             'deliveries' => $deliveries,
         ]);
     }
-
 }
