@@ -71,7 +71,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
 
     if (selected) {
         data.append('_method', 'PUT');
-        router.post(`/admin/meals/${selected.id}`, data, {
+        router.post(`/admin/meals/ingredients/${selected.id}`, data, {
             onSuccess: () => {
                 setOpen(false);
                 setSelectedIng(null);
@@ -81,7 +81,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
             },
         });
     } else {
-        router.post('/admin/meals', data, {
+        router.post('/admin/meals/ingredients', data, {
             onSuccess: () => {
                 setOpen(false);
                 setSelectedIng(null);
@@ -98,8 +98,8 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
         setOpen(isOpen);
             if (!isOpen) setSelectedIng(null);
         }}>
-        <div className="flex justify-end mb-4 mr-10">
-            <DialogTrigger asChild>
+        <div className="flex justify-end mb-4">
+            <DialogTrigger className="relative top-14" asChild variant="outline">
                 <Button onClick={() => {
                     setIngForm({
                         ing_name: '',

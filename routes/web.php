@@ -6,11 +6,13 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Middleware\CheckMemberVerificationStatus;
 use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\WeeklyPlan;
+use App\Models\Ingredients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -115,6 +117,11 @@ Route::middleware('auth:admin')->group(function () {
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
+            
+            Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('admin.ingredients.index');
+            Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('admin.ingredients.store');
+            Route::put('/meals/ingredients/{id}', [IngredientsController::class, 'update'])->name('admin.ingredients.update');
+            Route::delete('/meals/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('admin.ingredients.destroy');
 
             Route::resource('meal-assignments', MealAssignmentController::class);
         });
