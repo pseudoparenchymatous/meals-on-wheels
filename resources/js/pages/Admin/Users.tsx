@@ -124,12 +124,14 @@ export default function Users({ users }) {
                                                                 <img src={"/api/images/"+proofPath}/>
                                                             </AccordionContent>
                                                         </AccordionItem>
-                                                        <AccordionItem value="condition">
-                                                            <AccordionTrigger>Medical Condition</AccordionTrigger>
-                                                            <AccordionContent>
-                                                                <img src={"/api/images/"+conditionPath} />
-                                                            </AccordionContent>
-                                                        </AccordionItem>
+                                                        {conditionPath && (
+                                                            <AccordionItem value="condition">
+                                                                <AccordionTrigger>Medical Condition</AccordionTrigger>
+                                                                <AccordionContent>
+                                                                    <img src={"/api/images/"+conditionPath} />
+                                                                </AccordionContent>
+                                                            </AccordionItem>
+                                                        )}
                                                     </Accordion>
                                                 </div>
                                                 <Button asChild onClick={()=>setDialogOpen(false)}>
