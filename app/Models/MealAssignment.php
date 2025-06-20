@@ -9,6 +9,7 @@ class MealAssignment extends Model
 {
     protected $fillable = [
         'day',
+        'status',
         'kitchen_partner_id',
         'meal_id',
         'member_id',
