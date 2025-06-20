@@ -63,13 +63,6 @@ export default function Dashboard({ auth }) {
                     Hello, {memberName}! 👋
                 </h1>
 
-                <Link
-                    href={route('member.delivery-tracker')}
-                    className="inline-block w-fit px-4 py-2 mt-2 text-white bg-blue-600 rounded hover:bg-blue-700 transition"
-                >
-                    View Delivery Tracker
-                </Link>
-
                 {/* Meals Section */}
                 <section>
                     <div className="grid md:grid-cols-3 gap-6">

@@ -32,7 +32,7 @@ class DeliveryTrackerController extends Controller
                 ];
             });
 
-        return Inertia::render('DeliveryTracker', [
+        return Inertia::render('Member/DeliveryTracker', [
             'deliveries' => $deliveries,
         ]);
     }

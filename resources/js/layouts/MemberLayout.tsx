@@ -9,12 +9,12 @@ import {
 const navItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/member/dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Delivery Tracker',
-        href: '/delivery-tracker',
+        href: '/member/delivery-tracker',
         icon: Truck,
     },
 ];

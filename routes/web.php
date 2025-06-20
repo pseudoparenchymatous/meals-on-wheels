@@ -124,10 +124,6 @@ Route::post('/weekly-plans', function (Request $request) {
     return to_route('admin.planning');
 })->name('weekly-plans.store');
 
-Route::middleware(['auth:member', 'verified'])->group(function () {
-    Route::get('/delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery.tracker');
-});
-
 Route::delete('/users/{id}', function ($id) {
     User::destroy($id);
     return redirect('admin/users');
