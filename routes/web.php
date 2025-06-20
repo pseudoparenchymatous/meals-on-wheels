@@ -92,6 +92,10 @@ Route::middleware('auth:admin')->group(function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
 
+            Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
+            
+            Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
+
             Route::resource('users', UserController::class);
 
             Route::get('planning', function () {

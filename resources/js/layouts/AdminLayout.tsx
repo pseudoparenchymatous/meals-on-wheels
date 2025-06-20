@@ -35,6 +35,11 @@ const navItems: NavItem[] = [
         href: '/admin/meal-assignments',
         icon: HandPlatter,
     },
+        {
+        title: 'Donor Management',
+        href: '/admin/donor-management',
+        icon: Users,
+    },
 ];
 
 
