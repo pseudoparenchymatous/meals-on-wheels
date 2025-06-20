@@ -114,7 +114,7 @@ export default function Meallist({ meals, ingredients }) {
     return (
         <div>
         <Toaster position="top-center" richColors/>
-
+        
         
         {/*this is the componnet of the admin to add meals */}
         {activeTab === 'Meals' && (

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Ingredients;
 
 class IngredientsController extends Controller
 {
