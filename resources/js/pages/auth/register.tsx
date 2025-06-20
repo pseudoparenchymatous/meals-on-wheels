@@ -190,9 +190,9 @@ export default function Register() {
                                                         setData('birth_date', format(date, 'yyyy-MM-dd'));
                                                         setCalendarOpen(false);
                                                     }}
-                                                    disabled={(date) =>
-                                                        date > new Date() || date < new Date("1900-01-01")
-                                                    }
+                                                    disabled={[
+                                                        { after: new Date(2005, 11, 31) }
+                                                    ]}
                                                     initialFocus
                                                 />
                                             </PopoverContent>
