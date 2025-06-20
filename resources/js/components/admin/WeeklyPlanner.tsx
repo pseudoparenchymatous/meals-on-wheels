@@ -83,7 +83,7 @@ export default function WeeklyPlanner({ weeklyPlans }) {
                                             mode="single"
                                             selected={data.startDate}
                                             onSelect={date => {
-                                                setData('startDate', format(date, 'P'));
+                                                setData('startDate', format(date, 'yyyy-MM-dd'));
                                                 setCalendarOpen(false);
                                             }}
                                         />
