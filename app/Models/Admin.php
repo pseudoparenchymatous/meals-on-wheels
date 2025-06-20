@@ -10,6 +10,11 @@ class Admin extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+    ];
+
     public function user(): MorphOne
     {
         return $this->morphOne(User::class, 'userable');
