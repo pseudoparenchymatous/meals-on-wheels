@@ -6,6 +6,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckMemberVerificationStatus;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\WeeklyPlan;
@@ -13,6 +14,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MemberDashboardController;
+
+Route::get('dashboard', function () {
+    if (!auth()->check()) {
+        return redirect('home');
+    }
+
+    return match (auth()->user()->userable_type) {
+        'admin' => redirect(route('admin.dashboard')),
+        'member' => redirect(route('member.dashboard')),
+        'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
+        'rider' => redirect(route('rider.dashboard')),
+        default => redirect(route('home'))
+    };
+})->name('dashboard');
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -29,13 +44,18 @@ Route::inertia('/menu', 'Menu')->name('menu');
 Route::post('/donations', [DonationController::class, 'store']);
 
 Route::name('member.')->group(function () {
-    Route::middleware(['auth:member',])->group(function () {
-    Route::get('/dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
-    });
+    Route::prefix('member')->group(function () {
+        Route::middleware(['auth:member', CheckMemberVerificationStatus::class])->group(function () {
+            Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/verify', function () {
-        return Inertia::render('Member/Verify');
-    })->name('verify');
+            Route::get('verify', function () {
+                return Inertia::render('Member/Verify', [
+                    'verified' => auth()->user()->userable->verified,
+                ]);
+            })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
+        });
+
+    });
 });
 
 Route::name('kitchen-partner.')->group(function () {

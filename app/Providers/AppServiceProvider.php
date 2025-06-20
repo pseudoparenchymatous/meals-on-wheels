@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 return null;
             }
 
-            if (Auth::user()->userable instanceof \App\Models\Member) {
+            if (auth()->user()->userable_type == 'member') {
                 return Auth::user();
             } else {
                 return null;
