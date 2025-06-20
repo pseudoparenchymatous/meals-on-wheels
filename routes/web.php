@@ -49,6 +49,9 @@ Route::name('member.')->group(function () {
         Route::middleware(['auth:member', CheckMemberVerificationStatus::class])->group(function () {
             Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
 
+            // Delivery Tracker
+            Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+
             Route::get('verify', function () {
                 return Inertia::render('Member/Verify', [
                     'verified' => auth()->user()->userable->verified,
