@@ -187,7 +187,7 @@ export default function Register() {
                                                     mode="single"
                                                     selected={data.birth_date}
                                                     onSelect={date => {
-                                                        setData('birth_date', format(date, 'P'));
+                                                        setData('birth_date', format(date, 'yyyy-MM-dd'));
                                                         setCalendarOpen(false);
                                                     }}
                                                     disabled={(date) =>
