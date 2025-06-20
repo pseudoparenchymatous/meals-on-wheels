@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
+use App\Models\KitchenPartner;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdminSeeder extends Seeder
+class KitchenPartnerSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::factory()->for(
-            Admin::factory(), 'userable'
+            KitchenPartner::factory(), 'userable'
         )->create();
     }
 }
