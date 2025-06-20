@@ -1,4 +1,4 @@
-import AppLayout from '@/layouts/app-layout';
+import MemberLayout from '@/layouts/MemberLayout';
 import { Head, usePage } from '@inertiajs/react';
 import { LayoutGrid, Truck } from 'lucide-react';
 
@@ -19,7 +19,7 @@ export default function DeliveryTracker() {
   const { deliveries } = usePage().props;
 
   return (
-    <AppLayout navItems={navItems}>
+    <MemberLayout navItems={navItems}>
       <Head title="Meal Delivery Tracker" />
       <div className="p-4 space-y-4">
         <h1 className="text-xl font-semibold">Your Meal Deliveries</h1>
@@ -42,7 +42,7 @@ export default function DeliveryTracker() {
           </ul>
         )}
       </div>
-    </AppLayout>
+    </MemberLayout>
   );
 }
-  
+
