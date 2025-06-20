@@ -90,6 +90,7 @@ export default function Users({ users }) {
                                     <TableRow>
                                         <TableHead>Member ID</TableHead>
                                         <TableHead>Name</TableHead>
+                                        <TableHead>Birthdate</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -99,6 +100,7 @@ export default function Users({ users }) {
                                             <TableRow key={unverified.userable.id}>
                                                 <TableCell className="font-medium">{unverified.userable.id}</TableCell>
                                                 <TableCell>{unverified.userable.first_name} {unverified.userable.last_name}</TableCell>
+                                                <TableCell>{unverified.userable.birth_date}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <DialogTrigger asChild>
                                                         <Button variant="outline" onClick={() => {
