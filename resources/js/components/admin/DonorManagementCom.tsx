@@ -375,44 +375,52 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {recurringDonors.map(donor => (
-                                    <TableRow key={donor.id}>
-                                        <TableCell>
-                                            <div>
-                                                <div className="font-medium">{donor.donor_name}</div>
-                                                {donor.is_anonymous && (
-                                                    <div className="text-xs text-gray-500">Anonymous</div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{donor.donor_email}</TableCell>
-                                        <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
-                                        <TableCell>
-                                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-0">
-                                                {donor.frequency}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(donor.status)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <Button size="sm" variant="outline">
-                                                    Pause
-                                                </Button>
-                                                <Button size="sm" variant="outline">
-                                                    Edit
-                                                </Button>
-                                                <Button size="sm" variant="destructive">
-                                                    Cancel
-                                                </Button>
-                                            </div>
+                                {recurringDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                            No recurring donations found
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    recurringDonors.map(donor => (
+                                        <TableRow key={donor.id}>
+                                            <TableCell>
+                                                <div>
+                                                    <div className="font-medium">{donor.donor_name}</div>
+                                                    {donor.is_anonymous && (
+                                                        <div className="text-xs text-gray-500">Anonymous</div>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{donor.donor_email}</TableCell>
+                                            <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
+                                            <TableCell>
+                                                <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-0">
+                                                    {donor.frequency || 'Monthly'}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(donor.status)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" variant="outline">
+                                                        Pause
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                    <Button size="sm" variant="destructive">
+                                                        Cancel
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
