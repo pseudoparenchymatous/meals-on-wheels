@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/table"
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { set } from 'date-fns';
 
 export default function Users({ users }) {
@@ -28,6 +30,7 @@ export default function Users({ users }) {
     return (
         <AdminLayout>
             <Head title="Users" />
+            <Toaster richColors position="top-center"/>
             <div>
                 <h1 className="font-semibold mb-4 text-2xl">Users</h1>
                 <Tabs defaultValue="all">
@@ -47,7 +50,7 @@ export default function Users({ users }) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <Dialog>
+                                    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                                         {users.map(user => (
                                             <TableRow key={user.id}>
                                                 <TableCell className="font-medium">{user.id}</TableCell>
@@ -58,11 +61,11 @@ export default function Users({ users }) {
                                                     )}
                                                 <TableCell>{user.userable_type}</TableCell>
                                                 <TableCell className="flex gap-2">
-                                                    <Button asChild>
+                                                    <Button asChild variant="outline">
                                                         <Link href={route('admin.users.edit', user.id)}>Edit</Link>
                                                     </Button>
                                                     <DialogTrigger asChild>
-                                                        <Button variant="destructive" onClick={()=>setUserId(user.id)}>Delete</Button>
+                                                        <Button variant="destructive" onClick={() => setUserId(user.id)}>Delete</Button>
                                                     </DialogTrigger>
                                                 </TableCell>
                                             </TableRow>
@@ -79,6 +82,7 @@ export default function Users({ users }) {
                                                 variant="destructive"
                                                 onClick={() => {
                                                     setDialogOpen(false);
+                                                    toast.success("User has been deleted");
                                                 }}
                                             >
                                                 <Link href={route('admin.users.destroy', userId)} method="delete">
