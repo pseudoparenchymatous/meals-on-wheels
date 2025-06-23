@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RiderDashboardController;
+use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
@@ -85,12 +87,9 @@ Route::name('kitchen-partner.')->group(function () {
     });
 });
 
-Route::name('rider.')->group(function () {
-    Route::middleware('auth:rider')->group(function () {
-        Route::prefix('rider')->group(function () {
-            Route::inertia('/dashboard', 'Rider/Dashboard')->name('dashboard');
-        });
-    });
+Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
+    Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [RiderDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
 Route::middleware('auth:admin')->group(function () {
