@@ -482,34 +482,49 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                         </div>
                     </div>
                 </TabsContent>
-            </Tabs>            </div>
-                        </div>
-
-                        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                            <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-                            <div className="space-y-3">
-                                {recentDonors.slice(0, 5).map(donor => (
-                                    <div key={donor.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                        <div>
-                                            <div className="font-medium">{donor.donor_name}</div>
-                                            <div className="text-sm text-gray-500">{formatDate(donor.created_at)}</div>
-                                        </div>
-                                        <div className="text-right">
-                                            <div className="font-semibold">{formatCurrency(donor.amount)}</div>
-                                            <div className="text-sm">{getStatusBadge(donor.status)}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {recentDonors.length === 0 && (
-                                    <div className="text-center text-gray-500 py-8">
-                                        No recent donations found
-                                    </div>
-                                )}
+            </Tabs>         
+     
+{/* Delete Confirmation Dialog */}
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5 text-red-500" />
+                            Confirm Deletion
+                        </DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete this donor record? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {selectedDonor && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+                            <div className="space-y-2">
+                                <div><strong>Donor:</strong> {selectedDonor.donor_name}</div>
+                                <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                                <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                                <div><strong>Type:</strong> {selectedDonor.donation_type}</div>
+                                <div><strong>Date:</strong> {formatDate(selectedDonor.created_at)}</div>
                             </div>
                         </div>
+                    )}
+                    <div className="flex justify-end gap-3">
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setDialogOpen(false)}
+                            disabled={isDeleting}
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            variant="destructive" 
+                            onClick={handleDeleteConfirm}
+                            disabled={isDeleting}
+                        >
+                            {isDeleting ? 'Deleting...' : 'Delete Donor'}
+                        </Button>
                     </div>
-                </TabsContent>
-            </Tabs>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
