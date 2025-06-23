@@ -192,6 +192,14 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 </div>
             </div>
 
+            <Tabs defaultValue="all">
+                <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="all">All Donors</TabsTrigger>
+                    <TabsTrigger value="recent">Recent (30 days)</TabsTrigger>
+                    <TabsTrigger value="recurring">Recurring Donors</TabsTrigger>
+                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                </TabsList>
+
                 <TabsContent value="all">
                     {/* Search and Filters */}
                     <div className="mb-6 flex flex-col sm:flex-row gap-4">
@@ -413,11 +421,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         Edit
                                                     </Button>
-                                                    <Button
-                                                        size="sm"
-                                                        variant="destructive"
-                                                        onClick={() => handleDeleteClick(donor)}
-                                                    >
+                                                    <Button size="sm" variant="destructive">
                                                         Cancel
                                                     </Button>
                                                 </div>
@@ -482,9 +486,9 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                         </div>
                     </div>
                 </TabsContent>
-            </Tabs>         
-     
-{/* Delete Confirmation Dialog */}
+            </Tabs>
+
+            {/* Delete Confirmation Dialog */}
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
