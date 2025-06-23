@@ -482,6 +482,33 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                         </div>
                     </div>
                 </TabsContent>
+            </Tabs>            </div>
+                        </div>
+
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+                            <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+                            <div className="space-y-3">
+                                {recentDonors.slice(0, 5).map(donor => (
+                                    <div key={donor.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                        <div>
+                                            <div className="font-medium">{donor.donor_name}</div>
+                                            <div className="text-sm text-gray-500">{formatDate(donor.created_at)}</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold">{formatCurrency(donor.amount)}</div>
+                                            <div className="text-sm">{getStatusBadge(donor.status)}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                                {recentDonors.length === 0 && (
+                                    <div className="text-center text-gray-500 py-8">
+                                        No recent donations found
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </TabsContent>
             </Tabs>
         </div>
     );
