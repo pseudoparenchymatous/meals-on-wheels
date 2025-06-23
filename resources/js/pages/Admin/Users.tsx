@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Head, Link } from '@inertiajs/react';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -48,23 +48,25 @@ export default function Users({ users }) {
                                 </TableHeader>
                                 <TableBody>
                                     <Dialog>
-                                    {users.map(user => (
-                                        <TableRow key={user.id}>
-                                            <TableCell className="font-medium">{user.id}</TableCell>
+                                        {users.map(user => (
+                                            <TableRow key={user.id}>
+                                                <TableCell className="font-medium">{user.id}</TableCell>
                                                 {user.userable_type !== 'kitchen partner' ? (
                                                     <TableCell>{user.userable.first_name} {user.userable.last_name}</TableCell>
                                                 ) : (
                                                         <TableCell>{user.userable.org_name}</TableCell>
                                                     )}
-                                            <TableCell>{user.userable_type}</TableCell>
-                                            <TableCell className="flex gap-2">
-                                                <Button>Edit</Button>
-                                                <DialogTrigger asChild>
-                                                    <Button variant="destructive" onClick={()=>setUserId(user.id)}>Delete</Button>
-                                                </DialogTrigger>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                <TableCell>{user.userable_type}</TableCell>
+                                                <TableCell className="flex gap-2">
+                                                    <Button asChild>
+                                                        <Link href={route('admin.users.edit', user.id)}>Edit</Link>
+                                                    </Button>
+                                                    <DialogTrigger asChild>
+                                                        <Button variant="destructive" onClick={()=>setUserId(user.id)}>Delete</Button>
+                                                    </DialogTrigger>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                         <DialogContent>
                                             <DialogHeader>
                                                 <DialogTitle>Are you absolutely sure?</DialogTitle>
