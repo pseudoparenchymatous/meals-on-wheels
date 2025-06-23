@@ -192,14 +192,6 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 </div>
             </div>
 
-            <Tabs defaultValue="all">
-                <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="all">All Donors</TabsTrigger>
-                    <TabsTrigger value="recent">Recent (30 days)</TabsTrigger>
-                    <TabsTrigger value="recurring">Recurring Donors</TabsTrigger>
-                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                </TabsList>
-
                 <TabsContent value="all">
                     {/* Search and Filters */}
                     <div className="mb-6 flex flex-col sm:flex-row gap-4">
@@ -234,7 +226,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 <SelectItem value="recurring">Recurring</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={handleExport}>
                             <Download className="w-4 h-4 mr-2" />
                             Export
                         </Button>
