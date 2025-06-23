@@ -135,12 +135,6 @@ Route::post('/weekly-plans', function (Request $request) {
     return to_route('admin.planning');
 })->name('weekly-plans.store');
 
-Route::delete('/users/{id}', function ($id) {
-    User::destroy($id);
-
-    return redirect('admin/users');
-});
-
 Route::patch('/members/verify/{member}', function (Member $member) {
     $member->verified = true;
     $member->save();

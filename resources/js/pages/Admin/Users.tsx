@@ -17,7 +17,7 @@ import { set } from 'date-fns';
 
 export default function Users({ users }) {
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState(0);
     const [toVerify, setToVerify] = useState(0);
     const [proofPath, setProofPath] = useState('');
     const [conditionPath, setConditionPath] = useState('');
@@ -74,8 +74,14 @@ export default function Users({ users }) {
                                                     This action cannot be undone. This will permanently delete this user.
                                                 </DialogDescription>
                                             </DialogHeader>
-                                            <Button variant="destructive" asChild>
-                                                <Link href={`/users/${userId}`} method="delete">
+                                            <Button
+                                                asChild
+                                                variant="destructive"
+                                                onClick={() => {
+                                                    setDialogOpen(false);
+                                                }}
+                                            >
+                                                <Link href={route('admin.users.destroy', userId)} method="delete">
                                                     Confirm Delete
                                                 </Link>
                                             </Button>

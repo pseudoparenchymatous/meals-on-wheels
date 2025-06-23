@@ -30,4 +30,10 @@ class UserController extends Controller
 
         return back()->with('message', 'User has been updated');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return back()->with('message', 'User has been deleted');
+    }
 }
