@@ -87,7 +87,7 @@ export function AppHeader({ navItems, breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href={route(route().current())} prefetch className="flex items-center space-x-2">
+                    <Link href={route('dashboard')} prefetch className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 
