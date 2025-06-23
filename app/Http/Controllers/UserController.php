@@ -30,8 +30,17 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         if ($user->userable_type == 'kitchen partner') {
+            $request->validate([
+                'org_name' => 'required|string|max:255',
+            ]);
+
             $user->userable->org_name = $request->org_name;
         } else {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+            ]);
+
             $user->userable->first_name = $request->first_name;
             $user->userable->last_name = $request->last_name;
         }

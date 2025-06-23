@@ -1,6 +1,7 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { toast } from "sonner";
@@ -36,6 +37,7 @@ export default function EditUser({ user }) {
                                 type="text"
                                 value={data.first_name}
                             />
+                            <InputError message={errors.first_name} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="last_name">Last Name</Label>
@@ -45,6 +47,7 @@ export default function EditUser({ user }) {
                                 type="text"
                                 value={data.last_name}
                             />
+                            <InputError message={errors.last_name} />
                         </div>
                     </div>
                     :
@@ -56,6 +59,7 @@ export default function EditUser({ user }) {
                             type="text"
                             value={data.org_name}
                         />
+                        <InputError message={errors.org_name} />
                     </div>
                 }
                 <div className="flex gap-3 justify-end mt-4">
