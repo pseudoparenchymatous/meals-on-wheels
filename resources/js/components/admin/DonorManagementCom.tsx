@@ -247,8 +247,14 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <Dialog>
-                                    {filteredDonors.map(donor => (
+                                {filteredDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                                            No donors found matching your criteria
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    filteredDonors.map(donor => (
                                         <TableRow key={donor.id}>
                                             <TableCell className="font-medium">#{donor.id}</TableCell>
                                             <TableCell>
@@ -277,36 +283,18 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         View
                                                     </Button>
-                                                    <DialogTrigger asChild>
-                                                        <Button 
-                                                            size="sm" 
-                                                            variant="destructive" 
-                                                            onClick={() => setDonorId(donor.id)}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </DialogTrigger>
+                                                    <Button 
+                                                        size="sm" 
+                                                        variant="destructive"
+                                                        onClick={() => handleDeleteClick(donor)}
+                                                    >
+                                                        Delete
+                                                    </Button>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
-                                    ))}
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                            <DialogDescription>
-                                                This action cannot be undone. This will permanently delete this donor record and all associated data.
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <div className="flex gap-2 justify-end">
-                                            <Button variant="outline">Cancel</Button>
-                                            <Button variant="destructive" asChild>
-                                                <Link href={`/donors/${donorId}`} method="delete">
-                                                    Confirm Delete
-                                                </Link>
-                                            </Button>
-                                        </div>
-                                    </DialogContent>
-                                </Dialog>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
