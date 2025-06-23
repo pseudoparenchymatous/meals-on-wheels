@@ -3,23 +3,22 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
+use App\Http\Controllers\MemberDashboardController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\IngredientsController;
 use App\Http\Middleware\CheckMemberVerificationStatus;
 use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\WeeklyPlan;
-use App\Models\Ingredients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\MemberDashboardController;
 
 Route::get('dashboard', function () {
-    if (!auth()->check()) {
+    if (! auth()->check()) {
         return redirect(route('login'));
     }
 
@@ -71,7 +70,7 @@ Route::name('kitchen-partner.')->group(function () {
                 return Inertia::render('KitchenPartner/Dashboard', [
                     'mealAssignments' => MealAssignment::all()->load([
                         'meal',
-                        'rider'
+                        'rider',
                     ]),
                 ]);
             })->name('dashboard');
@@ -117,7 +116,7 @@ Route::middleware('auth:admin')->group(function () {
             Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
-            
+
             Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('admin.ingredients.index');
             Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('admin.ingredients.store');
             Route::put('/meals/ingredients/{id}', [IngredientsController::class, 'update'])->name('admin.ingredients.update');
@@ -130,19 +129,22 @@ Route::middleware('auth:admin')->group(function () {
 
 Route::post('/weekly-plans', function (Request $request) {
     WeeklyPlan::create([
-        'start_date' => $request->startDate
+        'start_date' => $request->startDate,
     ]);
+
     return to_route('admin.planning');
 })->name('weekly-plans.store');
 
 Route::delete('/users/{id}', function ($id) {
     User::destroy($id);
+
     return redirect('admin/users');
 });
 
-Route::patch('/members/verify/{member}', function(Member $member) {
+Route::patch('/members/verify/{member}', function (Member $member) {
     $member->verified = true;
     $member->save();
+
     return to_route('admin.users.index');
 })->name('members.verify');
 
