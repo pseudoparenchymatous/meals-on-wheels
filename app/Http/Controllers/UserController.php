@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
+use App\Models\Caregiver;
+use App\Models\KitchenPartner;
+use App\Models\Rider;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -33,7 +38,19 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $user->delete();
+
+        DB::transaction(function () use (&$user) {
+            $userable = $user->userable;
+
+            match ($user->userable_type) {
+                'caregiver' => Caregiver::destroy($userable->id),
+                'member' => Member::destroy($userable->id),
+                'rider' => Rider::destroy($userable->id),
+                'kitchen partner' => KitchenPartner::destroy($userable->id),
+            }
+            &$user->delete();
+        });
+
         return back()->with('message', 'User has been deleted');
     }
 }
