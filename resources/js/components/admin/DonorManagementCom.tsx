@@ -18,7 +18,9 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [filterStatus, setFilterStatus] = useState('all');
     const [filterType, setFilterType] = useState('all');
     const [dialogOpen, setDialogOpen] = useState(false);
-    
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [activeTab, setActiveTab] = useState('all');
+
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
         const matchesSearch = donor.donor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
