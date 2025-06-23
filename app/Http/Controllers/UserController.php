@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
 use App\Models\Caregiver;
 use App\Models\KitchenPartner;
+use App\Models\Member;
 use App\Models\Rider;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,8 +29,13 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $user->userable->first_name = $request->first_name;
-        $user->userable->last_name = $request->last_name;
+        if ($user->userable_type == 'kitchen partner') {
+            $user->userable->org_name = $request->org_name;
+        } else {
+            $user->userable->first_name = $request->first_name;
+            $user->userable->last_name = $request->last_name;
+        }
+
         $user->userable->save();
 
         return back()->with('message', 'User has been updated');
@@ -48,7 +53,7 @@ class UserController extends Controller
                 'rider' => Rider::destroy($userable->id),
                 'kitchen partner' => KitchenPartner::destroy($userable->id),
             }
-            &$user->delete();
+            & $user->delete();
         });
 
         return back()->with('message', 'User has been deleted');
