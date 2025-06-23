@@ -410,8 +410,11 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         Pause
                                                     </Button>
-
-                                                    <Button size="sm" variant="destructive">
+                                                    <Button 
+                                                        size="sm" 
+                                                        variant="destructive"
+                                                        onClick={() => handleDeleteClick(donor)}
+                                                    >
                                                         Cancel
                                                     </Button>
                                                 </div>
