@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::inertia('map', 'Map');
+
 Route::get('dashboard', function () {
     if (! auth()->check()) {
         return redirect(route('login'));
