@@ -315,38 +315,46 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {recentDonors.map(donor => (
-                                    <TableRow key={donor.id}>
-                                        <TableCell>
-                                            <div>
-                                                <div className="font-medium">{donor.donor_name}</div>
-                                                {donor.is_anonymous && (
-                                                    <div className="text-xs text-gray-500">Anonymous</div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{donor.donor_email}</TableCell>
-                                        <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
-                                        <TableCell>
-                                            {getTypeBadge(donor.donation_type)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(donor.status)}
-                                        </TableCell>
-                                        <TableCell>{formatDate(donor.created_at)}</TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <Button size="sm" variant="outline">
-                                                    <Mail className="w-4 h-4 mr-1" />
-                                                    Thank
-                                                </Button>
-                                                <Button size="sm" variant="outline">
-                                                    View
-                                                </Button>
-                                            </div>
+                                {recentDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                            No recent donations found
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    recentDonors.map(donor => (
+                                        <TableRow key={donor.id}>
+                                            <TableCell>
+                                                <div>
+                                                    <div className="font-medium">{donor.donor_name}</div>
+                                                    {donor.is_anonymous && (
+                                                        <div className="text-xs text-gray-500">Anonymous</div>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{donor.donor_email}</TableCell>
+                                            <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
+                                            <TableCell>
+                                                {getTypeBadge(donor.donation_type)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(donor.status)}
+                                            </TableCell>
+                                            <TableCell>{formatDate(donor.created_at)}</TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" variant="outline">
+                                                        <Mail className="w-4 h-4 mr-1" />
+                                                        Thank
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
