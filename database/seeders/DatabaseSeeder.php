@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             KitchenPartnerSeeder::class,
             MemberSeeder::class,
             RiderSeeder::class,
+            DonationSeeder::class,
         ]);
     }
 }
