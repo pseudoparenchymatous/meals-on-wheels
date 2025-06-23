@@ -58,9 +58,11 @@ function Footer() {
         {/* Donate + Legal */}
         <div className="lg:col-span-1">
           <h3 className="text-lg font-semibold mb-4">Support Us</h3>
-          <button className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-4 py-2 rounded transition">
-            Donate Now
-          </button>
+          <Link href="/donation">
+            <button className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-4 py-2 rounded transition">
+              Donate Now
+            </button>
+          </Link>
           <ul className="mt-6 space-y-2 text-gray-400">
             <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
             <li><a href="#" className="hover:text-white">Terms of Use</a></li>
