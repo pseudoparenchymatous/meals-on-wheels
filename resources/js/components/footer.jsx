@@ -13,7 +13,7 @@ function Footer() {
           <ul className="space-y-2 text-gray-300">
             <li><a href="/" className="hover:text-white">Home</a></li>
             <li><a href="/about" className="hover:text-white">About Us</a></li>
-            <li><a href="#" className="hover:text-white">Donate</a></li>
+            <li><a href="/donation" className="hover:text-white">Donate</a></li>
             <li><a href="#" className="hover:text-white">Volunteer</a></li>
             <li><a href="#" className="hover:text-white">Programs</a></li>
             <li><a href="#" className="hover:text-white">Events</a></li>
