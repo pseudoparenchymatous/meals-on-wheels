@@ -60,16 +60,16 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
 
     const getStatusBadge = (status) => {
         const statusColors = {
-            'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-            'pending': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-            'failed': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-            'cancelled': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+            'completed': 'bg-green-100 text-green-800 border-green-200',
+            'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+            'failed': 'bg-red-100 text-red-800 border-red-200',
+            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200'
         };
         
         return (
-            <Badge className={`${statusColors[status] || statusColors.pending} border-0`}>
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[status] || statusColors.pending}`}>
                 {status.charAt(0).toUpperCase() + status.slice(1)}
-            </Badge>
+            </span>
         );
     };
 
@@ -84,6 +84,52 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 One-time
             </Badge>
         );
+    };
+
+    const handleDeleteClick = (donor) => {
+        setSelectedDonor(donor);
+        setDialogOpen(true);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (selectedDonor) {
+            setIsDeleting(true);
+            router.delete(`/admin/donors/${selectedDonor.id}`, {
+                onSuccess: () => {
+                    setDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsDeleting(false);
+                },
+                onError: () => {
+                    setIsDeleting(false);
+                }
+            });
+        }
+    };
+
+    const handleExport = () => {
+        // Convert donors data to CSV
+        const csvContent = [
+            ['ID', 'Name', 'Email', 'Amount', 'Type', 'Status', 'Date', 'Anonymous'].join(','),
+            ...filteredDonors.map(donor => [
+                donor.id,
+                `"${donor.donor_name}"`,
+                donor.donor_email,
+                donor.amount,
+                donor.donation_type,
+                donor.status,
+                formatDate(donor.created_at),
+                donor.is_anonymous ? 'Yes' : 'No'
+            ].join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `donors-export-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
     };
 
     return (
