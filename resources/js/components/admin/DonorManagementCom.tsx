@@ -410,8 +410,11 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         Pause
                                                     </Button>
-                                                    <Button 
-                                                        size="sm" 
+                                                    <Button size="sm" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                    <Button
+                                                        size="sm"
                                                         variant="destructive"
                                                         onClick={() => handleDeleteClick(donor)}
                                                     >
