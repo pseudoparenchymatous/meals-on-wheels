@@ -147,7 +147,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Donors</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{donors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total_donors || donors.length}</p>
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Raised</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                                    {formatCurrency(donors.reduce((sum, donor) => sum + parseFloat(donor.amount || 0), 0))}
+                                    {formatCurrency(stats.total_amount || donors.reduce((sum, donor) => sum + parseFloat(donor.amount || 0), 0))}
                                 </p>
                             </div>
                         </div>
@@ -173,7 +173,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Recurring Donors</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{recurringDonors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.recurring_donors || recurringDonors.length}</p>
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">This Month</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{recentDonors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.recent_donors || recentDonors.length}</p>
                             </div>
                         </div>
                     </div>
