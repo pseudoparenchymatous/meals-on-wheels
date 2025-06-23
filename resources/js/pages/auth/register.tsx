@@ -224,8 +224,6 @@ export default function Register() {
                         </div>
                         )}
 
-                        {data.user_type === 'volunteer' && <VolunteerService data={data} setData={setData} errors={errors} />}
-
                         {/* Email */}
                         <div className="grid gap-2">
                             <Label htmlFor="email">
