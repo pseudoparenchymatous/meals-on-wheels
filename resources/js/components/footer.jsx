@@ -1,5 +1,6 @@
 // src/components/Footer.jsx
 import React from 'react';
+import { Link } from '@inertiajs/react';
 
 function Footer() {
   return (
