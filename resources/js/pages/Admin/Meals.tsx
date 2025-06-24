@@ -31,7 +31,7 @@ export default function MealAdminDashboard() {
             <Head title="Meals" />
             <div>
                 <div className="fg-foreground text-2xl p-10 m-1">
-                    <h1 className="text-3xl font-bold pb-10">Add New Menu Dashboard</h1>
+                    <h1 className="text-3xl font-bold pb-10">Melas Dashboard Control</h1>
                 </div>
                 <Meallist meals={meals} ingredients={ingredients}/>
             </div>

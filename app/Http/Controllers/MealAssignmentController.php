@@ -8,6 +8,7 @@ use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\Rider;
 use App\Models\WeeklyPlan;
+use App\Models\Ingredients;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,9 +19,10 @@ class MealAssignmentController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/MealAssignments', [
+         return Inertia::render('Admin/MealAssignments', [
             'mealAssignments' => MealAssignment::all()->load([
                 'kitchenPartner',
+                'meal.ingredients',
                 'meal',
                 'member',
                 'rider',

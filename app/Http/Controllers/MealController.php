@@ -23,7 +23,7 @@ class MealController extends Controller
         });
 
         
-        $ingredients = Ingredients::all()->map(function ($ing) {
+        $ingredients = Ingredients::with('meal')->get()->map(function ($ing) {
         return [
             'id' => $ing->id,
             'ing_name' => $ing->ing_name,
@@ -31,6 +31,7 @@ class MealController extends Controller
             'stocks' => $ing->stocks,
             'date_arrive' => $ing->date_arrive,
             'expiration_date' => $ing->expiration_date,
+            'meal_name'=> $ing->meal ? $ing->meal->name : 'N/A',
             ];
         });
         return Inertia::render('Admin/Meals', [
@@ -56,13 +57,28 @@ class MealController extends Controller
             $path = $request->file('image')->store('meals', 'public');
         }
 
-        Meal::create([
+        $meal = Meal::create([
             'name' => $validated['name'],
             'meal_tag' => $validated['meal_tag'],
             'prepared_by' => $validated['prepared_by'],
             'preparation_time' => $validated['preparation_time'],
             'image_path' => $path,
         ]);
+
+        if ($request->has('ingredients')) {
+
+            $ingredients = json_decode($request->ingredients, true);
+
+            foreach ($ingredients as $ing) {
+                $meal->ingredients()-> create([
+                    'ing_name' => $ing['ing_name'],
+                    'ing_type' => $ing['ing_type'],
+                    'stocks' => $ing['stocks'],
+                    'date_arrive' => $ing['date_arrive'],
+                    'expiration_date' => $ing['expiration_date'],
+                ]);
+            }
+        }
 
         return redirect()->back()->with('success', 'Meal added!');
     }

@@ -73,6 +73,7 @@ Route::name('kitchen-partner.')->group(function () {
                     'mealAssignments' => MealAssignment::all()->load([
                         'meal',
                         'rider',
+                        'meal.ingredients',
                     ]),
                 ]);
             })->name('dashboard');
@@ -83,6 +84,9 @@ Route::name('kitchen-partner.')->group(function () {
 
                 return redirect(route('kitchen-partner.dashboard'));
             })->name('meal-assignments.update');
+
+            Route::post('meals', [MealController::class, 'store'])->name('meals.store');
+
         });
     });
 });
@@ -112,7 +116,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('planning');
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
-            Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
+            
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 
