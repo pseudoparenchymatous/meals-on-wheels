@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('meal_tag');
-            $table->string('prepared_by');
             $table->string('preparation_time');
             $table->string('image_path')->nullable();
+            $table->foreignId('kitchen_partner_id');
             $table->timestamps();
         });
     }
