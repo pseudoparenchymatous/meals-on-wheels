@@ -50,10 +50,6 @@ class Donation extends Model
             $date = $this->payment_date ? $this->payment_date->copy() : now();
             
             switch ($this->frequency) {
-                // CORRECTED: Added 'weekly' case
-                case 'weekly':
-                    $date->addWeek();
-                    break;
                 case 'monthly':
                     $date->addMonth();
                     break;
