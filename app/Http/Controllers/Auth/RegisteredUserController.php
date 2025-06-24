@@ -77,8 +77,8 @@ class RegisteredUserController extends Controller
     {
         if ($request->user_type == 'caregiver') {
             Validator::make($request->all(), [
-                'member.first_name' => 'required|string|max:255|exists:users,first_name',
-                'member.last_name' => 'required|string|max:255|exists:users,last_name',
+                'member.first_name' => 'required|string|max:255|exists:members,first_name',
+                'member.last_name' => 'required|string|max:255|exists:members,last_name',
             ], [
                 'member.first_name.exists' => 'Could not find this name as a registerd member',
                 'member.last_name.exists' => 'Could not find this name as a registerd member',
@@ -115,9 +115,10 @@ class RegisteredUserController extends Controller
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
-                'member_id' => User::firstWhere('first_name', $request->member['first_name'])
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'member_id' => Member::firstWhere('first_name', $request->member['first_name'])
                     ->firstWhere('last_name', $request->member['last_name'])
-                    ->userable
                     ->id,
             ]),
             'kitchen partner' => KitchenPartner::create([
