@@ -22,7 +22,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [activeTab, setActiveTab] = useState('all');
 
     // State for cancel and edit dialogs
-
+    const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
