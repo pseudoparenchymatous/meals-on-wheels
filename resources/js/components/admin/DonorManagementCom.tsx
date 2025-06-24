@@ -141,7 +141,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
 
     const handleCancelConfirm = async () => {
         if (!selectedDonor) return;
-        
+
         setIsCancelling(true);
         try {
             // useng inertia router for the cancel request
@@ -159,7 +159,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             console.error('Error cancelling donor:', error);
             setIsCancelling(false);
         }
-    }
+    };
 
     const handleExport = () => {
         // Convert donors data to CSV
