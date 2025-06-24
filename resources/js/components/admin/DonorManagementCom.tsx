@@ -668,7 +668,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </div>
                 </DialogContent>
             </Dialog>
-
+            
             // Edit Recurring Donation Dialog
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
             <DialogContent className="w-full max-w-lg sm:rounded-lg">
@@ -736,8 +736,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                         <SelectValue placeholder="Select frequency" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="weekly">Weekly</SelectItem>
                         <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="quarterly">Quarterly</SelectItem>
                         <SelectItem value="yearly">Yearly</SelectItem>
                     </SelectContent>
                     </Select>
