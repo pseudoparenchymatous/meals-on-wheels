@@ -30,7 +30,7 @@ export default function MealAssignments({ mealAssignments }) {
                     </TableHeader>
                     <TableBody>
                         {mealAssignments.map(assignment => (
-                            <TableRow>
+                            <TableRow id={assignment.id} key={assignment.id}>
                                 <TableCell>{assignment.id}</TableCell>
                                 <TableCell>{assignment.member.first_name} {assignment.member.last_name}</TableCell>
                                 <TableCell>{assignment.weekly_plan_id}</TableCell>
