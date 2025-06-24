@@ -67,9 +67,17 @@ class RiderDeliveryTrackerController extends Controller
         ]);
 
         $delivery = MealAssignment::findOrFail($id);
+
+        // 🚫 Prevent updating if already delivered
+        if ($delivery->status === 'delivered') {
+            return redirect()->route('rider.delivery.tracker')
+                ->with('error', 'This delivery has already been marked as delivered and cannot be updated.');
+        }
+
         $delivery->status = $request->status;
         $delivery->save();
 
-        return redirect()->route('rider.delivery.tracker')->with('success', 'Delivery status updated.');
+        return redirect()->route('rider.delivery.tracker')
+            ->with('success', 'Delivery status updated successfully.');
     }
 }
