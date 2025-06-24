@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
@@ -29,6 +31,7 @@ Route::get('dashboard', function () {
         'member' => redirect(route('member.dashboard')),
         'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
         'rider' => redirect(route('rider.dashboard')),
+        'caregiver' => redirect(route('caregiver.dashboard')),
         default => redirect(route('home'))
     };
 })->name('dashboard');
@@ -63,6 +66,11 @@ Route::name('member.')->group(function () {
         });
 
     });
+});
+
+Route::name('caregiver.')->prefix('caregiver')->middleware(['auth:caregiver'])->group(function () {
+    Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
 Route::name('kitchen-partner.')->group(function () {
