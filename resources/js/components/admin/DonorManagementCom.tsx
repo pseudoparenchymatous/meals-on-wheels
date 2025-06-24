@@ -23,7 +23,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
 
     // State for cancel and edit dialogs
     const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
-
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
         const matchesSearch = donor.donor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
