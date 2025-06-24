@@ -427,7 +427,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                     <TableHead>Type</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Date</TableHead>
-                                    <TableHead>Actions</TableHead>
+                                    {/*<TableHead>Actions</TableHead>*/}
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
