@@ -126,6 +126,16 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         setCancelDialogOpen(true);
     };
 
+        const handleEditClick = (donor) => {
+        setSelectedDonor(donor);
+        setEditForm({
+            donor_name: donor.donor_name,
+            donor_email: donor.donor_email,
+            amount: donor.amount,
+            frequency: donor.frequency || 'monthly',
+            next_payment_date: donor.next_payment_date || ''
+        });
+
     const handleExport = () => {
         // Convert donors data to CSV
         const csvContent = [
