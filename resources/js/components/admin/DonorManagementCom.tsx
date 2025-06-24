@@ -1,9 +1,15 @@
 import { Link } from '@inertiajs/react';
 import { useState } from 'react';
-import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, AlertTriangle } from 'lucide-react';
+import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, AlertTriangle, Edit, X } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 // Import shadcn/ui components
+import { Calendar as CalendarPicker } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import { CalendarIcon } from "lucide-react"
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +26,19 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [activeTab, setActiveTab] = useState('all');
+    
+    // New state for cancel and edit dialogs
+    const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [isCanceling, setIsCanceling] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editForm, setEditForm] = useState({
+        donor_name: '',
+        donor_email: '',
+        amount: '',
+        frequency: 'monthly',
+        next_payment_date: ''
+    });
 
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
@@ -63,7 +82,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             'completed': 'bg-green-100 text-green-800 border-green-200',
             'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
             'failed': 'bg-red-100 text-red-800 border-red-200',
-            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200'
+            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200',
+            'active': 'bg-green-100 text-green-800 border-green-200'
         };
         
         return (
@@ -106,6 +126,92 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             });
         }
     };
+
+    // New handlers for cancel and edit
+    const handleCancelClick = (donor) => {
+        setSelectedDonor(donor);
+        setCancelDialogOpen(true);
+    };
+
+    const handleEditClick = (donor) => {
+        setSelectedDonor(donor);
+        setEditForm({
+            donor_name: donor.donor_name || '',
+            donor_email: donor.donor_email || '',
+            amount: donor.amount || '',
+            frequency: donor.frequency || 'monthly',
+            next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_date).toISOString().split('T')[0] : ''
+        });
+        setEditDialogOpen(true);
+    };
+
+    const handleCancelConfirm = async () => {
+        if (!selectedDonor) return;
+        
+        setIsCanceling(true);
+        try {
+            // Using Inertia router for the cancel request
+            router.put(`/admin/donors/${selectedDonor.id}/cancel`, {}, {
+                onSuccess: () => {
+                    setCancelDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsCanceling(false);
+                },
+                onError: () => {
+                    setIsCanceling(false);
+                }
+            });
+        } catch (error) {
+            console.error('Error cancelling recurring donation:', error);
+            setIsCanceling(false);
+        }
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        if (!selectedDonor) return;
+        
+        setIsEditing(true);
+        try {
+            // Using Inertia router for the update request
+            router.put(`/admin/donors/${selectedDonor.id}`, editForm, {
+                onSuccess: () => {
+                    setEditDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsEditing(false);
+                },
+                onError: () => {
+                    setIsEditing(false);
+                }
+            });
+        } catch (error) {
+            console.error('Error updating recurring donation:', error);
+            setIsEditing(false);
+        }
+    };
+
+    const renderRecurringActions = (donor) => (
+        <div className="flex gap-2">
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={() => handleEditClick(donor)}
+                className="flex items-center gap-1"
+            >
+                <Edit className="w-4 h-4" />
+                Edit
+            </Button>
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={() => handleCancelClick(donor)}
+                className="flex items-center gap-1 text-red-600 hover:text-red-700"
+            >
+                <X className="w-4 h-4" />
+                Cancel
+            </Button>
+        </div>
+    );
 
     const handleExport = () => {
         // Convert donors data to CSV
@@ -414,17 +520,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                 {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
                                             </TableCell>
                                             <TableCell>
-                                                <div className="flex gap-2">
-                                                    <Button size="sm" variant="outline">
-                                                        Pause
-                                                    </Button>
-                                                    <Button size="sm" variant="outline">
-                                                        Edit
-                                                    </Button>
-                                                    <Button size="sm" variant="destructive">
-                                                        Cancel
-                                                    </Button>
-                                                </div>
+                                                {renderRecurringActions(donor)}
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -528,6 +624,173 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                         </Button>
                     </div>
                 </DialogContent>
+            </Dialog>
+
+            {/* Cancel Subscription Confirmation Dialog */}
+            <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <X className="w-5 h-5 text-red-500" />
+                            Cancel Recurring Donation
+                        </DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to cancel this recurring donation? The donor will no longer be charged automatically.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {selectedDonor && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+                            <div className="space-y-2">
+                                <div><strong>Donor:</strong> {selectedDonor.donor_name}</div>
+                                <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                                <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                                <div><strong>Frequency:</strong> {selectedDonor.frequency || 'Monthly'}</div>
+                                <div><strong>Status:</strong> {selectedDonor.status}</div>
+                                <div><strong>Next Payment:</strong> {selectedDonor.next_payment_date ? formatDate(selectedDonor.next_payment_date) : 'N/A'}</div>
+                            </div>
+                        </div>
+                    )}
+                    <div className="flex justify-end gap-3">
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setCancelDialogOpen(false)}
+                            disabled={isCanceling}
+                        >
+                            Keep Active
+                        </Button>
+                        <Button 
+                            variant="destructive" 
+                            onClick={handleCancelConfirm}
+                            disabled={isCanceling}
+                        >
+                            {isCanceling ? 'Canceling...' : 'Cancel Subscription'}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+            
+            // Edit Recurring Donation Dialog
+            <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+            <DialogContent className="w-full max-w-lg sm:rounded-lg">
+                <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+                    <Edit className="w-5 h-5 text-blue-500" />
+                    Edit Recurring Donation
+                </DialogTitle>
+                <DialogDescription>
+                    Update the donor’s recurring donation information below.
+                </DialogDescription>
+                </DialogHeader>
+
+                {selectedDonor && (
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4 space-y-2 text-sm">
+                    <div><strong>Current Donor:</strong> {selectedDonor.donor_name}</div>
+                    <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                    <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                    <div><strong>Frequency:</strong> {selectedDonor.frequency || 'Monthly'}</div>
+                    <div><strong>Status:</strong> {selectedDonor.status}</div>
+                    <div><strong>Next Payment:</strong> {selectedDonor.next_payment_date ? formatDate(selectedDonor.next_payment_date) : 'N/A'}</div>
+                </div>
+                )}
+
+                <form onSubmit={handleEditSubmit} className="space-y-4">
+                <div>
+                    <label className="block text-sm font-medium mb-1">Donor Name</label>
+                    <Input
+                    type="text"
+                    value={editForm.donor_name}
+                    onChange={(e) => setEditForm({ ...editForm, donor_name: e.target.value })}
+                    required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Email</label>
+                    <Input
+                    type="email"
+                    value={editForm.donor_email}
+                    onChange={(e) => setEditForm({ ...editForm, donor_email: e.target.value })}
+                    required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Amount (USD)</label>
+                    <Input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={editForm.amount}
+                    onChange={(e) => setEditForm({ ...editForm, amount: e.target.value })}
+                    required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Frequency</label>
+                    <Select
+                    value={editForm.frequency}
+                    onValueChange={(value) => setEditForm({ ...editForm, frequency: value })}
+                    >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select frequency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="quarterly">Quarterly</SelectItem>
+                        <SelectItem value="yearly">Yearly</SelectItem>
+                    </SelectContent>
+                    </Select>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                    <label className="block text-sm font-medium">Next Payment Date</label>
+                    <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                        variant="outline"
+                        className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !editForm.next_payment_date && "text-muted-foreground"
+                        )}
+                        >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {editForm.next_payment_date
+                            ? format(editForm.next_payment_date, "PPP")
+                            : "Pick a date"}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <CalendarPicker
+                        mode="single"
+                        selected={editForm.next_payment_date}
+                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date })}
+                        initialFocus
+                        />
+                    </PopoverContent>
+                    </Popover>
+                </div>
+
+                <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
+                    <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setEditDialogOpen(false)}
+                    disabled={isEditing}
+                    className="w-full sm:w-auto"
+                    >
+                    Cancel
+                    </Button>
+                    <Button
+                    type="submit"
+                    disabled={isEditing}
+                    className="w-full sm:w-auto"
+                    >
+                    {isEditing ? "Saving..." : "Save Changes"}
+                    </Button>
+                </div>
+                </form>
+            </DialogContent>
             </Dialog>
         </div>
     );

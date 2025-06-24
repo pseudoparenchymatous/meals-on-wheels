@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
@@ -29,6 +31,7 @@ Route::get('dashboard', function () {
         'member' => redirect(route('member.dashboard')),
         'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
         'rider' => redirect(route('rider.dashboard')),
+        'caregiver' => redirect(route('caregiver.dashboard')),
         default => redirect(route('home'))
     };
 })->name('dashboard');
@@ -63,6 +66,11 @@ Route::name('member.')->group(function () {
         });
 
     });
+});
+
+Route::name('caregiver.')->prefix('caregiver')->middleware(['auth:caregiver'])->group(function () {
+    Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
 Route::name('kitchen-partner.')->group(function () {
@@ -103,8 +111,10 @@ Route::middleware('auth:admin')->group(function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
 
+            // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
-
+            Route::put('/donors/{donation}', [DonationController::class, 'update'])->name('donors.update');
+            Route::put('/donors/{donation}/cancel', [DonationController::class, 'cancel'])->name('donors.cancel'); // Changed to PUT for consistency
             Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
 
             Route::resource('users', UserController::class);

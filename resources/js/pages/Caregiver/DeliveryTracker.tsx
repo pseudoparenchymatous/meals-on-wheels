@@ -1,10 +1,10 @@
-import RiderLayout from '@/layouts/RiderLayout';
+import CaregiverLayout from '@/layouts/CaregiverLayout';
 import { Head, usePage } from '@inertiajs/react';
-import { NavItem } from '@/types';
+import { LayoutGrid, Truck } from 'lucide-react';
 
 const navItems = [
-  { name: 'Dashboard', href: '/rider/dashboard' },
-  { name: 'Delivery Tracker', href: '/rider/delivery-tracker' },
+  { title: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
+  { title: 'Delivery Tracker', href: '/delivery-tracker', icon: Truck },
 ];
 
 const statusColor = {
@@ -19,10 +19,10 @@ export default function DeliveryTracker() {
   const { deliveries } = usePage().props;
 
   return (
-    <RiderLayout navItems={navItems}>
+    <CaregiverLayout navItems={navItems}>
       <Head title="Meal Delivery Tracker" />
       <div className="p-4 space-y-4">
-        <h1 className="text-xl font-semibold">Your Assigned Meal Deliveries</h1>
+        <h1 className="text-xl font-semibold">Your Meal Deliveries</h1>
         {deliveries.length === 0 ? (
           <p>No deliveries found.</p>
         ) : (
@@ -36,12 +36,12 @@ export default function DeliveryTracker() {
                 <div>Day: {delivery.day}</div>
                 <div>Week Plan: {delivery.week}</div>
                 <div>Kitchen Partner: {delivery.kitchen_partner}</div>
-                <div>To Member: {delivery.member}</div>
+                <div>Rider: {delivery.rider}</div>
               </li>
             ))}
           </ul>
         )}
       </div>
-    </RiderLayout>
+    </CaregiverLayout>
   );
 }
