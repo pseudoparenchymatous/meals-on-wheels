@@ -51,12 +51,10 @@ class DonationController extends Controller
         ]);
     }
 
-    // Add this method for donor management
     public function manage()
     {
         $donations = Donation::orderBy('created_at', 'desc')->get();
         
-        // Calculate stats
         $stats = [
             'total_donors' => $donations->count(),
             'total_amount' => $donations->sum('amount'),
@@ -70,12 +68,31 @@ class DonationController extends Controller
         ]);
     }
 
-    // Add delete method
+    public function update(Request $request, Donation $donation)
+    {
+        $validated = $request->validate([
+            'donor_name' => 'required|string|max:255',
+            'donor_email' => 'required|email|max:255',
+            'amount' => 'required|numeric|min:1|max:99999999.99',
+            'frequency' => 'nullable|in:weekly,monthly,quarterly,yearly',
+            'next_payment_date' => 'nullable|date',
+        ]);
+
+        $donation->update($validated);
+
+        return redirect()->back()->with('success', 'Recurring donation updated successfully!');
+    }
+
     public function destroy(Donation $donation)
     {
         $donation->delete();
-        
         return redirect()->back()->with('success', 'Donor record deleted successfully.');
+    }
+
+    public function cancel(Donation $donation)
+    {
+        $donation->update(['status' => 'cancelled']);
+        return redirect()->back()->with('success', 'Recurring donation cancelled successfully.');
     }
 
     private function processPayment(Donation $donation)
