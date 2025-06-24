@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             MemberSeeder::class,
             RiderSeeder::class,
             DonationSeeder::class,
+            MealSeeder::class,
         ]);
     }
 }
