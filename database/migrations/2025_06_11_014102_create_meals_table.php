@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('meal_tag');
+            $table->string('meal_tag')->default('Regular Meal');
             $table->string('preparation_time');
             $table->string('image_path')->nullable();
             $table->foreignId('kitchen_partner_id');
