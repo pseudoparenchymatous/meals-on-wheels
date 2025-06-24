@@ -165,6 +165,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         if (!selectedDonor) return;
+        
         setIsEditing(true);
         try {
             // use the inertia router for the edit request
@@ -183,6 +184,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             setIsEditing(false);
         }
     };
+
     const handleExport = () => {
         // Convert donors data to CSV
         const csvContent = [
