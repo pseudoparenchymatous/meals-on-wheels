@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('caregivers', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->foreignId('member_id')->constrained();
             $table->timestamps();
         });

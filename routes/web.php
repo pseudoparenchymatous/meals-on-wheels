@@ -68,7 +68,7 @@ Route::name('member.')->group(function () {
     });
 });
 
-Route::name('caregiver.')->prefix('caregiver')->middleware(['auth:caregiver'])->group(function () {
+Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });

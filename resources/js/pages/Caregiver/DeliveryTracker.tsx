@@ -15,14 +15,13 @@ const statusColor = {
   delivered: 'text-green-600',
 };
 
-export default function DeliveryTracker() {
-  const { deliveries } = usePage().props;
+export default function DeliveryTracker({ deliveries }) {
 
   return (
     <CaregiverLayout navItems={navItems}>
       <Head title="Meal Delivery Tracker" />
       <div className="p-4 space-y-4">
-        <h1 className="text-xl font-semibold">Your Meal Deliveries</h1>
+        <h1 className="text-xl font-semibold">Meal deliveries for your assigned member</h1>
         {deliveries.length === 0 ? (
           <p>No deliveries found.</p>
         ) : (
@@ -34,9 +33,9 @@ export default function DeliveryTracker() {
                   Status: <strong>{delivery.status.toUpperCase()}</strong>
                 </div>
                 <div>Day: {delivery.day}</div>
-                <div>Week Plan: {delivery.week}</div>
-                <div>Kitchen Partner: {delivery.kitchen_partner}</div>
-                <div>Rider: {delivery.rider}</div>
+                <div>Week: {delivery.weekly_plan.id}</div>
+                <div>Kitchen Partner: {delivery.kitchen_partner.org_name}</div>
+                <div>Rider: {delivery.rider.first_name}</div>
               </li>
             ))}
           </ul>
