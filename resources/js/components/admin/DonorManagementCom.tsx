@@ -139,6 +139,27 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         setEditDialogOpen(true);
     };
 
+    const handleCancelConfirm = async () => {
+        if (!selectedDonor) return;
+        setIsCancelling(true);
+        try {
+            // useng inertia router for the cancel request
+            router.put(`/admin/donors/${selectedDonor.id}/cancel`, {}, {
+                onSuccess: () => {
+                    setCancelDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsCancelling(false);
+                },
+                onError: () => {
+                    setIsCancelling(false);
+                }
+            });
+        } catch (error) {
+            console.error('Error cancelling donor:', error);
+            setIsCancelling(false);
+        }
+    }
+
     const handleExport = () => {
         // Convert donors data to CSV
         const csvContent = [
