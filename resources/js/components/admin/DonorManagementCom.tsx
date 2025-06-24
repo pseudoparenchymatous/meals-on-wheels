@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { set } from 'date-fns';
+import { ca } from 'date-fns/locale';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [selectedDonor, setSelectedDonor] = useState(null);
@@ -161,6 +162,27 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         }
     };
 
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        if (!selectedDonor) return;
+        setIsEditing(true);
+        try {
+            // use the inertia router for the edit request
+            router.put(`/admin/donors/${selectedDonor.id}`, editForm{
+                onSuccess: () => {
+                    setEditDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsEditing(false);
+                },
+                onError: () => {
+                    setIsEditing(false);
+                }
+            });
+        } catch (error) {
+            console.error('Error editing donor:', error);
+            setIsEditing(false);
+        }
+    };
     const handleExport = () => {
         // Convert donors data to CSV
         const csvContent = [
