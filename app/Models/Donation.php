@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Donation extends Model
 {
-
     use HasFactory;
 
     protected $fillable = [
@@ -25,12 +24,31 @@ class Donation extends Model
         'payment_metadata',
         'payment_date',
         'next_payment_date',
+        'cancelled_at',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'payment_details' => 'array',
+        'payment_metadata' => 'array',
+        'payment_date' => 'datetime',
+        'next_payment_date' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'is_anonymous' => 'boolean',
+    ];
+
+    /**
+     * Set the next payment date for a recurring donation.
+     */
     public function setNextPaymentDate()
     {
         if ($this->donation_type === 'recurring' && $this->frequency) {
-            $date = now();
+            $date = $this->payment_date ? $this->payment_date->copy() : now();
+            
             switch ($this->frequency) {
                 case 'monthly':
                     $date->addMonth();
@@ -47,6 +65,9 @@ class Donation extends Model
         }
     }
 
+    /**
+     * Mark the donation as completed.
+     */
     public function markAsCompleted()
     {
         $this->status = 'completed';
