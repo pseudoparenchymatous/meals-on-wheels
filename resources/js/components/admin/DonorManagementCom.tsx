@@ -459,6 +459,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                             <TableCell>{formatDate(donor.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2">
+                                                    {/* Email and View buttons
                                                     <Button size="sm" variant="outline">
                                                         <Mail className="w-4 h-4 mr-1" />
                                                         Thank
@@ -466,6 +467,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         View
                                                     </Button>
+                                                    */}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
