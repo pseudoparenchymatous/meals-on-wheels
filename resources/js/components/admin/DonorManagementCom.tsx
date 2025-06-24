@@ -20,18 +20,18 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [activeTab, setActiveTab] = useState('all');
-
-    // State for cancel and edit dialogs
+    
+    // New state for cancel and edit dialogs
     const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
-    const [isCancelling, setIsCancelling] = useState(false);
+    const [isCanceling, setIsCanceling] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [editForm, setEditForm] = useState({        
+    const [editForm, setEditForm] = useState({
         donor_name: '',
         donor_email: '',
         amount: '',
         frequency: 'monthly',
-        next_payment_date: '',
+        next_payment_date: ''
     });
 
     // Filter donors based on search and filters
@@ -76,7 +76,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             'completed': 'bg-green-100 text-green-800 border-green-200',
             'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
             'failed': 'bg-red-100 text-red-800 border-red-200',
-            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200'
+            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200',
+            'active': 'bg-green-100 text-green-800 border-green-200'
         };
         
         return (
@@ -120,7 +121,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         }
     };
 
-    // handler for cancel adn edit dialogs
+    // New handlers for cancel and edit
     const handleCancelClick = (donor) => {
         setSelectedDonor(donor);
         setCancelDialogOpen(true);
@@ -129,45 +130,45 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const handleEditClick = (donor) => {
         setSelectedDonor(donor);
         setEditForm({
-            donor_name: donor.donor_name,
-            donor_email: donor.donor_email,
-            amount: donor.amount,
+            donor_name: donor.donor_name || '',
+            donor_email: donor.donor_email || '',
+            amount: donor.amount || '',
             frequency: donor.frequency || 'monthly',
-            next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_data).toISOString().split('T')[0] : ''
+            next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_date).toISOString().split('T')[0] : ''
         });
         setEditDialogOpen(true);
     };
 
     const handleCancelConfirm = async () => {
         if (!selectedDonor) return;
-
-        setIsCancelling(true);
+        
+        setIsCanceling(true);
         try {
-            // useng inertia router for the cancel request
+            // Using Inertia router for the cancel request
             router.put(`/admin/donors/${selectedDonor.id}/cancel`, {}, {
                 onSuccess: () => {
                     setCancelDialogOpen(false);
                     setSelectedDonor(null);
-                    setIsCancelling(false);
+                    setIsCanceling(false);
                 },
                 onError: () => {
-                    setIsCancelling(false);
+                    setIsCanceling(false);
                 }
             });
         } catch (error) {
-            console.error('Error cancelling donor:', error);
-            setIsCancelling(false);
+            console.error('Error cancelling recurring donation:', error);
+            setIsCanceling(false);
         }
     };
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         if (!selectedDonor) return;
-
+        
         setIsEditing(true);
         try {
-            // use the inertia router for the edit request
-            router.put(`/admin/donors/${selectedDonor.id}`, editForm{
+            // Using Inertia router for the update request
+            router.put(`/admin/donors/${selectedDonor.id}`, editForm, {
                 onSuccess: () => {
                     setEditDialogOpen(false);
                     setSelectedDonor(null);
@@ -178,7 +179,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 }
             });
         } catch (error) {
-            console.error('Error editing donor:', error);
+            console.error('Error updating recurring donation:', error);
             setIsEditing(false);
         }
     };
