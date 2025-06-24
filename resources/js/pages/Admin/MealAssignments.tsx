@@ -23,6 +23,7 @@ export default function MealAssignments({ mealAssignments }) {
                             <TableHead>Day</TableHead>
                             <TableHead>Meal</TableHead>
                             <TableHead>Kitchen Partner</TableHead>
+                            <TableHead>Temperature</TableHead>
                             <TableHead>Rider</TableHead>
                             <TableHead>Status</TableHead>
                         </TableRow>
@@ -36,6 +37,7 @@ export default function MealAssignments({ mealAssignments }) {
                                 <TableCell>{assignment.day}</TableCell>
                                 <TableCell>{assignment.meal?.name}</TableCell>
                                 <TableCell>{assignment.kitchen_partner.org_name}</TableCell>
+                                <TableCell>{assignment.temperature}</TableCell>
                                 <TableCell>{assignment.rider.first_name} {assignment.rider.first_name}</TableCell>
                                 <TableCell>{assignment.status}</TableCell>
                             </TableRow>
