@@ -8,6 +8,9 @@ use Inertia\Inertia;
 
 class DonationController extends Controller
 {
+    /**
+     * Store a newly created donation in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -16,7 +19,7 @@ class DonationController extends Controller
             'amount' => 'required|numeric|min:1|max:99999999.99',
             'currency' => 'string|size:3',
             'donation_type' => 'required|in:one_time,recurring',
-            'frequency' => 'nullable|required_if:donation_type,recurring|in:monthly,quarterly,yearly',
+            'frequency' => 'nullable|required_if:donation_type,recurring|in:weekly,monthly,quarterly,yearly',
             'donor_message' => 'nullable|string|max:1000',
             'is_anonymous' => 'boolean',
             'payment_method' => 'required|in:stripe,paypal',
@@ -29,13 +32,21 @@ class DonationController extends Controller
 
         $donation = Donation::create($validated);
 
-        if ($donation->donation_type === 'recurring') {
-            $donation->setNextPaymentDate();
+        // Process the payment (placeholder for real payment gateway integration)
+        $paymentResult = $this->processPayment($donation);
+
+        if ($paymentResult['success']) {
+            if ($donation->donation_type === 'recurring') {
+                $donation->setNextPaymentDate();
+            }
         }
 
         return back()->with('success', 'Donation submitted successfully!');
     }
 
+    /**
+     * Display a listing of the donations.
+     */
     public function index()
     {
         $donations = Donation::latest()->paginate(10);
@@ -44,6 +55,9 @@ class DonationController extends Controller
         ]);
     }
 
+    /**
+     * Display the specified donation.
+     */
     public function show(Donation $donation)
     {
         return Inertia::render('Donations/Show', [
@@ -51,16 +65,17 @@ class DonationController extends Controller
         ]);
     }
 
-    // Add this method for donor management
+    /**
+     * Show the donor management dashboard.
+     */
     public function manage()
     {
         $donations = Donation::orderBy('created_at', 'desc')->get();
         
-        // Calculate stats
         $stats = [
             'total_donors' => $donations->count(),
             'total_amount' => $donations->sum('amount'),
-            'recurring_donors' => $donations->where('donation_type', 'recurring')->count(),
+            'recurring_donors' => $donations->where('donation_type', 'recurring')->where('status', 'active')->count(),
             'recent_donors' => $donations->where('created_at', '>=', now()->subDays(30))->count(),
         ];
 
@@ -70,17 +85,64 @@ class DonationController extends Controller
         ]);
     }
 
-    // Add delete method
+    /**
+     * Update the specified donation in storage.
+     */
+    public function update(Request $request, Donation $donation)
+    {
+        $validated = $request->validate([
+            'donor_name' => 'sometimes|required|string|max:255',
+            'donor_email' => 'sometimes|required|email|max:255',
+            'amount' => 'sometimes|required|numeric|min:1|max:99999999.99',
+            'frequency' => 'nullable|in:weekly,monthly,quarterly,yearly',
+            'next_payment_date' => 'nullable|date',
+        ]);
+
+        $donation->update($validated);
+
+        return redirect()->back()->with('success', 'Recurring donation updated successfully!');
+    }
+
+    /**
+     * Remove the specified donation from storage.
+     */
     public function destroy(Donation $donation)
     {
         $donation->delete();
-        
         return redirect()->back()->with('success', 'Donor record deleted successfully.');
     }
 
+    /**
+     * Cancel a recurring donation.
+     */
+    public function cancel(Donation $donation)
+    {
+        if ($donation->donation_type === 'recurring') {
+            $donation->update([
+                'status' => 'cancelled',
+                'cancelled_at' => now(),
+                'next_payment_date' => null, // Stop future payments
+            ]);
+            return redirect()->back()->with('success', 'Recurring donation cancelled successfully.');
+        }
+        return redirect()->back()->with('error', 'This is not a recurring donation.');
+    }
+
+    /**
+     * A placeholder for processing payments.
+     * In a real application this integrate with Stripe/PayPal APIs.
+     */
     private function processPayment(Donation $donation)
     {
+        // Simulate a successful payment
         $donation->markAsCompleted();
+        
+        // For recurring donations, set the status to active
+        if ($donation->donation_type === 'recurring') {
+            $donation->status = 'active';
+            $donation->save();
+        }
+
         return [
             'success' => true,
             'payment_url' => null
