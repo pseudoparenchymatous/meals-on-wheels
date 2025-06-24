@@ -308,7 +308,7 @@ export default function Register() {
                             <Label htmlFor="location">
                                 Address
                             </Label>
-                            <Map id="location" sendLocation={getLocation} />
+                            <Map id="location" markAt={{ lat: data.location_lat, lng: data.location_lng }} sendLocation={getLocation} />
                         </div>
                     </div>
                 </div>

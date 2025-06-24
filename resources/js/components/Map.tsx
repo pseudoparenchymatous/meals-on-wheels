@@ -3,9 +3,9 @@ import { Marker, MapContainer, TileLayer } from 'react-leaflet';
 import { useMapEvent } from 'react-leaflet/hooks';
 import { useState } from 'react';
 
-function UserMarker({ sendLocation }) {
-    const [lat, setLat] = useState(10.338509);
-    const [lng, setLng] = useState(123.912008);
+function UserMarker({ initialMark, sendLocation }) {
+    const [lat, setLat] = useState(initialMark.lat);
+    const [lng, setLng] = useState(initialMark.lng);
 
     useMapEvent('click', (e) => {
         const { lat, lng } = e.latlng;
@@ -20,15 +20,15 @@ function UserMarker({ sendLocation }) {
     );
 }
 
-export default function Map({ sendLocation }) {
+export default function Map({ markAt, sendLocation }) {
     return (
         <div className="border h-100 p-1 rounded-lg">
-            <MapContainer className="h-full" center={[10.338509, 123.912008]} zoom={18}>
+            <MapContainer className="h-full" center={[markAt.lat, markAt.lng]} zoom={12}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <UserMarker sendLocation={sendLocation} />
+                <UserMarker initialMark={markAt} sendLocation={sendLocation} />
             </MapContainer>
         </div>
     );
