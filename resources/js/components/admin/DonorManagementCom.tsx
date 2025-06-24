@@ -669,11 +669,11 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 </DialogContent>
             </Dialog>
 
-            {/* Edit Recurring Donation Dialog */}
+            // Edit Recurring Donation Dialog
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-            <DialogContent>
+            <DialogContent className="w-full max-w-lg sm:rounded-lg">
                 <DialogHeader>
-                <DialogTitle className="flex items-center gap-2">
+                <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
                     <Edit className="w-5 h-5 text-blue-500" />
                     Edit Recurring Donation
                 </DialogTitle>
@@ -683,7 +683,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 </DialogHeader>
 
                 {selectedDonor && (
-                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4 space-y-2">
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4 space-y-2 text-sm">
                     <div><strong>Current Donor:</strong> {selectedDonor.donor_name}</div>
                     <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
                     <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
@@ -732,7 +732,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     value={editForm.frequency}
                     onValueChange={(value) => setEditForm({ ...editForm, frequency: value })}
                     >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select frequency" />
                     </SelectTrigger>
                     <SelectContent>
@@ -771,16 +771,21 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </Popover>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
                     <Button
                     type="button"
                     variant="outline"
                     onClick={() => setEditDialogOpen(false)}
                     disabled={isEditing}
+                    className="w-full sm:w-auto"
                     >
                     Cancel
                     </Button>
-                    <Button type="submit" disabled={isEditing}>
+                    <Button
+                    type="submit"
+                    disabled={isEditing}
+                    className="w-full sm:w-auto"
+                    >
                     {isEditing ? "Saving..." : "Save Changes"}
                     </Button>
                 </div>
