@@ -26,6 +26,13 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [isCancelling, setIsCancelling] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [editForm, setEditForm] = useState({        
+        donor_name: '',
+        donor_email: '',
+        amount: '',
+        frequency: 'monthly',
+        next_payment_date: '',
+    });
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
         const matchesSearch = donor.donor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
