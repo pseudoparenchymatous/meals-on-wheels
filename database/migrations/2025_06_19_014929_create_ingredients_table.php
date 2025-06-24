@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->String('ing_name');
             $table->String('ing_type');
-            $table->integer('stocks');
+            $table->String('unit');
             $table->date('date_arrive');
             $table->date('expiration_date');
+            $table->foreignId('meal_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
