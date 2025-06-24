@@ -7,14 +7,20 @@ import { router } from '@inertiajs/react';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SheetDescription } from './ui/sheet';
+import IngredientForm from './IngredientForm';
 
-export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab }) {
+export default function MealForm({ auth, orgName, setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true }) {
+
+    const partnerName = auth?.kitchen_partner ? `${auth.kitchen_partner.org_name}` : 'dasd';
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [ingredients, setIngredients] = useState([]);
+    const [ingredientFormOpen, setIngredientFormOpen] = useState(false);
+    const [selectedIng, setSelectedIng] = useState(null);
 
-    const [form, setForm, setData] = useState({
+    const [form, setForm] = useState({
         name: '',
-        meal_tag: '',
+        meal_tag: null,
         prepared_by: '',
         preparation_time: '',
         image: null,
@@ -40,18 +46,24 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         } else {
             setForm({ 
                 name: '',
-                meal_tag: '',
-                prepared_by: '',
+                meal_tag: null,
+                prepared_by: auth?.kitchen_partner?.org_name || '',
                 preparation_time: '',
                 image: null,
             });
+            setIngredients([])
         }
     }, [selected, open]);
+
+    const handleIngredientAdd = (ingredient) => {
+        setIngredients((prev) => [...prev, ingredient]);
+    };
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         setForm((prev) => ({...prev, [name]: files ? files[0] : value, }));
     };
+   
     
 
    const handleSubmit = (e) => {
@@ -70,6 +82,9 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
             data.append('image', form.image);
         };
 
+        data.append('ingredients', JSON.stringify(ingredients));
+
+
         if (selected) {
             data.append('_method', 'PUT'); 
             router.post(`/admin/meals/${selected.id}`, data, {
@@ -82,7 +97,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
             },
         });
         } else {
-            router.post('/admin/meals', data, {
+            router.post('/kitchen-partner/meals', data, {
                 onSuccess: () => {  
                 setOpen(false);
                 setSelectedMeal(null);
@@ -97,28 +112,30 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
     return (
         <Dialog open={open} onOpenChange={(isOpen) => {
             setOpen(isOpen);
-            if (!isOpen){
-                setSelectedMeal(null);
-            }
-        }}>
-            <div className="flex justify-end mb-4 mr-10">
-                <DialogTrigger asChild>
-                    <Button onClick={() => {
+                if (!isOpen){
+                    setSelectedMeal(null);
+                }
+            }}>
+            {showAddButton && (
+            <div className="">
+                <DialogTrigger asChild variant="outline">
+                    <Button className="" onClick={() => {
                         if(activeTab === 'Meals'){
                         setForm({
                             name: '',
-                            meal_tag: '',
+                            meal_tag: null,
                             prepared_by: '',
                             preparation_time: '',
                             image: null,
                         });
+                        setIngredients([]);
                     }    
                     }}>
-                        {activeTab === 'Meals' ? 'Add Meal' : 'Add Ingredient'}
+                        Add meal
                     </Button>
                 </DialogTrigger>
             </div>
-
+            )}
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>{selected ? 'Edit Meal' : 'Add New Meal'}</DialogTitle>
@@ -166,7 +183,6 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                         name="meal_tag"
                         value={form.meal_tag}
                         onValueChange={(value) => setForm((prev) => ({...prev, meal_tag: value, })) }
-                        required
                     >
                         <SelectTrigger id="meal_tag" autoFocus>
                             <SelectValue placeholder="Select meal tag" />
@@ -192,16 +208,33 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                             className="mt-1 w-full border border-gray-300 rounded-md p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#4361EE]/90"
                         />
                     </div>
+                    <div>
+                        <span
+                                className="text-sm text-blue-600 underline cursor-pointer inline-block"
+                                onClick={() => setIngredientFormOpen(true)}
+                            >
+                                + Add Ingredient
+                        </span>
+                    </div>
 
                     <Button
                         disabled={isSubmitting}
                         type="submit"
-                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6 "
+                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white "
                     >
                         {isSubmitting ? (selected ? "Updating…" : "Submitting…") : (selected ? "Update Meal" : "Add Meal")}
                     </Button>
                 </form>
             </DialogContent>
+            <IngredientForm
+                open={ingredientFormOpen}
+                setOpen={setIngredientFormOpen}
+                selected={selectedIng}
+                setSelectedIng={setSelectedIng}
+                onAddIngredient={handleIngredientAdd}
+                currentIngredient={ingredients}
+                mealName={form.name}
+            />
         </Dialog>
     );
 }

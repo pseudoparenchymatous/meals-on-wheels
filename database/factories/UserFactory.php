@@ -19,7 +19,8 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
+            'location_lat' => $this->faker->latitude(10.227136, 10.483014),
+            'location_lng' => $this->faker->longitude(123.766244, 124.023574),
             'remember_token' => Str::random(10),
         ];
     }

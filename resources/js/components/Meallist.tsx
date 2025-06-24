@@ -116,7 +116,7 @@ export default function Meallist({ meals, ingredients }) {
         <Toaster position="top-center" richColors/>
         
         
-        {/*this is the componnet of the admin to add meals */}
+        {/*this is the componnet of the admin to view/edit meals */}
         {activeTab === 'Meals' && (
             <MealForm
                 selected={selected}
@@ -124,6 +124,7 @@ export default function Meallist({ meals, ingredients }) {
                 open={open}
                 setOpen={setOpen}
                 activeTab={activeTab}
+                showAddButton={false}
             />
         )}
 
@@ -198,6 +199,7 @@ export default function Meallist({ meals, ingredients }) {
                         <TableHeader>
                             <TableRow className="text-xs uppercase">
                                 <TableHead>ID</TableHead>
+                                <TableHead>Meal</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Type</TableHead>
                                 <TableHead>Stocks</TableHead>

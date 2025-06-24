@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RiderDashboardController;
+use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
@@ -71,6 +73,7 @@ Route::name('kitchen-partner.')->group(function () {
                     'mealAssignments' => MealAssignment::all()->load([
                         'meal',
                         'rider',
+                        'meal.ingredients',
                     ]),
                 ]);
             })->name('dashboard');
@@ -81,16 +84,16 @@ Route::name('kitchen-partner.')->group(function () {
 
                 return redirect(route('kitchen-partner.dashboard'));
             })->name('meal-assignments.update');
+
+            Route::post('meals', [MealController::class, 'store'])->name('meals.store');
+
         });
     });
 });
 
-Route::name('rider.')->group(function () {
-    Route::middleware('auth:rider')->group(function () {
-        Route::prefix('rider')->group(function () {
-            Route::inertia('/dashboard', 'Rider/Dashboard')->name('dashboard');
-        });
-    });
+Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
+    Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [RiderDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
 Route::middleware('auth:admin')->group(function () {
@@ -113,7 +116,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('planning');
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
-            Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
+            
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 

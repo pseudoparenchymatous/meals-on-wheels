@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Ingredient;
 
 class Meal extends Model
 {
@@ -11,5 +12,9 @@ class Meal extends Model
     public function mealAssignments()
     {
         return $this->hasMany(MealAssignment::class);
+    }
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredients::class);
     }
 }

@@ -44,8 +44,11 @@ class UserController extends Controller
             $user->userable->first_name = $request->first_name;
             $user->userable->last_name = $request->last_name;
         }
-
         $user->userable->save();
+
+        $user->location_lat = $request->location_lat;
+        $user->location_lng = $request->location_lng;
+        $user->save();
 
         return back()->with('message', 'User has been updated');
     }
