@@ -133,7 +133,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         donor_email: donor.donor_email,
         amount: donor.amount,
         frequency: donor.frequency || 'monthly',
-        next_payment_date: donor.next_payment_date || ''
+        next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_data).toISOString().split('T')[0] : ''
     });
 
     const handleExport = () => {
