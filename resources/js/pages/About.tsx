@@ -27,10 +27,10 @@ const Cards =[
 
 function RoleCards({ roleBox }){
     return(
-        <div className="border max-w-lg rounded-lg ">
-            <img className="h-auto object-cover rounded-lg w-full" src={roleBox.img} alt={roleBox.alt}/>
-            <div className="max-w-100 p-2">
-                <h5 className="font-semibold text-2xl">{roleBox.heading}</h5>
+        <div className="border max-w-lg rounded-lg hover:border-primary">
+            <img className="h-auto object-cover rounded-t-lg w-full" src={roleBox.img} alt={roleBox.alt}/>
+            <div className="max-w-100 m-10">
+                <h5 className="font-semibold mb-3 text-2xl">{roleBox.heading}</h5>
                 <p className="text-muted-foreground">{roleBox.details}</p>
             </div>
         </div>
@@ -64,7 +64,7 @@ export default function About() {
                 </blockquote>
             </div>
             <section className='p-6 justify-items-center'>
-                <div className='grid md:grid-cols-3 gap-6'>
+                <div className='grid lg:grid-cols-3 gap-6'>
                     {Cards.map((card, index) => <RoleCards key={index} roleBox={card} />)}
                 </div>
             </section>
