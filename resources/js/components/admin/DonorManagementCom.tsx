@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Card } from '../ui/card';
+import { Card, CardHeader } from '../ui/card';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [selectedDonor, setSelectedDonor] = useState(null);
