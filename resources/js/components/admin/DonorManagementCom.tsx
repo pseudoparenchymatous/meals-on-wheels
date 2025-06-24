@@ -4,6 +4,12 @@ import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, Ale
 import { router } from '@inertiajs/react';
 
 // Import shadcn/ui components
+import { Calendar as CalendarPicker } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import { CalendarIcon } from "lucide-react"
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -662,106 +668,129 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </div>
                 </DialogContent>
             </Dialog>
-
-                        {/* Edit Recurring Donation Dialog */}
+            
+            // Edit Recurring Donation Dialog
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
-                            <Edit className="w-5 h-5 text-blue-500" />
-                            Edit Recurring Donation
-                        </DialogTitle>
-                        <DialogDescription>
-                            Update the donor’s recurring donation information below.
-                        </DialogDescription>
-                    </DialogHeader>
+            <DialogContent className="w-full max-w-lg sm:rounded-lg">
+                <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+                    <Edit className="w-5 h-5 text-blue-500" />
+                    Edit Recurring Donation
+                </DialogTitle>
+                <DialogDescription>
+                    Update the donor’s recurring donation information below.
+                </DialogDescription>
+                </DialogHeader>
 
-                    {selectedDonor && (
-                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4 space-y-2">
-                            <div><strong>Current Donor:</strong> {selectedDonor.donor_name}</div>
-                            <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
-                            <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
-                            <div><strong>Frequency:</strong> {selectedDonor.frequency || 'Monthly'}</div>
-                            <div><strong>Status:</strong> {selectedDonor.status}</div>
-                            <div><strong>Next Payment:</strong> {selectedDonor.next_payment_date ? formatDate(selectedDonor.next_payment_date) : 'N/A'}</div>
-                        </div>
-                    )}
+                {selectedDonor && (
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4 space-y-2 text-sm">
+                    <div><strong>Current Donor:</strong> {selectedDonor.donor_name}</div>
+                    <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                    <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                    <div><strong>Frequency:</strong> {selectedDonor.frequency || 'Monthly'}</div>
+                    <div><strong>Status:</strong> {selectedDonor.status}</div>
+                    <div><strong>Next Payment:</strong> {selectedDonor.next_payment_date ? formatDate(selectedDonor.next_payment_date) : 'N/A'}</div>
+                </div>
+                )}
 
-                    <form onSubmit={handleEditSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Donor Name</label>
-                            <Input
-                                type="text"
-                                value={editForm.donor_name}
-                                onChange={(e) => setEditForm({ ...editForm, donor_name: e.target.value })}
-                                required
-                            />
-                        </div>
+                <form onSubmit={handleEditSubmit} className="space-y-4">
+                <div>
+                    <label className="block text-sm font-medium mb-1">Donor Name</label>
+                    <Input
+                    type="text"
+                    value={editForm.donor_name}
+                    onChange={(e) => setEditForm({ ...editForm, donor_name: e.target.value })}
+                    required
+                    />
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Email</label>
-                            <Input
-                                type="email"
-                                value={editForm.donor_email}
-                                onChange={(e) => setEditForm({ ...editForm, donor_email: e.target.value })}
-                                required
-                            />
-                        </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Email</label>
+                    <Input
+                    type="email"
+                    value={editForm.donor_email}
+                    onChange={(e) => setEditForm({ ...editForm, donor_email: e.target.value })}
+                    required
+                    />
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Amount (USD)</label>
-                            <Input
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                value={editForm.amount}
-                                onChange={(e) => setEditForm({ ...editForm, amount: e.target.value })}
-                                required
-                            />
-                        </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Amount (USD)</label>
+                    <Input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={editForm.amount}
+                    onChange={(e) => setEditForm({ ...editForm, amount: e.target.value })}
+                    required
+                    />
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Frequency</label>
-                            <Select
-                                value={editForm.frequency}
-                                onValueChange={(value) => setEditForm({ ...editForm, frequency: value })}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select frequency" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="weekly">Weekly</SelectItem>
-                                    <SelectItem value="monthly">Monthly</SelectItem>
-                                    <SelectItem value="yearly">Yearly</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Frequency</label>
+                    <Select
+                    value={editForm.frequency}
+                    onValueChange={(value) => setEditForm({ ...editForm, frequency: value })}
+                    >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select frequency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="quarterly">Quarterly</SelectItem>
+                        <SelectItem value="yearly">Yearly</SelectItem>
+                    </SelectContent>
+                    </Select>
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Next Payment Date</label>
-                            <Input
-                                type="date"
-                                value={editForm.next_payment_date}
-                                onChange={(e) => setEditForm({ ...editForm, next_payment_date: e.target.value })}
-                                required
-                            />
-                        </div>
+                <div className="flex flex-col space-y-2">
+                    <label className="block text-sm font-medium">Next Payment Date</label>
+                    <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                        variant="outline"
+                        className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !editForm.next_payment_date && "text-muted-foreground"
+                        )}
+                        >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {editForm.next_payment_date
+                            ? format(editForm.next_payment_date, "PPP")
+                            : "Pick a date"}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <CalendarPicker
+                        mode="single"
+                        selected={editForm.next_payment_date}
+                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date })}
+                        initialFocus
+                        />
+                    </PopoverContent>
+                    </Popover>
+                </div>
 
-                        <div className="flex justify-end gap-3 pt-2">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => setEditDialogOpen(false)}
-                                disabled={isEditing}
-                            >
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={isEditing}>
-                                {isEditing ? 'Saving...' : 'Save Changes'}
-                            </Button>
-                        </div>
-                    </form>
-                </DialogContent>
+                <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
+                    <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setEditDialogOpen(false)}
+                    disabled={isEditing}
+                    className="w-full sm:w-auto"
+                    >
+                    Cancel
+                    </Button>
+                    <Button
+                    type="submit"
+                    disabled={isEditing}
+                    className="w-full sm:w-auto"
+                    >
+                    {isEditing ? "Saving..." : "Save Changes"}
+                    </Button>
+                </div>
+                </form>
+            </DialogContent>
             </Dialog>
         </div>
     );
