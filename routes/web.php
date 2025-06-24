@@ -103,7 +103,7 @@ Route::middleware('auth:admin')->group(function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
 
-            // CORRECTED: Routes now have the correct paths and names
+            // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
             Route::put('/donors/{donation}', [DonationController::class, 'update'])->name('donors.update');
             Route::put('/donors/{donation}/cancel', [DonationController::class, 'cancel'])->name('donors.cancel'); // Changed to PUT for consistency
