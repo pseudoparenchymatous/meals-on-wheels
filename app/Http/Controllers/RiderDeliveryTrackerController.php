@@ -6,6 +6,7 @@ use App\Models\MealAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 
 class RiderDeliveryTrackerController extends Controller
 {
@@ -63,7 +64,7 @@ class RiderDeliveryTrackerController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:on the way,delivered',
+            'status' => ['required', Rule::in(['on the way', 'delivered'])],
         ]);
 
         $delivery = MealAssignment::findOrFail($id);
