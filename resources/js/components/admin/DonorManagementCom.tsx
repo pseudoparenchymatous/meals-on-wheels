@@ -1,27 +1,25 @@
 import { Link } from '@inertiajs/react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { DialogTrigger } from '@radix-ui/react-dialog';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
-import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users } from 'lucide-react';
+import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, AlertTriangle } from 'lucide-react';
+import { router } from '@inertiajs/react';
+
+// Import shadcn/ui components
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
-    const [donorId, setDonorId] = useState(null);
+    const [selectedDonor, setSelectedDonor] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
     const [filterType, setFilterType] = useState('all');
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [activeTab, setActiveTab] = useState('all');
 
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
@@ -62,16 +60,16 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
 
     const getStatusBadge = (status) => {
         const statusColors = {
-            'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-            'pending': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-            'failed': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-            'cancelled': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+            'completed': 'bg-green-100 text-green-800 border-green-200',
+            'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+            'failed': 'bg-red-100 text-red-800 border-red-200',
+            'cancelled': 'bg-gray-100 text-gray-800 border-gray-200'
         };
         
         return (
-            <Badge className={`${statusColors[status] || statusColors.pending} border-0`}>
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[status] || statusColors.pending}`}>
                 {status.charAt(0).toUpperCase() + status.slice(1)}
-            </Badge>
+            </span>
         );
     };
 
@@ -86,6 +84,52 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 One-time
             </Badge>
         );
+    };
+
+    const handleDeleteClick = (donor) => {
+        setSelectedDonor(donor);
+        setDialogOpen(true);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (selectedDonor) {
+            setIsDeleting(true);
+            router.delete(`/admin/donors/${selectedDonor.id}`, {
+                onSuccess: () => {
+                    setDialogOpen(false);
+                    setSelectedDonor(null);
+                    setIsDeleting(false);
+                },
+                onError: () => {
+                    setIsDeleting(false);
+                }
+            });
+        }
+    };
+
+    const handleExport = () => {
+        // Convert donors data to CSV
+        const csvContent = [
+            ['ID', 'Name', 'Email', 'Amount', 'Type', 'Status', 'Date', 'Anonymous'].join(','),
+            ...filteredDonors.map(donor => [
+                donor.id,
+                `"${donor.donor_name}"`,
+                donor.donor_email,
+                donor.amount,
+                donor.donation_type,
+                donor.status,
+                formatDate(donor.created_at),
+                donor.is_anonymous ? 'Yes' : 'No'
+            ].join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `donors-export-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
     };
 
     return (
@@ -103,7 +147,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Donors</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{donors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total_donors || donors.length}</p>
                             </div>
                         </div>
                     </div>
@@ -116,7 +160,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Raised</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                                    {formatCurrency(donors.reduce((sum, donor) => sum + parseFloat(donor.amount || 0), 0))}
+                                    {formatCurrency(stats.total_amount || donors.reduce((sum, donor) => sum + parseFloat(donor.amount || 0), 0))}
                                 </p>
                             </div>
                         </div>
@@ -129,7 +173,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Recurring Donors</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{recurringDonors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.recurring_donors || recurringDonors.length}</p>
                             </div>
                         </div>
                     </div>
@@ -141,7 +185,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </div>
                             <div className="ml-4">
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">This Month</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{recentDonors.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.recent_donors || recentDonors.length}</p>
                             </div>
                         </div>
                     </div>
@@ -190,7 +234,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 <SelectItem value="recurring">Recurring</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={handleExport}>
                             <Download className="w-4 h-4 mr-2" />
                             Export
                         </Button>
@@ -211,8 +255,14 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <Dialog>
-                                    {filteredDonors.map(donor => (
+                                {filteredDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                                            No donors found matching your criteria
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    filteredDonors.map(donor => (
                                         <TableRow key={donor.id}>
                                             <TableCell className="font-medium">#{donor.id}</TableCell>
                                             <TableCell>
@@ -241,36 +291,18 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         View
                                                     </Button>
-                                                    <DialogTrigger asChild>
-                                                        <Button 
-                                                            size="sm" 
-                                                            variant="destructive" 
-                                                            onClick={() => setDonorId(donor.id)}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </DialogTrigger>
+                                                    <Button 
+                                                        size="sm" 
+                                                        variant="destructive"
+                                                        onClick={() => handleDeleteClick(donor)}
+                                                    >
+                                                        Delete
+                                                    </Button>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
-                                    ))}
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                            <DialogDescription>
-                                                This action cannot be undone. This will permanently delete this donor record and all associated data.
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <div className="flex gap-2 justify-end">
-                                            <Button variant="outline">Cancel</Button>
-                                            <Button variant="destructive" asChild>
-                                                <Link href={`/donors/${donorId}`} method="delete">
-                                                    Confirm Delete
-                                                </Link>
-                                            </Button>
-                                        </div>
-                                    </DialogContent>
-                                </Dialog>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
@@ -291,38 +323,46 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {recentDonors.map(donor => (
-                                    <TableRow key={donor.id}>
-                                        <TableCell>
-                                            <div>
-                                                <div className="font-medium">{donor.donor_name}</div>
-                                                {donor.is_anonymous && (
-                                                    <div className="text-xs text-gray-500">Anonymous</div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{donor.donor_email}</TableCell>
-                                        <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
-                                        <TableCell>
-                                            {getTypeBadge(donor.donation_type)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(donor.status)}
-                                        </TableCell>
-                                        <TableCell>{formatDate(donor.created_at)}</TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <Button size="sm" variant="outline">
-                                                    <Mail className="w-4 h-4 mr-1" />
-                                                    Thank
-                                                </Button>
-                                                <Button size="sm" variant="outline">
-                                                    View
-                                                </Button>
-                                            </div>
+                                {recentDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                            No recent donations found
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    recentDonors.map(donor => (
+                                        <TableRow key={donor.id}>
+                                            <TableCell>
+                                                <div>
+                                                    <div className="font-medium">{donor.donor_name}</div>
+                                                    {donor.is_anonymous && (
+                                                        <div className="text-xs text-gray-500">Anonymous</div>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{donor.donor_email}</TableCell>
+                                            <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
+                                            <TableCell>
+                                                {getTypeBadge(donor.donation_type)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(donor.status)}
+                                            </TableCell>
+                                            <TableCell>{formatDate(donor.created_at)}</TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" variant="outline">
+                                                        <Mail className="w-4 h-4 mr-1" />
+                                                        Thank
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
@@ -343,44 +383,52 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {recurringDonors.map(donor => (
-                                    <TableRow key={donor.id}>
-                                        <TableCell>
-                                            <div>
-                                                <div className="font-medium">{donor.donor_name}</div>
-                                                {donor.is_anonymous && (
-                                                    <div className="text-xs text-gray-500">Anonymous</div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{donor.donor_email}</TableCell>
-                                        <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
-                                        <TableCell>
-                                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-0">
-                                                {donor.frequency}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(donor.status)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <Button size="sm" variant="outline">
-                                                    Pause
-                                                </Button>
-                                                <Button size="sm" variant="outline">
-                                                    Edit
-                                                </Button>
-                                                <Button size="sm" variant="destructive">
-                                                    Cancel
-                                                </Button>
-                                            </div>
+                                {recurringDonors.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                            No recurring donations found
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    recurringDonors.map(donor => (
+                                        <TableRow key={donor.id}>
+                                            <TableCell>
+                                                <div>
+                                                    <div className="font-medium">{donor.donor_name}</div>
+                                                    {donor.is_anonymous && (
+                                                        <div className="text-xs text-gray-500">Anonymous</div>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{donor.donor_email}</TableCell>
+                                            <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
+                                            <TableCell>
+                                                <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-0">
+                                                    {donor.frequency || 'Monthly'}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(donor.status)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" variant="outline">
+                                                        Pause
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                    <Button size="sm" variant="destructive">
+                                                        Cancel
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>
@@ -439,6 +487,48 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </div>
                 </TabsContent>
             </Tabs>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5 text-red-500" />
+                            Confirm Deletion
+                        </DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete this donor record? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {selectedDonor && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+                            <div className="space-y-2">
+                                <div><strong>Donor:</strong> {selectedDonor.donor_name}</div>
+                                <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                                <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                                <div><strong>Type:</strong> {selectedDonor.donation_type}</div>
+                                <div><strong>Date:</strong> {formatDate(selectedDonor.created_at)}</div>
+                            </div>
+                        </div>
+                    )}
+                    <div className="flex justify-end gap-3">
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setDialogOpen(false)}
+                            disabled={isDeleting}
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            variant="destructive" 
+                            onClick={handleDeleteConfirm}
+                            disabled={isDeleting}
+                        >
+                            {isDeleting ? 'Deleting...' : 'Delete Donor'}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
