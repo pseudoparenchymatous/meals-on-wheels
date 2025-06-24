@@ -663,7 +663,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 </DialogContent>
             </Dialog>
 
-                        {/* Edit Recurring Donation Dialog */}
+            {/* Edit Recurring Donation Dialog */}
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
