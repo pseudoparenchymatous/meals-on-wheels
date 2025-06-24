@@ -514,17 +514,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                 {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
                                             </TableCell>
                                             <TableCell>
-                                                <div className="flex gap-2">
-                                                    <Button size="sm" variant="outline">
-                                                        Pause
-                                                    </Button>
-                                                    <Button size="sm" variant="outline">
-                                                        Edit
-                                                    </Button>
-                                                    <Button size="sm" variant="destructive">
-                                                        Cancel
-                                                    </Button>
-                                                </div>
+                                                {renderRecurringActions(donor)}
                                             </TableCell>
                                         </TableRow>
                                     ))
