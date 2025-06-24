@@ -130,7 +130,7 @@ class DonationController extends Controller
 
     /**
      * A placeholder for processing payments.
-     * In a real application, this would integrate with Stripe/PayPal APIs.
+     * In a real application this integrate with Stripe/PayPal APIs.
      */
     private function processPayment(Donation $donation)
     {
