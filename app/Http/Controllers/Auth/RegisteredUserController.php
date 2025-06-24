@@ -41,7 +41,8 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
+            'location_lat' => 'required|numeric',
+            'location_lng' => 'required|numeric',
         ];
 
         if ($request->user_type !== 'kitchen partner') {
@@ -60,7 +61,8 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'address' => $request->address,
+                'location_lat' => $request->location_lat,
+                'location_lng' => $request->location_lng,
             ]);
 
             event(new Registered($user));
@@ -75,8 +77,8 @@ class RegisteredUserController extends Controller
     {
         if ($request->user_type == 'caregiver') {
             Validator::make($request->all(), [
-                'member.first_name' => 'required|string|max:255|exists:users,first_name',
-                'member.last_name' => 'required|string|max:255|exists:users,last_name',
+                'member.first_name' => 'required|string|max:255|exists:members,first_name',
+                'member.last_name' => 'required|string|max:255|exists:members,last_name',
             ], [
                 'member.first_name.exists' => 'Could not find this name as a registerd member',
                 'member.last_name.exists' => 'Could not find this name as a registerd member',
@@ -113,9 +115,10 @@ class RegisteredUserController extends Controller
                 'diet' => $request->diet,
             ]),
             'caregiver' => Caregiver::create([
-                'member_id' => User::firstWhere('first_name', $request->member['first_name'])
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'member_id' => Member::firstWhere('first_name', $request->member['first_name'])
                     ->firstWhere('last_name', $request->member['last_name'])
-                    ->userable
                     ->id,
             ]),
             'kitchen partner' => KitchenPartner::create([

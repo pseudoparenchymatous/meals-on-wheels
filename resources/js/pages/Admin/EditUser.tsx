@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Head, Link, useForm } from '@inertiajs/react';
+import Map from '@/components/Map';
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -11,7 +12,9 @@ export default function EditUser({ user }) {
     const { data, setData, patch, processing, errors, reset } = useForm({
         first_name: user.userable.first_name,
         last_name: user.userable.last_name,
-        org_name: user.userable.org_name
+        org_name: user.userable.org_name,
+        location_lat: user.location_lat,
+        location_lng: user.location_lng,
     });
 
     function submit(e) {
@@ -19,6 +22,11 @@ export default function EditUser({ user }) {
         patch(route('admin.users.update', user.id), {
             onSuccess: () => toast.success("User has been updated"),
         });
+    }
+
+    function getLocation(lat, lng) {
+        setData('location_lat', lat);
+        setData('location_lng', lng);
     }
 
     return (
@@ -62,6 +70,10 @@ export default function EditUser({ user }) {
                         <InputError message={errors.org_name} />
                     </div>
                 }
+                <div className='w-100'>
+                    <Label className="mt-4">Location</Label>
+                    <Map markAt={{ lat: data.location_lat, lng: data.location_lng }} sendLocation={getLocation} />
+                </div>
                 <div className="flex gap-3 justify-end mt-4">
                     <Button asChild variant="outline">
                         <Link href={route('admin.users.index')}>

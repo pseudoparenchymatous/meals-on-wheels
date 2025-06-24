@@ -19,15 +19,15 @@ class IngredientsController extends Controller
         $validate = $request->validate([
             'ing_name' => 'required|string',
             'ing_type' => 'required|string',
-            'stocks' => 'required|integer',
+            'unit' => 'required|string',
             'date_arrive' => 'required|date',
             'expiration_date' => 'required|date',
         ]);
-
+        
         Ingredients::create([
             'ing_name' => $validate['ing_name'],
             'ing_type' => $validate['ing_type'],
-            'stocks' => $validate['stocks'],
+            'unit' => $validate['unit'],
             'date_arrive' => $validate['date_arrive'],
             'expiration_date' => $validate['expiration_date'],
         ]);
@@ -42,7 +42,7 @@ class IngredientsController extends Controller
         $validate = $request->validate([
             'ing_name' => 'required|string',
             'ing_type' => 'required|string',
-            'stocks' => 'required|integer',
+            'unit' => 'required|integer',
             'date_arrive' => 'required|date',
             'expiration_date' => 'required|date',
         ]);
@@ -50,7 +50,7 @@ class IngredientsController extends Controller
         $ingredients->update([
             'ing_name' => $validate['ing_name'],
             'ing_type' => $validate['ing_type'],
-            'stocks' => $validate['stocks'],
+            'unit' => $validate['unit'],
             'date_arrive' => $validate['date_arrive'],
             'expiration_date' => $validate['expiration_date'],
         ]);

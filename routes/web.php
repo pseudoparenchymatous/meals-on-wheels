@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\CaregiverDeliveryTrackerController;
+use App\Http\Controllers\RiderDashboardController;
+use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
@@ -27,6 +31,7 @@ Route::get('dashboard', function () {
         'member' => redirect(route('member.dashboard')),
         'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
         'rider' => redirect(route('rider.dashboard')),
+        'caregiver' => redirect(route('caregiver.dashboard')),
         default => redirect(route('home'))
     };
 })->name('dashboard');
@@ -63,6 +68,11 @@ Route::name('member.')->group(function () {
     });
 });
 
+Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
+});
+
 Route::name('kitchen-partner.')->group(function () {
     Route::prefix('kitchen-partner')->group(function () {
         Route::middleware('auth:kitchen-partner')->group(function () {
@@ -71,6 +81,7 @@ Route::name('kitchen-partner.')->group(function () {
                     'mealAssignments' => MealAssignment::all()->load([
                         'meal',
                         'rider',
+                        'meal.ingredients',
                     ]),
                 ]);
             })->name('dashboard');
@@ -81,16 +92,18 @@ Route::name('kitchen-partner.')->group(function () {
 
                 return redirect(route('kitchen-partner.dashboard'));
             })->name('meal-assignments.update');
+
+            Route::post('meals', [MealController::class, 'store'])->name('meals.store');
+
         });
     });
 });
 
-Route::name('rider.')->group(function () {
-    Route::middleware('auth:rider')->group(function () {
-        Route::prefix('rider')->group(function () {
-            Route::inertia('/dashboard', 'Rider/Dashboard')->name('dashboard');
-        });
-    });
+Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
+    Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/delivery-tracker', [RiderDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
+    Route::get('/delivery/{id}', [RiderDeliveryTrackerController::class, 'show'])->name('delivery.show');
+    Route::post('/delivery/{id}/update-status', [RiderDeliveryTrackerController::class, 'updateStatus'])->name('delivery.updateStatus');
 });
 
 Route::middleware('auth:admin')->group(function () {
@@ -100,8 +113,10 @@ Route::middleware('auth:admin')->group(function () {
                 return Inertia::render('Admin/Dashboard');
             })->name('dashboard');
 
+            // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
-
+            Route::put('/donors/{donation}', [DonationController::class, 'update'])->name('donors.update');
+            Route::put('/donors/{donation}/cancel', [DonationController::class, 'cancel'])->name('donors.cancel'); // Changed to PUT for consistency
             Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
 
             Route::resource('users', UserController::class);
@@ -113,7 +128,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('planning');
 
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
-            Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
+            
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
             Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 

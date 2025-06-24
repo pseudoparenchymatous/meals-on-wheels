@@ -14,6 +14,7 @@ class MealAssignment extends Model
         'meal_id',
         'member_id',
         'rider_id',
+        'temperature',
         'weekly_plan_id',
     ];
 
