@@ -1,25 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import KitchenPartnerLayout from '@/layouts/KitchenPartnerLayout';
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Link } from "@inertiajs/react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from 'react';
 import KitchenCard from '@/components/KitchenCard';
-import MealForm from '@/components/MealForm';
 import { Toaster } from 'sonner';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { differenceInDays, parseISO } from 'date-fns';
+import { ShieldAlert } from 'lucide-react';
 
-export default function Dashboard({ mealAssignments, auth }) {
-    const [selected, setSelected] = useState(null);
-    const [open, setOpen] = useState(false);
+export default function Dashboard({ mealAssignments }) {
     const [assignmentId, setAssignmentId] = useState(0);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [status, setStatus] = useState(0);
-       
 
     function getExpiringIngredients(assignments) {
         let expiring = [];
@@ -38,21 +33,13 @@ export default function Dashboard({ mealAssignments, auth }) {
         return expiring;
     }
 
-
     return (
+        
         <KitchenPartnerLayout>
             <Toaster position="top-center" richColors />
             <div className="m-10">
                 <KitchenCard assignments={mealAssignments} expiringIngredients={getExpiringIngredients(mealAssignments)}/>
-                <div className="flex justify-center mb-4">
-                    <MealForm
-                        selected={selected}
-                        setSelectedMeal={setSelected}
-                        open={open}
-                        setOpen={setOpen}
-                        activeTab={undefined}
-                    />
-                </div>
+                
 
                 <div className="border rounded-lg">
                     <Table>
@@ -61,6 +48,7 @@ export default function Dashboard({ mealAssignments, auth }) {
                                 <TableHead>ID</TableHead>
                                 <TableHead>Week</TableHead>
                                 <TableHead>Day</TableHead>
+                                <TableHead>Member</TableHead>
                                 <TableHead>Meal</TableHead>
                                 <TableHead>Rider</TableHead>
                                 <TableHead>Ingredients</TableHead>
@@ -70,12 +58,13 @@ export default function Dashboard({ mealAssignments, auth }) {
                         </TableHeader>
                         <TableBody>
                             {mealAssignments.map(assignment => {
-                            
+
                                 return (
                                     <TableRow key={assignment.id}>
                                         <TableCell>{assignment.id}</TableCell>
                                         <TableCell>{assignment.weekly_plan_id}</TableCell>
                                         <TableCell>{assignment.day}</TableCell>
+                                        <TableCell>{assignment.members?.first_name}</TableCell>
                                         <TableCell>{assignment.meal?.name}</TableCell>
                                         <TableCell>{assignment.rider.first_name} {assignment.rider.first_name}</TableCell>
                                         <TableCell>{assignment.meal?.ingredients?.length > 0 ? (
@@ -88,8 +77,16 @@ export default function Dashboard({ mealAssignments, auth }) {
                                                     <DropdownMenuSeparator />
                                                     {assignment.meal.ingredients.map((ing) => (
                                                         <DropdownMenuCheckboxItem key={ing.id}>
-                                                            {ing.ing_name} - {ing.stocks} stock(s) | {ing.expiration_date}
-                                                            
+                                                            <div className="flex justify-between items-center">
+                                                                <span title={`Purchased on: ${ing.date_arrive}`}>
+                                                                    {ing.ing_name} - {ing.unit} | Exp: {ing.expiration_date || 'No Expiration Date'}
+                                                                </span>
+                                                                {ing.expiration_date && differenceInDays(parseISO(ing.expiration_date), new Date()) >= 0 &&
+                                                                    differenceInDays(parseISO(ing.expiration_date), new Date()) <= 3 && (
+                                                                        <ShieldAlert className="text-yellow-500 w-4 h-4 ml-2" />
+                                                                    )
+                                                                }
+                                                            </div>
                                                         </DropdownMenuCheckboxItem>
                                                     ))}
                                                 </DropdownMenuContent>

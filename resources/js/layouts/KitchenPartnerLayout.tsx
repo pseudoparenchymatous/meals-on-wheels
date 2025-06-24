@@ -2,6 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import {
+    Apple,
     LayoutGrid,
 } from 'lucide-react';
 
@@ -11,6 +12,11 @@ const navItems: NavItem[] = [
         href: '/kitchen-partner/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Meals',
+        href: '/kitchen-partner/meals',
+        icon: Apple,
+    }
 ];
 
 export default function AdminLayout({ children }) {
