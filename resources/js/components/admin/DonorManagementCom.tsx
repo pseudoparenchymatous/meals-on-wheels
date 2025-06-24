@@ -165,7 +165,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         if (!selectedDonor) return;
-        
+
         setIsEditing(true);
         try {
             // use the inertia router for the edit request
@@ -184,6 +184,29 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             setIsEditing(false);
         }
     };
+
+    const renderRecurringActions = (donor) => (
+        <div className="flex gap-2">
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={() => handleEditClick(donor)}
+                className="flex items-center gap-1"
+            >
+                <Edit className="w-4 h-4" />
+                Edit
+            </Button>
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={() => handleCancelClick(donor)}
+                className="flex items-center gap-1 text-red-600 hover:text-red-700"
+            >
+                <X className="w-4 h-4" />
+                Cancel
+            </Button>
+        </div>
+    );
 
     const handleExport = () => {
         // Convert donors data to CSV
