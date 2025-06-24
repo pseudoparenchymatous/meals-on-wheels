@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone');
-            $table->text('address');
+            $table->double('location_lat');
+            $table->double('location_lng');
             $table->morphs('userable');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

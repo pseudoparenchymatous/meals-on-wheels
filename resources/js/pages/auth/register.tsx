@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
-import { ChevronDownIcon } from "lucide-react"
+import Map from '@/components/Map';
 import { Calendar } from "@/components/ui/calendar"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
@@ -42,7 +42,8 @@ type RegisterForm = {
     password_confirmation: string;
     user_type: UserTypes;
     phone: string;
-    address: string;
+    location_lat: number;
+    location_lng: number;
     birth_date: Date;
     proof_of_identity: File | null;
     medical_condition?: File | null;
@@ -79,10 +80,16 @@ export default function Register() {
         password: '',
         password_confirmation: '',
         phone: '',
-        address: '',
+        location_lat: 10.338509,
+        location_lng: 123.912008,
         birthday: '',
         diet: '',
     });
+
+    function getLocation(lat: number, lng: number) {
+        setData('location_lat', lat);
+        setData('location_lng', lng);
+    }
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -298,19 +305,10 @@ export default function Register() {
 
                         {/* Address */}
                         <div className="grid gap-2">
-                            <Label htmlFor="address">
+                            <Label htmlFor="location">
                                 Address
                             </Label>
-                            <Textarea
-                                id="address"
-                                autoComplete="street-address"
-                                required
-                                value={data.address}
-                                onChange={(e) => setData('address', e.target.value)}
-                                placeholder="Enter your complete address"
-                                rows={3}
-                            />
-                            <InputError message={errors.address} />
+                            <Map id="location" sendLocation={getLocation} />
                         </div>
                     </div>
                 </div>

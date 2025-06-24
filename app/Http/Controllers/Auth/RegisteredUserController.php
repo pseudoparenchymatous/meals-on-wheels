@@ -41,7 +41,8 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
+            'location_lat' => 'required|numeric',
+            'location_lng' => 'required|numeric',
         ];
 
         if ($request->user_type !== 'kitchen partner') {
@@ -60,7 +61,8 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'address' => $request->address,
+                'location_lat' => $request->location_lat,
+                'location_lng' => $request->location_lng,
             ]);
 
             event(new Registered($user));
