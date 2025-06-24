@@ -619,6 +619,49 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </div>
                 </DialogContent>
             </Dialog>
+
+            {/* Cancel Subscription Confirmation Dialog */}
+            <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <X className="w-5 h-5 text-red-500" />
+                            Cancel Recurring Donation
+                        </DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to cancel this recurring donation? The donor will no longer be charged automatically.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {selectedDonor && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+                            <div className="space-y-2">
+                                <div><strong>Donor:</strong> {selectedDonor.donor_name}</div>
+                                <div><strong>Email:</strong> {selectedDonor.donor_email}</div>
+                                <div><strong>Amount:</strong> {formatCurrency(selectedDonor.amount)}</div>
+                                <div><strong>Frequency:</strong> {selectedDonor.frequency || 'Monthly'}</div>
+                                <div><strong>Status:</strong> {selectedDonor.status}</div>
+                                <div><strong>Next Payment:</strong> {selectedDonor.next_payment_date ? formatDate(selectedDonor.next_payment_date) : 'N/A'}</div>
+                            </div>
+                        </div>
+                    )}
+                    <div className="flex justify-end gap-3">
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setCancelDialogOpen(false)}
+                            disabled={isCanceling}
+                        >
+                            Keep Active
+                        </Button>
+                        <Button 
+                            variant="destructive" 
+                            onClick={handleCancelConfirm}
+                            disabled={isCanceling}
+                        >
+                            {isCanceling ? 'Canceling...' : 'Cancel Subscription'}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
