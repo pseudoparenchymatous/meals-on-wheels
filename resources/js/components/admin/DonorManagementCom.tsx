@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { set } from 'date-fns';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [selectedDonor, setSelectedDonor] = useState(null);
@@ -135,6 +136,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         frequency: donor.frequency || 'monthly',
         next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_data).toISOString().split('T')[0] : ''
     });
+    setEditDialogOpen(true);
+};
 
     const handleExport = () => {
         // Convert donors data to CSV
