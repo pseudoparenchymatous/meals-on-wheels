@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { useState } from 'react';
-import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, AlertTriangle } from 'lucide-react';
+import { Search, Filter, Download, Mail, Heart, DollarSign, Calendar, Users, AlertTriangle, Edit, X } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 // Import shadcn/ui components
@@ -11,8 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { set } from 'date-fns';
-import { ca } from 'date-fns/locale';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [selectedDonor, setSelectedDonor] = useState(null);
