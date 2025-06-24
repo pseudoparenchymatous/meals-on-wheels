@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
 export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [selectedDonor, setSelectedDonor] = useState(null);
@@ -21,6 +20,9 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [activeTab, setActiveTab] = useState('all');
+
+    // State for cancel and edit dialogs
+
 
     // Filter donors based on search and filters
     const filteredDonors = donors.filter(donor => {
@@ -369,51 +371,70 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     </div>
                 </TabsContent>
 
-                <TabsContent value="recurring" className="mt-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Recurring Donors</CardTitle>
-                            <CardDescription>
-                                {recurringDonors.length} recurring donors generating {formatCurrency(recurringDonors.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0))} in total recurring revenue
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <Table>
-                                <TableHeader>
+                <TabsContent value="recurring">
+                    <div className="border rounded-xl">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Donor Name</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead>Amount</TableHead>
+                                    <TableHead>Frequency</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Next Payment</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {recurringDonors.length === 0 ? (
                                     <TableRow>
-                                        <TableHead>Donor Name</TableHead>
-                                        <TableHead>Amount</TableHead>
-                                        <TableHead>Frequency</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead>Next Payment</TableHead>
-                                        <TableHead>Actions</TableHead>
+                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                            No recurring donations found
+                                        </TableCell>
                                     </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {recurringDonors.length === 0 ? (
-                                        <TableRow>
-                                            <TableCell colSpan={6} className="text-center py-8 text-gray-500">
-                                                No recurring donors found
+                                ) : (
+                                    recurringDonors.map(donor => (
+                                        <TableRow key={donor.id}>
+                                            <TableCell>
+                                                <div>
+                                                    <div className="font-medium">{donor.donor_name}</div>
+                                                    {donor.is_anonymous && (
+                                                        <div className="text-xs text-gray-500">Anonymous</div>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{donor.donor_email}</TableCell>
+                                            <TableCell className="font-medium">{formatCurrency(donor.amount)}</TableCell>
+                                            <TableCell>
+                                                <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-0">
+                                                    {donor.frequency || 'Monthly'}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(donor.status)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" variant="outline">
+                                                        Pause
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                    <Button size="sm" variant="destructive">
+                                                        Cancel
+                                                    </Button>
+                                                </div>
                                             </TableCell>
                                         </TableRow>
-                                    ) : (
-                                        recurringDonors.map(donor => (
-                                            <TableRow key={donor.id}>
-                                                <TableCell className="font-medium">{donor.donor_name}</TableCell>
-                                                <TableCell>{formatCurrency(donor.amount)}</TableCell>
-                                                <TableCell className="capitalize">{donor.frequency || 'Monthly'}</TableCell>
-                                                <TableCell>{getStatusBadge(donor.status)}</TableCell>
-                                                <TableCell>
-                                                    {donor.next_payment_date ? formatDate(donor.next_payment_date) : 'N/A'}
-                                                </TableCell>
-                                                <TableCell>{renderActions(donor)}</TableCell>
-                                            </TableRow>
-                                        ))
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </Card>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </TabsContent>
 
                 <TabsContent value="analytics">
