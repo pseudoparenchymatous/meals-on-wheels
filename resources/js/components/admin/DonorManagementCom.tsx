@@ -141,6 +141,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
 
     const handleCancelConfirm = async () => {
         if (!selectedDonor) return;
+        
         setIsCancelling(true);
         try {
             // useng inertia router for the cancel request
