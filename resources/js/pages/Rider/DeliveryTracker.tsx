@@ -1,10 +1,11 @@
 import RiderLayout from '@/layouts/RiderLayout';
 import { Head, usePage } from '@inertiajs/react';
 import { NavItem } from '@/types';
+import { router } from '@inertiajs/react';
 
-const navItems = [
-  { name: 'Dashboard', href: '/rider/dashboard' },
-  { name: 'Delivery Tracker', href: '/rider/delivery-tracker' },
+const navItems: NavItem[] = [
+  { title: 'Dashboard', href: '/rider/dashboard' },
+  { title: 'Delivery Tracker', href: '/rider/delivery-tracker' },
 ];
 
 const statusColor = {
@@ -37,6 +38,12 @@ export default function DeliveryTracker() {
                 <div>Week Plan: {delivery.week}</div>
                 <div>Kitchen Partner: {delivery.kitchen_partner}</div>
                 <div>To Member: {delivery.member}</div>
+                <button
+                  onClick={() => router.visit(`/rider/delivery/${delivery.id}`)}
+                  className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  View
+                </button>
               </li>
             ))}
           </ul>
