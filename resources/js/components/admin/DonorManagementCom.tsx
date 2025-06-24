@@ -128,16 +128,16 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     };
 
     const handleEditClick = (donor) => {
-    setSelectedDonor(donor);
-    setEditForm({
-        donor_name: donor.donor_name,
-        donor_email: donor.donor_email,
-        amount: donor.amount,
-        frequency: donor.frequency || 'monthly',
-        next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_data).toISOString().split('T')[0] : ''
-    });
-    setEditDialogOpen(true);
-};
+        setSelectedDonor(donor);
+        setEditForm({
+            donor_name: donor.donor_name,
+            donor_email: donor.donor_email,
+            amount: donor.amount,
+            frequency: donor.frequency || 'monthly',
+            next_payment_date: donor.next_payment_date ? new Date(donor.next_payment_data).toISOString().split('T')[0] : ''
+        });
+        setEditDialogOpen(true);
+    };
 
     const handleExport = () => {
         // Convert donors data to CSV
