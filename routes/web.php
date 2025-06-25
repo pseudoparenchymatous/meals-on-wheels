@@ -28,10 +28,6 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 Route::post('/contact', [ContactController::class, 'store']);
 
-Route::get('/welcome', function () {
-    return Inertia::render('welcome');
-})->name('welcome');
-
 Route::inertia('/', 'Home')->name('home');
 Route::inertia('/about', 'About')->name('about');
 Route::inertia('/contact', 'Contact')->name('contact');
