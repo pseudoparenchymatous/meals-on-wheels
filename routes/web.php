@@ -120,7 +120,17 @@ Route::middleware('auth:admin')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
             Route::get('/dashboard', function () {
-                return Inertia::render('Admin/Dashboard');
+                return Inertia::render('Admin/Dashboard', [
+                    'adminName' => auth()->user()->userable->first_name,
+                    'data' => [
+                        'alerts' => Ingredients::wherePast('expiration_date')->count(),
+                        'donations' => round(Donation::all()->sum('amount')),
+                        'mealsDelivered' => MealAssignment::where('status', 'delivered')->count(),
+                        'members' => Member::all()->count(),
+                        'riders' => Rider::all()->count(),
+                        'unverified' => Member::where('verified', false)->count(),
+                    ],
+                ]);
             })->name('dashboard');
 
             // Donor Management
