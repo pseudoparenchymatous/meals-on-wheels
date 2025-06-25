@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
-use App\Http\Controllers\RiderDashboardController;
-use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
@@ -11,11 +9,15 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\MemberDashboardController;
+use App\Http\Controllers\RiderDashboardController;
+use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckMemberVerificationStatus;
+use App\Models\Donation;
+use App\Models\Ingredients;
 use App\Models\MealAssignment;
 use App\Models\Member;
-use App\Models\User;
+use App\Models\Rider;
 use App\Models\WeeklyPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -86,7 +88,6 @@ Route::name('kitchen-partner.')->group(function () {
                 ]);
             })->name('dashboard');
 
-
             Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
                 $mealAssignment->status = $request->status;
                 $mealAssignment->save();
@@ -94,7 +95,6 @@ Route::name('kitchen-partner.')->group(function () {
                 return redirect(route('kitchen-partner.dashboard'));
             })->name('meal-assignments.update');
 
-            
             Route::post('meals', [MealController::class, 'store'])->name('meals.store');
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
@@ -130,7 +130,7 @@ Route::middleware('auth:admin')->group(function () {
             Route::delete('/donors/{donation}', [DonationController::class, 'destroy'])->name('donors.destroy');
 
             Route::resource('users', UserController::class);
-            
+
             Route::post('meals', [MealController::class, 'store'])->name('meals.store');
             Route::get('/meals', [MealController::class, 'index'])->name('meals');
             Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
@@ -141,14 +141,12 @@ Route::middleware('auth:admin')->group(function () {
             Route::put('/meals/ingredients/{id}', [IngredientsController::class, 'update'])->name('admin.ingredients.update');
             Route::delete('/meals/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('admin.ingredients.destroy');
 
-
             Route::get('planning', function () {
                 return Inertia::render('Admin/Plan', [
                     'weeklyPlans' => WeeklyPlan::all(),
                 ]);
             })->name('planning');
 
-            
             Route::resource('meal-assignments', MealAssignmentController::class);
         });
     });
