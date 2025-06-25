@@ -20,6 +20,7 @@ use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\Rider;
 use App\Models\WeeklyPlan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -145,12 +146,19 @@ Route::middleware('auth:admin')->group(function () {
     });
 });
 
-Route::post('/weekly-plans', function (Request $request) {
-    WeeklyPlan::create([
-        'start_date' => $request->startDate,
-    ]);
+Route::post('/weekly-plans', function () {
+    if (WeeklyPlan::all()->isEmpty()) {
+        WeeklyPlan::create([
+            'start_date' => Carbon::now()->startOfWeek(Carbon::MONDAY)->toDateString(),
+        ]);
+    } else {
+        $lastWeek = WeeklyPlan::orderByDesc('start_date')->first()->start_date;
+        WeeklyPlan::create([
+            'start_date' => Carbon::parse($lastWeek)->addDays(7)->toDateString(),
+        ]);
+    }
 
-    return to_route('admin.planning');
+    return to_route('admin.planning')->with(['message' => 'Plan has been created']);
 })->name('weekly-plans.store');
 
 Route::patch('/members/verify/{member}', function (Member $member) {
