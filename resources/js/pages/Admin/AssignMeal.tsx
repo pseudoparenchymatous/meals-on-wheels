@@ -1,6 +1,6 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
 import { toast } from "sonner";
@@ -39,6 +39,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
 
     return (
         <AdminLayout>
+            <Head title="Assign Meal" />
             <Toaster position="top-center" richColors />
             <div>
                 <h1 className="font-semibold text-xl mb-8">Assign a Meal</h1>
