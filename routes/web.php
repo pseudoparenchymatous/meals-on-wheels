@@ -3,6 +3,7 @@
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliveryTrackerController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
@@ -23,20 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('dashboard', function () {
-    if (! auth()->check()) {
-        return redirect(route('login'));
-    }
-
-    return match (auth()->user()->userable_type) {
-        'admin' => redirect(route('admin.dashboard')),
-        'member' => redirect(route('member.dashboard')),
-        'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
-        'rider' => redirect(route('rider.dashboard')),
-        'caregiver' => redirect(route('caregiver.dashboard')),
-        default => redirect(route('home'))
-    };
-})->name('dashboard');
+Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 Route::post('/contact', [ContactController::class, 'store']);
 
