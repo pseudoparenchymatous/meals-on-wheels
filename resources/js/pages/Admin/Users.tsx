@@ -45,6 +45,7 @@ export default function Users({ users }) {
                                     <TableRow>
                                         <TableHead>User ID</TableHead>
                                         <TableHead>Name</TableHead>
+                                        <TableHead>Email</TableHead>
                                         <TableHead>Type</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
@@ -59,6 +60,7 @@ export default function Users({ users }) {
                                                 ) : (
                                                         <TableCell>{user.userable.org_name}</TableCell>
                                                     )}
+                                                <TableCell>{user.email}</TableCell>
                                                 <TableCell>{user.userable_type}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <Button asChild variant="outline">
