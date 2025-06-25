@@ -2,36 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredients;
 use App\Models\Meal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Ingredients;
-use App\Models\MealAssignment;
 
 class MealController extends Controller
 {
     public function index()
-    {   
-        
-         $user = auth()->user();
+    {
+
+        $user = auth()->user();
 
         if (auth()->user()->userable_type === 'admin') {
-        // Admin: Show all meals
+            // Admin: Show all meals
             $meals = Meal::with('ingredients')->get();
         } else {
-        // Kitchen Partner: Show only their meals
+            // Kitchen Partner: Show only their meals
             $meals = auth()->user()->userable->meals;
         }
-        
+
         $ingredients = Ingredients::with('meal')->get()->map(function ($ing) {
-        return [
-            'id' => $ing->id,
-            'ing_name' => $ing->ing_name,
-            'ing_type' => $ing->ing_type,
-            'unit' => $ing->unit,
-            'date_arrive' => $ing->date_arrive,
-            'expiration_date' => $ing->expiration_date,
-            'meal_name'=> $ing->meal ? $ing->meal->name : 'N/A',
+            return [
+                'id' => $ing->id,
+                'ing_name' => $ing->ing_name,
+                'ing_type' => $ing->ing_type,
+                'unit' => $ing->unit,
+                'date_arrive' => $ing->date_arrive,
+                'expiration_date' => $ing->expiration_date,
+                'meal_name' => $ing->meal ? $ing->meal->name : 'N/A',
             ];
         });
         // Render different pages based on role
@@ -76,7 +75,7 @@ class MealController extends Controller
             $ingredients = json_decode($request->ingredients, true);
 
             foreach ($ingredients as $ing) {
-                $meal->ingredients()-> create([
+                $meal->ingredients()->create([
                     'ing_name' => $ing['ing_name'],
                     'ing_type' => $ing['ing_type'],
                     'unit' => $ing['unit'],
@@ -89,7 +88,8 @@ class MealController extends Controller
         return redirect()->back()->with('success', 'Meal added!');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $meal = Meal::findOrFail($id);
 
         $validated = $request->validate([
@@ -107,11 +107,11 @@ class MealController extends Controller
         $meal->update([
             'name' => $validated['name'],
             'meal_tag' => $validated['meal_tag'],
-            'preparation_time' => $validated['preparation_time']
+            'preparation_time' => $validated['preparation_time'],
         ]);
 
-    return redirect()->back()->with('success', 'Meal updated successfully!');
-}
+        return redirect()->back()->with('success', 'Meal updated successfully!');
+    }
 
     public function destroy(Meal $meal)
     {

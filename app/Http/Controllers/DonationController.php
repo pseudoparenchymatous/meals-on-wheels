@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Donation;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DonationController extends Controller
@@ -50,8 +50,9 @@ class DonationController extends Controller
     public function index()
     {
         $donations = Donation::latest()->paginate(10);
+
         return Inertia::render('Donations/Index', [
-            'donations' => $donations
+            'donations' => $donations,
         ]);
     }
 
@@ -61,7 +62,7 @@ class DonationController extends Controller
     public function show(Donation $donation)
     {
         return Inertia::render('Donations/Show', [
-            'donation' => $donation
+            'donation' => $donation,
         ]);
     }
 
@@ -71,7 +72,7 @@ class DonationController extends Controller
     public function manage()
     {
         $donations = Donation::orderBy('created_at', 'desc')->get();
-        
+
         $stats = [
             'total_donors' => $donations->count(),
             'total_amount' => $donations->sum('amount'),
@@ -81,7 +82,7 @@ class DonationController extends Controller
 
         return Inertia::render('Admin/DonorManagement', [
             'donors' => $donations,
-            'stats' => $stats
+            'stats' => $stats,
         ]);
     }
 
@@ -109,6 +110,7 @@ class DonationController extends Controller
     public function destroy(Donation $donation)
     {
         $donation->delete();
+
         return redirect()->back()->with('success', 'Donor record deleted successfully.');
     }
 
@@ -123,8 +125,10 @@ class DonationController extends Controller
                 'cancelled_at' => now(),
                 'next_payment_date' => null, // Stop future payments
             ]);
+
             return redirect()->back()->with('success', 'Recurring donation cancelled successfully.');
         }
+
         return redirect()->back()->with('error', 'This is not a recurring donation.');
     }
 
@@ -136,7 +140,7 @@ class DonationController extends Controller
     {
         // Simulate a successful payment
         $donation->markAsCompleted();
-        
+
         // For recurring donations, set the status to active
         if ($donation->donation_type === 'recurring') {
             $donation->status = 'active';
@@ -145,7 +149,7 @@ class DonationController extends Controller
 
         return [
             'success' => true,
-            'payment_url' => null
+            'payment_url' => null,
         ];
     }
 }

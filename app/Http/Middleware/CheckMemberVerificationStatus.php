@@ -15,7 +15,7 @@ class CheckMemberVerificationStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->userable->verified) {
+        if (! auth()->user()->userable->verified) {
             return redirect(route('member.verify.notify'));
         }
 

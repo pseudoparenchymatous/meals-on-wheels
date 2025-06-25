@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
 {
@@ -48,7 +48,7 @@ class Donation extends Model
     {
         if ($this->donation_type === 'recurring' && $this->frequency) {
             $date = $this->payment_date ? $this->payment_date->copy() : now();
-            
+
             switch ($this->frequency) {
                 case 'monthly':
                     $date->addMonth();

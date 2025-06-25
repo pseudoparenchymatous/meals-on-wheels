@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\MealAssignment;
 use Inertia\Inertia;
 
 class CaregiverDeliveryTrackerController extends Controller
@@ -18,7 +16,7 @@ class CaregiverDeliveryTrackerController extends Controller
                 'meal',
                 'kitchenPartner',
                 'rider',
-                'weeklyPlan'
+                'weeklyPlan',
             ]),
         ]);
     }

@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::viaRequest('admin', function ($request) {
-            if (!auth()->check()) {
+            if (! auth()->check()) {
                 return null;
             }
 
@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::viaRequest('kitchen-partner', function () {
-            if (!auth()->check()) {
+            if (! auth()->check()) {
                 return null;
             }
 
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::viaRequest('member', function ($request) {
-            if (!auth()->check()) {
+            if (! auth()->check()) {
                 return null;
             }
 
@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::viaRequest('rider', function ($request) {
-            if (!auth()->check()) {
+            if (! auth()->check()) {
                 return null;
             }
 

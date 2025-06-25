@@ -8,7 +8,6 @@ use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\Rider;
 use App\Models\WeeklyPlan;
-use App\Models\Ingredients;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -54,10 +53,10 @@ class MealAssignmentController extends Controller
             'member_id' => $request->memberId,
             'rider_id' => $request->riderId,
             'temperature' => $this->isWithin10Km(
-                $kitchenUser->location_lat, 
+                $kitchenUser->location_lat,
                 $kitchenUser->location_lng,
-                $memberUser->location_lat, 
-                $memberUser->location_lng, 
+                $memberUser->location_lat,
+                $memberUser->location_lng,
             ) ? 'hot' : 'frozen',
             'weekly_plan_id' => $request->weeklyPlanId,
         ]);
@@ -97,10 +96,10 @@ class MealAssignmentController extends Controller
         //
     }
 
-    function isWithin10Km($lat1, $lon1, $lat2, $lon2) 
+    public function isWithin10Km($lat1, $lon1, $lat2, $lon2)
     {
         // Earth's radius in kilometers
-        $earthRadius = 6371; 
+        $earthRadius = 6371;
 
         // Convert degrees to radians
         $lat1 = deg2rad($lat1);

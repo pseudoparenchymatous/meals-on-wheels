@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    protected static ?string $password = "12345678";
+    protected static ?string $password = '12345678';
 
     public function definition(): array
     {
