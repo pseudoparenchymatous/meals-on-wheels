@@ -225,7 +225,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
                                 disabled={isSubmitting}
                                 type="submit"
                                 onClick={(e) => handleUpdateSubmit(e)}
-                                className="w-140 bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6"
+                                className="w-140 mt-6"
                             >
                                 Update
                             </Button>
@@ -236,7 +236,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
                                         disabled={isSubmitting}
                                         type="submit"
                                         onClick={(e) => handleAddSubmit(e, true)}
-                                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6"
+                                        className="w-full mt-6"
                                     >
                                         Add
                                     </Button>
@@ -245,7 +245,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
                                         disabled={isSubmitting}
                                         type="submit"
                                         onClick={(e) => handleAddSubmit(e, false)}
-                                        className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6"
+                                        className="w-full mt-6"
                                     >
                                         Done adding
                                     </Button>
