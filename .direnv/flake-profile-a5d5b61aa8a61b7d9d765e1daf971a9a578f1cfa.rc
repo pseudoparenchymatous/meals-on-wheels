@@ -35,7 +35,7 @@ NIX_CC='/nix/store/0fsnicvfpf55nkza12cjnad0w84d6ba7-gcc-wrapper-14.2.1.20250322'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=x56clqq4yl -isystem /nix/store/c8jxsih8yy2rnncdmx2hyraizf689nvp-nodejs-22.14.0/include -isystem /nix/store/c8jxsih8yy2rnncdmx2hyraizf689nvp-nodejs-22.14.0/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=z43k0lk1zz -isystem /nix/store/c8jxsih8yy2rnncdmx2hyraizf689nvp-nodejs-22.14.0/include -isystem /nix/store/c8jxsih8yy2rnncdmx2hyraizf689nvp-nodejs-22.14.0/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -179,6 +179,7 @@ declare -a propagatedTargetDepFiles=('propagated-target-target-deps' )
 shell='/nix/store/xy4jjgw87sbgwylm5kn047d9gkbhsr9x-bash-5.2p37/bin/bash'
 export shell
 shellHook='echo "Developing Meals on Wheels";
+PATH=./vendor/bin:$PATH
 '
 export shellHook
 stdenv='/nix/store/nivcx63drxqzm6pic6vm2wbkxl368w83-stdenv-linux'
