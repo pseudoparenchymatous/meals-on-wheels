@@ -35,7 +35,7 @@ class MealAssignmentController extends Controller
         return Inertia::render('Admin/AssignMeal', [
             'kitchenPartners' => KitchenPartner::all(),
             'meals' => Meal::all(),
-            'members' => Member::all(),
+            'members' => Member::with('mealAssignments')->get(),
             'riders' => Rider::all(),
             'weeklyPlans' => WeeklyPlan::all(),
         ]);

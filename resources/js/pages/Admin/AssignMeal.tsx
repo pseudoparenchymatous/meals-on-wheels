@@ -81,7 +81,19 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                 <SelectValue placeholder="Member" />
                             </SelectTrigger>
                             <SelectContent>
-                                {members.map(member => (
+                                {members.filter(member => {
+                                    const arrayLength = member.meal_assignments.length;
+                                    for (let i = 0; i < arrayLength; i++) {
+                                        if (
+                                            member.meal_assignments[i].day === data.day
+                                            && member.meal_assignments[i].weekly_plan_id === Number(data.weeklyPlanId)
+                                        ) {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                }).map(member => (
                                     <SelectItem key={member.id} value={member.id.toString()}>
                                         {member.first_name} {member.last_name}
                                     </SelectItem>
