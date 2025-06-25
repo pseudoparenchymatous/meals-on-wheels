@@ -47,7 +47,7 @@ export default function ServiceFeatures() {
     return (
         <section className="m-10">
             <h2 className="p-2 text-center font-semibold text-xl">{heading}</h2>
-            <div className="m-5 grid md:grid-cols-2 gap-4 justify-items-center">
+            <div className="grid gap-15 justify-items-center max-w-fit my-5 mx-auto md:grid-cols-2">
                 {features.map((feature, index) => <ServiceFeatureCard key={index} feature={feature}/>)}
             </div>
         </section>

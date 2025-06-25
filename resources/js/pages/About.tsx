@@ -27,13 +27,13 @@ const Cards =[
 
 function RoleCards({ roleBox }){
     return(
-        <a href="#" className="flex flex-col bg-accent border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-blue-200 dark:border-gray-700 dark:bg-accent dark:hover:bg-gray-700">
-            <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={roleBox.img} alt={roleBox.alt}/>
-            <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{roleBox.heading}</h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{roleBox.details}</p>
+        <div className="border max-w-lg rounded-lg hover:border-primary">
+            <img className="h-auto object-cover rounded-t-lg w-full" src={roleBox.img} alt={roleBox.alt}/>
+            <div className="max-w-100 m-10">
+                <h5 className="font-semibold mb-3 text-2xl">{roleBox.heading}</h5>
+                <p className="text-muted-foreground">{roleBox.details}</p>
             </div>
-        </a>
+        </div>
     );
 }
 
@@ -64,7 +64,7 @@ export default function About() {
                 </blockquote>
             </div>
             <section className='p-6 justify-items-center'>
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+                <div className='grid lg:grid-cols-3 gap-6'>
                     {Cards.map((card, index) => <RoleCards key={index} roleBox={card} />)}
                 </div>
             </section>

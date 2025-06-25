@@ -7,7 +7,7 @@ use App\Models\Ingredient;
 
 class Meal extends Model
 {
-    protected $fillable = ['name', 'meal_tag', 'prepared_by', 'preparation_time', 'image_path'];
+    protected $fillable = ['name', 'meal_tag', 'preparation_time', 'image_path', 'kitchen_partner_id'];
 
     public function mealAssignments()
     {

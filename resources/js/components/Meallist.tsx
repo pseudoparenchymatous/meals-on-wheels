@@ -96,7 +96,7 @@ export default function Meallist({ meals, ingredients }) {
 
     const deleteMeal = (id) => {
         setIsSubmitting(true);
-        router.delete(`/admin/meals/${id}`, {
+        router.delete(`/kitchen-partner/meals/${id}`, {
             onSuccess: () => {
                 toast.success("Meal has been deleted.");
                 setOpenConfirmDialog(false);
@@ -114,19 +114,7 @@ export default function Meallist({ meals, ingredients }) {
     return (
         <div>
         <Toaster position="top-center" richColors/>
-        
-        
         {/*this is the componnet of the admin to view/edit meals */}
-        {activeTab === 'Meals' && (
-            <MealForm
-                selected={selected}
-                setSelectedMeal={setSelected}
-                open={open}
-                setOpen={setOpen}
-                activeTab={activeTab}
-                showAddButton={false}
-            />
-        )}
 
         {activeTab === 'Ingredients' && (
             <IngredientForm
@@ -151,7 +139,6 @@ export default function Meallist({ meals, ingredients }) {
                     <TableRow className="text-xs uppercase">
                         <TableHead>Image</TableHead>
                         <TableHead>Meal Name</TableHead>
-                        <TableHead>Prepared By</TableHead>
                         <TableHead>Prep Time</TableHead>
                         <TableHead>Meal Tags</TableHead>
                         <TableHead>Actions</TableHead>
@@ -168,7 +155,6 @@ export default function Meallist({ meals, ingredients }) {
                                 />
                             </TableCell>
                             <TableCell>{meal.name} </TableCell>
-                            <TableCell>{meal.prepared_by}</TableCell>
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
                             <TableCell className="space-x-2">
@@ -237,7 +223,7 @@ export default function Meallist({ meals, ingredients }) {
                         <AlertDialogDescription>
                             <p>Are you sure you want to delete this {''}<br/>
                                 <strong className="text-red-600 font-bold text-lg">
-                                    {activeTab === "Meals" ? mealToDelete?.title : ingredientToDelete?.ing_name}
+                                    {activeTab === "Meals" ? mealToDelete?.name : ingredientToDelete?.ing_name}
                                 </strong> 
                                 ?
                             </p>

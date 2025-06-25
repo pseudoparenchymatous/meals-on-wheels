@@ -8,10 +8,10 @@ import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SheetDescription } from './ui/sheet';
 import IngredientForm from './IngredientForm';
+import {usePage} from '@inertiajs/react';
 
-export default function MealForm({ auth, orgName, setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true }) {
-
-    const partnerName = auth?.kitchen_partner ? `${auth.kitchen_partner.org_name}` : 'dasd';
+export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true }) {
+    const {auth} = usePage().props;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [ingredients, setIngredients] = useState([]);
@@ -21,7 +21,6 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
     const [form, setForm] = useState({
         name: '',
         meal_tag: null,
-        prepared_by: '',
         preparation_time: '',
         image: null,
     });
@@ -39,7 +38,6 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
             setForm({ 
                 name: selected.name,
                 meal_tag: selected.meal_tag,
-                prepared_by: selected.prepared_by,
                 preparation_time: selected.preparation_time,
                 image: null,
             });
@@ -47,7 +45,6 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
             setForm({ 
                 name: '',
                 meal_tag: null,
-                prepared_by: auth?.kitchen_partner?.org_name || '',
                 preparation_time: '',
                 image: null,
             });
@@ -71,11 +68,10 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
     
         if (isSubmitting) return;
         setIsSubmitting(true);
-
+    
         const data = new FormData();
             data.append('name', form.name);
             data.append('meal_tag', form.meal_tag);
-            data.append('prepared_by', form.prepared_by);
             data.append('preparation_time', form.preparation_time);
     
         if (form.image) {
@@ -87,7 +83,7 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
 
         if (selected) {
             data.append('_method', 'PUT'); 
-            router.post(`/admin/meals/${selected.id}`, data, {
+            router.post(`/kitchen-partner/meals/${selected.id}`, data, {
                 onSuccess: () => {
                 setOpen(false);
                 setSelectedMeal(null);
@@ -124,7 +120,6 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
                         setForm({
                             name: '',
                             meal_tag: null,
-                            prepared_by: '',
                             preparation_time: '',
                             image: null,
                         });
@@ -149,17 +144,6 @@ export default function MealForm({ auth, orgName, setOpen, open, selected, setSe
                             required
                             placeholder="Meal name"
                             value={form.name}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <Label>Prepared By:</Label>
-                        <Input
-                            name="prepared_by"
-                            required
-                            placeholder="Prepared by"
-                            value={form.prepared_by}
                             onChange={handleChange}
                         />
                     </div>

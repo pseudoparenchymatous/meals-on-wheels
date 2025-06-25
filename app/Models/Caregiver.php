@@ -8,8 +8,15 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 class Caregiver extends Model
 {
     protected $fillable = [
+        'first_name',
+        'last_name',
         'member_id',
     ];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 
     public function user(): MorphOne
     {
