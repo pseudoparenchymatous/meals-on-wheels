@@ -13,10 +13,10 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($x = 0; $x < 10; $x++) {
-            User::factory()->for(
-                Member::factory(), 'userable'
-            )->create();
-        }
+        $members = Member::factory()->count(231)->create();
+
+        $members->each(function ($member) {
+            User::factory()->for($member, 'userable')->create();
+        });
     }
 }

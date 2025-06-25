@@ -13,8 +13,10 @@ class RiderSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->for(
-            Rider::factory(), 'userable'
-        )->create();
+        $riders = Rider::factory()->count(38)->create();
+
+        $riders->each(function ($rider) {
+            User::factory()->for($rider, 'userable')->create();
+        });
     }
 }
