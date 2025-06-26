@@ -390,6 +390,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                             <TableCell>{formatDate(donor.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2">
+                                                    {/* Email and View buttons 
                                                     <Button size="sm" variant="outline">
                                                         <Mail className="w-4 h-4 mr-1" />
                                                         Email
@@ -397,6 +398,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         View
                                                     </Button>
+                                                    */}
                                                     <Button 
                                                         size="sm" 
                                                         variant="destructive"
@@ -425,7 +427,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                     <TableHead>Type</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Date</TableHead>
-                                    <TableHead>Actions</TableHead>
+                                    {/*<TableHead>Actions</TableHead>*/}
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -457,6 +459,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                             <TableCell>{formatDate(donor.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2">
+                                                    {/* Email and View buttons
                                                     <Button size="sm" variant="outline">
                                                         <Mail className="w-4 h-4 mr-1" />
                                                         Thank
@@ -464,6 +467,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                     <Button size="sm" variant="outline">
                                                         View
                                                     </Button>
+                                                    */}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -763,8 +767,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     <PopoverContent className="w-auto p-0">
                         <CalendarPicker
                         mode="single"
-                        selected={editForm.next_payment_date}
-                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date })}
+                        selected={editForm.next_payment_date ? new Date(editForm.next_payment_date) : undefined}
+                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date ? date.toISOString().split('T')[0] : '' })}
                         initialFocus
                         />
                     </PopoverContent>
