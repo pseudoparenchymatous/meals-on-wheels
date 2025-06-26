@@ -8,6 +8,9 @@ import { Toaster } from "@/components/ui/sonner";
 import { useState } from 'react';
 
 export function UsersTable({ data }) {
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [userId, setUserId] = useState(0);
+
     const columns = [
         {
             accessorKey: 'id',
@@ -47,9 +50,6 @@ export function UsersTable({ data }) {
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
-
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [userId, setUserId] = useState(0);
 
     return (
         <div className="border rounded-md">
