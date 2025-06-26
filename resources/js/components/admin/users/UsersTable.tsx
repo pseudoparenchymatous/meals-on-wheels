@@ -33,10 +33,11 @@ export function UsersTable({ data }) {
                     <Button asChild variant="outline">
                         <Link href={route('admin.users.edit', row.original.id)}>Edit</Link>
                     </Button>
-                    <DialogTrigger asChild>
-                        <Button variant="destructive" onClick={() => setUserId(row.original.id)}>Delete</Button>
-                    </DialogTrigger>
-
+                    {row.original.type !== 'admin' && (
+                        <DialogTrigger asChild>
+                            <Button variant="destructive" onClick={() => setUserId(row.original.id)}>Delete</Button>
+                        </DialogTrigger>
+                    )}
                 </div>),
         },
     ];
