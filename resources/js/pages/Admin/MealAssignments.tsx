@@ -7,7 +7,9 @@ import { toast, Toaster } from "sonner";
 export default function MealAssignments({ mealAssignments }) {
     const { flash } = usePage().props
     if (flash.message) {
-        toast.success(flash.message);
+        setTimeout(() => {
+            toast.success(flash.message);
+        }, 0)
     }
 
     return (
