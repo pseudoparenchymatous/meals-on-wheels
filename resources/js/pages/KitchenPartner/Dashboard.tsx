@@ -64,9 +64,9 @@ export default function Dashboard({ orgName, mealAssignments }) {
                                         <TableCell>{assignment.id}</TableCell>
                                         <TableCell>{assignment.weekly_plan_id}</TableCell>
                                         <TableCell>{assignment.day}</TableCell>
-                                        <TableCell>{assignment.members?.first_name}</TableCell>
+                                        <TableCell>{assignment.member?.last_name}</TableCell>
                                         <TableCell>{assignment.meal?.name}</TableCell>
-                                        <TableCell>{assignment.rider.first_name} {assignment.rider.first_name}</TableCell>
+                                        <TableCell>{assignment.rider.first_name} {assignment.rider.last_name}</TableCell>
                                         <TableCell>{assignment.meal?.ingredients?.length > 0 ? (
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>

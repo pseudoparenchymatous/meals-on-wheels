@@ -68,6 +68,7 @@ Route::name('kitchen-partner.')->group(function () {
                         'meal',
                         'rider',
                         'meal.ingredients',
+                        'member',
                     ]),
                     'orgName' => auth()->user()->userable->org_name,
                 ]);
@@ -87,8 +88,8 @@ Route::name('kitchen-partner.')->group(function () {
 
             Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
             Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
-            Route::put('/meals/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
-            Route::delete('/meals/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
+            Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
+            Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
 
         });
     });

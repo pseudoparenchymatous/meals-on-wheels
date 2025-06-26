@@ -112,7 +112,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
         data.append('expiration_date', form.expiration_date);
         data.append('_method', 'PUT');
 
-        router.post(`/kitchen-partner/meals/ingredients/${selected.id}`, data, {
+        router.post(`/kitchen-partner/ingredients/${selected.id}`, data, {
             onSuccess: () => {
                 toast.success('Ingredient Updated!');
                 router.reload({ only: ['ingredients'] });
