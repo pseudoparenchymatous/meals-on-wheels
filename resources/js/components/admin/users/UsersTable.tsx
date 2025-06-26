@@ -98,14 +98,10 @@ export function UsersTable({ data }) {
                                     This action cannot be undone. This will permanently delete this user.
                                 </DialogDescription>
                             </DialogHeader>
-                            <Toaster richColors position="top-center" />
                             <Button
                                 asChild
                                 variant="destructive"
-                                onClick={() => {
-                                    setDialogOpen(false);
-                                    toast.success("User has been deleted");
-                                }}
+                                onClick={() => setDialogOpen(false)}
                             >
                                 <Link href={route('admin.users.destroy', userId)} method="delete">
                                     Confirm Delete
