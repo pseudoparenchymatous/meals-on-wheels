@@ -25,15 +25,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
 
     function onSubmit(e) {
         e.preventDefault();
-        post(route('admin.meal-assignments.store'), {
-            onSuccess: () => {
-                toast.success("Meal assigned successfully");
-                reset();
-            },
-            onError: (errors) => {
-                console.error(errors);
-            }
-        });
+        post(route('admin.meal-assignments.store'));
     }
 
     const daysOfWeek = [
@@ -47,7 +39,6 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
     return (
         <AdminLayout>
             <Head title="Assign Meal" />
-            <Toaster position="top-center" richColors />
             <div>
                 <h1 className="font-semibold text-xl mb-8">Assign a Meal</h1>
                 <form onSubmit={onSubmit} className="border flex flex-col gap-6 p-5 rounded-lg w-fit">
