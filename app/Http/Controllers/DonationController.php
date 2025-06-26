@@ -139,7 +139,7 @@ class DonationController extends Controller
         
         // For recurring donations, set the status to active
         if ($donation->donation_type === 'recurring') {
-            $donation->status = 'active';
+            $donation->status = 'pending';
             $donation->save();
         }
 
