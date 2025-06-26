@@ -20,7 +20,8 @@ class MemberFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'birth_date' => fake()->date(),
-            'proof_of_identity' => fake()->word(),
+            'proof_of_identity' => "proofs/sample.png",
+            'medical_condition' => "medicals/sample.png",
         ];
     }
 }
