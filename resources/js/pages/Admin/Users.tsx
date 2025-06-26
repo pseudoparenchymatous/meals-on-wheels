@@ -51,7 +51,7 @@ export default function Users({ unverifiedMembers, users }) {
                                         {unverifiedMembers.map(member => (
                                             <TableRow key={member.id}>
                                                 <TableCell className="font-medium">{member.id}</TableCell>
-                                                <TableCell>{member.first_name} {member.last_name}</TableCell>
+                                                <TableCell>{member.name}</TableCell>
                                                 <TableCell>{member.birth_date}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <DialogTrigger asChild>

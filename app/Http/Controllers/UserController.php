@@ -32,8 +32,7 @@ class UserController extends Controller
                     return [
                         'id' => $member->id,
                         'birth_date' => $member->birth_date,
-                        'first_name' => $member->first_name,
-                        'last_name' => $member->last_name,
+                        'name' => "{$member->first_name} {$member->last_name}",
                         'proof_of_identity' => $member->proof_of_identity,
                         'medical_condition' => $member->medical_condition,
                     ];
