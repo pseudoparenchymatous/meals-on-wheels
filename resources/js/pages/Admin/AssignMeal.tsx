@@ -1,12 +1,18 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import { useState } from "react";
 
 export default function AssignMeal({ kitchenPartners, meals, members, riders, weeklyPlans }) {
+    const [openMemberPopover, setOpenMemberPopover] = useState(false);
     const { data, setData, post, processing, reset, errors } = useForm({
         day: '',
         weeklyPlanId: '',
@@ -76,30 +82,61 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                     </div>
                     <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="member">Member</Label>
-                        <Select value={data.memberId} onValueChange={(value) => setData('memberId', value)}>
-                            <SelectTrigger id="member" className="w-auto">
-                                <SelectValue placeholder="Member" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {members.filter(member => {
-                                    const arrayLength = member.meal_assignments.length;
-                                    for (let i = 0; i < arrayLength; i++) {
-                                        if (
-                                            member.meal_assignments[i].day === data.day
-                                            && member.meal_assignments[i].weekly_plan_id === Number(data.weeklyPlanId)
-                                        ) {
-                                            return false;
-                                        }
-                                    }
+                        <Popover open={openMemberPopover} onOpenChange={setOpenMemberPopover}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    aria-expanded={openMemberPopover}
+                                    className="w-[200px] justify-between"
+                                >
+                                    {data.memberId
+                                        ? members.find(member => member.id === Number(data.memberId)).first_name + ' ' + members.find(member => member.id == data.memberId).last_name
+                                        : "Select member..."}
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[200px] p-0">
+                                <Command>
+                                    <CommandInput placeholder="Search member..." />
+                                    <CommandList>
+                                        <CommandEmpty>No framework found.</CommandEmpty>
+                                        <CommandGroup>
+                                            {members.filter(member => {
+                                                const arrayLength = member.meal_assignments.length;
+                                                for (let i = 0; i < arrayLength; i++) {
+                                                    if (
+                                                        member.meal_assignments[i].day === data.day
+                                                        && member.meal_assignments[i].weekly_plan_id === Number(data.weeklyPlanId)
+                                                    ) {
+                                                        return false;
+                                                    }
+                                                }
 
-                                    return true;
-                                }).map(member => (
-                                    <SelectItem key={member.id} value={member.id.toString()}>
-                                        {member.first_name} {member.last_name}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                                                return true;
+                                            }).map(member => (
+                                                <CommandItem
+                                                    key={member.id}
+                                                    value={member.id.toString()}
+                                                    onSelect={currentValue => {
+                                                        setData('memberId', currentValue);
+                                                        setOpenMemberPopover(false);
+                                                    }}
+                                                >
+                                                    {member.first_name} {member.last_name}
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            data.memberId === member.id ? "opacity-100" : "opacity-0"
+                                                        )}
+                                                    />
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </CommandList>
+                                </Command>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="flex gap-4 items-center justify-between">
                         <Label htmlFor="meal">Meal</Label>
