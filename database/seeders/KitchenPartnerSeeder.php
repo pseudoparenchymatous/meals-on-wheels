@@ -16,8 +16,10 @@ class KitchenPartnerSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->for(
-            KitchenPartner::factory(), 'userable'
-        )->create();
+        $partners = KitchenPartner::factory()->count(23)->create();
+
+        $partners->each(function ($partner) {
+            User::factory()->for($partner, 'userable')->create();
+        });
     }
 }

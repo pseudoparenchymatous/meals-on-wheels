@@ -11,7 +11,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { differenceInDays, parseISO } from 'date-fns';
 import { ShieldAlert } from 'lucide-react';
 
-export default function Dashboard({ mealAssignments }) {
+export default function Dashboard({ orgName, mealAssignments }) {
     const [assignmentId, setAssignmentId] = useState(0);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [status, setStatus] = useState(0);
@@ -34,10 +34,10 @@ export default function Dashboard({ mealAssignments }) {
     }
 
     return (
-        
         <KitchenPartnerLayout>
             <Toaster position="top-center" richColors />
             <div className="m-10">
+                <h2 className="font-semibold mb-4 text-2xl">Hello, {orgName}!</h2>
                 <KitchenCard assignments={mealAssignments} expiringIngredients={getExpiringIngredients(mealAssignments)}/>
                 
 
@@ -64,9 +64,9 @@ export default function Dashboard({ mealAssignments }) {
                                         <TableCell>{assignment.id}</TableCell>
                                         <TableCell>{assignment.weekly_plan_id}</TableCell>
                                         <TableCell>{assignment.day}</TableCell>
-                                        <TableCell>{assignment.members?.first_name}</TableCell>
+                                        <TableCell>{assignment.member?.last_name}</TableCell>
                                         <TableCell>{assignment.meal?.name}</TableCell>
-                                        <TableCell>{assignment.rider.first_name} {assignment.rider.first_name}</TableCell>
+                                        <TableCell>{assignment.rider.first_name} {assignment.rider.last_name}</TableCell>
                                         <TableCell>{assignment.meal?.ingredients?.length > 0 ? (
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>

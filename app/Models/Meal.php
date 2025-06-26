@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Ingredient;
 
 class Meal extends Model
 {
@@ -13,8 +12,14 @@ class Meal extends Model
     {
         return $this->hasMany(MealAssignment::class);
     }
+
     public function ingredients()
     {
         return $this->hasMany(Ingredients::class);
     }
+    public function kitchenPartner()
+    {
+        return $this->belongsTo(KitchenPartner::class, 'kitchen_partner_id');
+    }
 }
+

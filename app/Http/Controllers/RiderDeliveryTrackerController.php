@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\MealAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class RiderDeliveryTrackerController extends Controller
 {

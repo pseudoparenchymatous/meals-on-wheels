@@ -3,29 +3,18 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Head, Link } from '@inertiajs/react';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table" 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { set } from 'date-fns';
+import { useState } from 'react';
 
-export default function Users({ users }) {
+export default function Users({ unverifiedMembers, users }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [userId, setUserId] = useState(0);
     const [toVerify, setToVerify] = useState(0);
     const [proofPath, setProofPath] = useState('');
     const [conditionPath, setConditionPath] = useState('');
-
-    const members = users.filter(user => user.userable_type === 'member');
-    const unverified = members.filter(member => member.userable.verified == false);
 
     return (
         <AdminLayout>
@@ -45,6 +34,7 @@ export default function Users({ users }) {
                                     <TableRow>
                                         <TableHead>User ID</TableHead>
                                         <TableHead>Name</TableHead>
+                                        <TableHead>Email</TableHead>
                                         <TableHead>Type</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
@@ -54,12 +44,9 @@ export default function Users({ users }) {
                                         {users.map(user => (
                                             <TableRow key={user.id}>
                                                 <TableCell className="font-medium">{user.id}</TableCell>
-                                                {user.userable_type !== 'kitchen partner' ? (
-                                                    <TableCell>{user.userable.first_name} {user.userable.last_name}</TableCell>
-                                                ) : (
-                                                        <TableCell>{user.userable.org_name}</TableCell>
-                                                    )}
-                                                <TableCell>{user.userable_type}</TableCell>
+                                                <TableCell>{user.name}</TableCell>
+                                                <TableCell>{user.email}</TableCell>
+                                                <TableCell>{user.type}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <Button asChild variant="outline">
                                                         <Link href={route('admin.users.edit', user.id)}>Edit</Link>
@@ -108,17 +95,17 @@ export default function Users({ users }) {
                                 </TableHeader>
                                 <TableBody>
                                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                        {unverified.map(unverified => (
-                                            <TableRow key={unverified.userable.id}>
-                                                <TableCell className="font-medium">{unverified.userable.id}</TableCell>
-                                                <TableCell>{unverified.userable.first_name} {unverified.userable.last_name}</TableCell>
-                                                <TableCell>{unverified.userable.birth_date}</TableCell>
+                                        {unverifiedMembers.map(member => (
+                                            <TableRow key={member.id}>
+                                                <TableCell className="font-medium">{member.id}</TableCell>
+                                                <TableCell>{member.first_name} {member.last_name}</TableCell>
+                                                <TableCell>{member.birth_date}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <DialogTrigger asChild>
                                                         <Button variant="outline" onClick={() => {
-                                                            setToVerify(unverified.userable.id);
-                                                            setProofPath(unverified.userable.proof_of_identity);
-                                                            setConditionPath(unverified.userable.medical_condition);
+                                                            setToVerify(member.id);
+                                                            setProofPath(member.proof_of_identity);
+                                                            setConditionPath(member.medical_condition);
                                                         }}>Check</Button>
                                                     </DialogTrigger>
                                                 </TableCell>

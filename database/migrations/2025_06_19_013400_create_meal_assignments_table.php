@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('meal_assignments', function (Blueprint $table) {
             $table->id();
             $table->enum('day', ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']);
-            $table->enum('status', ['pending', 'preparing', 'picked up', 'on the way', 'delivered' ])->default('pending');
+            $table->enum('status', ['pending', 'preparing', 'picked up', 'on the way', 'delivered'])->default('pending');
             $table->enum('temperature', ['hot', 'frozen']);
             $table->foreignIdFor(App\Models\WeeklyPlan::class);
             $table->foreignIdFor(App\Models\Member::class);

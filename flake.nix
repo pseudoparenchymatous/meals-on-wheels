@@ -39,6 +39,7 @@
 
       shellHook = ''
         echo "Developing Meals on Wheels";
+        PATH=./vendor/bin:$PATH
       '';
 
       # Environment variables

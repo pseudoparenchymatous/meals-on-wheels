@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Rider;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RiderSeeder extends Seeder
@@ -14,8 +13,10 @@ class RiderSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->for(
-            Rider::factory(), 'userable'
-        )->create();
+        $riders = Rider::factory()->count(38)->create();
+
+        $riders->each(function ($rider) {
+            User::factory()->for($rider, 'userable')->create();
+        });
     }
 }

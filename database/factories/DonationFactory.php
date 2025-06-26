@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 /**
  * @extends Factory<\App\Models\Donation>
@@ -30,11 +30,11 @@ class DonationFactory extends Factory
 
             'payment_method' => $paymentMethod,
             'status' => $this->faker->randomElement(['pending', 'completed', 'failed', 'cancelled', 'refunded']),
-            'payment_intent_id' => $paymentMethod === 'stripe' ? 'pi_' . Str::random(14) : null,
-            'transaction_id' => 'txn_' . Str::random(14),
-            'subscription_id' => $isRecurring ? 'sub_' . Str::random(14) : null,
+            'payment_intent_id' => $paymentMethod === 'stripe' ? 'pi_'.Str::random(14) : null,
+            'transaction_id' => 'txn_'.Str::random(14),
+            'subscription_id' => $isRecurring ? 'sub_'.Str::random(14) : null,
 
-            'paypal_payment_id' => $paymentMethod === 'paypal' ? 'PAY-' . Str::random(10) : null,
+            'paypal_payment_id' => $paymentMethod === 'paypal' ? 'PAY-'.Str::random(10) : null,
             'paypal_payer_id' => $paymentMethod === 'paypal' ? Str::random(13) : null,
 
             'payment_details' => json_encode(['platform' => $this->faker->randomElement(['web', 'mobile'])]),

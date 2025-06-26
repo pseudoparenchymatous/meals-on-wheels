@@ -115,6 +115,16 @@ export default function Meallist({ meals, ingredients }) {
         <div>
         <Toaster position="top-center" richColors/>
         {/*this is the componnet of the admin to view/edit meals */}
+        {activeTab === 'Meals' && (
+            <MealForm
+                selected={selected}
+                setSelectedMeal={setSelected}
+                open={open}
+                setOpen={setOpen}
+                activeTab={activeTab}
+                showAddButton={false}
+            />
+        )}
 
         {activeTab === 'Ingredients' && (
             <IngredientForm
@@ -138,6 +148,7 @@ export default function Meallist({ meals, ingredients }) {
                 <TableHeader>
                     <TableRow className="text-xs uppercase">
                         <TableHead>Image</TableHead>
+                        <TableHead>Kitchen Name</TableHead>
                         <TableHead>Meal Name</TableHead>
                         <TableHead>Prep Time</TableHead>
                         <TableHead>Meal Tags</TableHead>
@@ -154,6 +165,7 @@ export default function Meallist({ meals, ingredients }) {
                                 className="h-16 w-20 object-cover rounded place-content-center" 
                                 />
                             </TableCell>
+                            <TableCell>{meal.org_name}</TableCell>
                             <TableCell>{meal.name} </TableCell>
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
@@ -235,8 +247,7 @@ export default function Meallist({ meals, ingredients }) {
                             onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={isSubmitting}
-                            onClick={() => activeTab === "Meals" ? deleteMeal(mealToDelete.id) : deleteIngredient(ingredientToDelete.id)
-                                }
+                            onClick={() =>  deleteMeal(mealToDelete.id)}
                         > {isSubmitting ? 'Processing...' : 'Delete'}
                         </AlertDialogAction>
                     </AlertDialogFooter>

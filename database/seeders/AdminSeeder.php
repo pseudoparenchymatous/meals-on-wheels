@@ -16,8 +16,10 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->for(
-            Admin::factory(), 'userable'
-        )->create();
+        $admins = Admin::factory()->count(12)->create();
+
+        $admins->each(function ($admin) {
+            User::factory()->for($admin, 'userable')->create();
+        });
     }
 }

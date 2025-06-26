@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Meal;
-use App\Models\KitchenPartner;
 use App\Models\Ingredients;
+use App\Models\KitchenPartner;
+use App\Models\Meal;
+use Illuminate\Database\Seeder;
 
 class MealSeeder extends Seeder
 {
@@ -99,7 +99,7 @@ class MealSeeder extends Seeder
 
         $mealIndex = 0;
         foreach ($meals as $mealData) {
-            
+
             // Assign meals to kitchen partners in a randomized
             $kitchenPartner = $kitchenPartners->random();
 

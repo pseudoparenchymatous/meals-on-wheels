@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MealAssignment;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use App\Models\Meal; // make sure to import the Meal model
 
 class MemberDashboardController extends Controller
 {
@@ -14,13 +13,21 @@ class MemberDashboardController extends Controller
         $user = Auth::user();
         $member = $user->userable;
 
-        //  Get all meals from the database
-        $meals = Meal::latest()->get()->map(function ($meal) {
+        // Fetch meals assigned to this member
+        $mealAssignments = MealAssignment::with('meal')
+            ->where('member_id', $member->id)
+            ->orderBy('day') 
+            ->get();
+
+        // Transform the assigned meals
+        $meals = $mealAssignments->map(function ($assignment) {
+            $meal = $assignment->meal;
+
             return [
                 'id' => $meal->id,
                 'name' => $meal->name,
-                'image' => $meal->image_path 
-                    ? asset('storage/' . $meal->image_path) 
+                'image' => $meal->image_path
+                    ? asset('images/' . $meal->image_path)
                     : null,
             ];
         });
@@ -30,7 +37,7 @@ class MemberDashboardController extends Controller
                 'user' => $user,
                 'member' => $member,
             ],
-            'meals' => $meals, // send meals to React
+            'meals' => $meals,
         ]);
     }
 }
