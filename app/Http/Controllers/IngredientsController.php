@@ -42,12 +42,11 @@ class IngredientsController extends Controller
         $validate = $request->validate([
             'ing_name' => 'required|string',
             'ing_type' => 'required|string',
-            'unit' => 'required|integer',
+            'unit' => 'required|string',
             'date_arrive' => 'required|date',
             'expiration_date' => 'required|date',
         ]);
 
-        dd('validation done');
         $ingredients->update([
             'ing_name' => $validate['ing_name'],
             'ing_type' => $validate['ing_type'],
