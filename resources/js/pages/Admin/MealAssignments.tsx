@@ -1,12 +1,19 @@
 import AdminLayout from "@/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { toast, Toaster } from "sonner";
 
 export default function MealAssignments({ mealAssignments }) {
+    const { flash } = usePage().props
+    if (flash.message) {
+        toast.success(flash.message);
+    }
+
     return (
         <AdminLayout>
             <Head title="Meal Assignments" />
+            <Toaster position="top-center" richColors />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold text-2xl">Meal Assignments</h1>
                 <Button asChild variant="outline" className="my-3">
