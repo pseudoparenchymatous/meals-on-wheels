@@ -70,7 +70,7 @@ class MealAssignmentController extends Controller
             'weekly_plan_id' => $request->weeklyPlanId,
         ]);
 
-        return redirect()->back()->with('message', 'Meal assignment created successfully!');
+        return to_route('admin.meal-assignments.index')->with('message', 'Meal assigned successfully!');
     }
 
     /**
