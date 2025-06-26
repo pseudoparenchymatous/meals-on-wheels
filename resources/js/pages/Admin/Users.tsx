@@ -8,10 +8,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useState } from 'react';
+import { UsersTable } from '@/components/admin/users/UsersTable';
 
 export default function Users({ unverifiedMembers, users }) {
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [userId, setUserId] = useState(0);
     const [toVerify, setToVerify] = useState(0);
     const [proofPath, setProofPath] = useState('');
     const [conditionPath, setConditionPath] = useState('');
@@ -28,59 +28,7 @@ export default function Users({ unverifiedMembers, users }) {
                         <TabsTrigger value="unverified">Needs Verification</TabsTrigger>
                     </TabsList>
                     <TabsContent value="all">
-                        <div className="border rounded-xl">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>User ID</TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Email</TableHead>
-                                        <TableHead>Type</TableHead>
-                                        <TableHead>Action</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                                        {users.map(user => (
-                                            <TableRow key={user.id}>
-                                                <TableCell className="font-medium">{user.id}</TableCell>
-                                                <TableCell>{user.name}</TableCell>
-                                                <TableCell>{user.email}</TableCell>
-                                                <TableCell>{user.type}</TableCell>
-                                                <TableCell className="flex gap-2">
-                                                    <Button asChild variant="outline">
-                                                        <Link href={route('admin.users.edit', user.id)}>Edit</Link>
-                                                    </Button>
-                                                    <DialogTrigger asChild>
-                                                        <Button variant="destructive" onClick={() => setUserId(user.id)}>Delete</Button>
-                                                    </DialogTrigger>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                <DialogDescription>
-                                                    This action cannot be undone. This will permanently delete this user.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <Button
-                                                asChild
-                                                variant="destructive"
-                                                onClick={() => {
-                                                    setDialogOpen(false);
-                                                    toast.success("User has been deleted");
-                                                }}
-                                            >
-                                                <Link href={route('admin.users.destroy', userId)} method="delete">
-                                                    Confirm Delete
-                                                </Link>
-                                            </Button>
-                                        </DialogContent>
-                                    </Dialog>
-                                </TableBody>
-                            </Table>
-                        </div>
+                        <UsersTable data={users} />
                     </TabsContent>
                     <TabsContent value="unverified">
                         <div className="border rounded-xl">
