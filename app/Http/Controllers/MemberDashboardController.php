@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MealAssignment;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Models\MealAssignment;
 
 class MemberDashboardController extends Controller
 {
@@ -27,7 +27,7 @@ class MemberDashboardController extends Controller
                 'id' => $meal->id,
                 'name' => $meal->name,
                 'image' => $meal->image_path
-                    ? asset('images/' . $meal->image_path)  
+                    ? asset('images/' . $meal->image_path)
                     : null,
             ];
         });
