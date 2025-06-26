@@ -68,6 +68,7 @@ Route::name('kitchen-partner.')->group(function () {
                         'meal',
                         'rider',
                         'meal.ingredients',
+                        'member',
                     ]),
                     'orgName' => auth()->user()->userable->org_name,
                 ]);
