@@ -767,8 +767,8 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                     <PopoverContent className="w-auto p-0">
                         <CalendarPicker
                         mode="single"
-                        selected={editForm.next_payment_date}
-                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date })}
+                        selected={editForm.next_payment_date ? new Date(editForm.next_payment_date) : undefined}
+                        onSelect={(date) => setEditForm({ ...editForm, next_payment_date: date ? date.toISOString().split('T')[0] : '' })}
                         initialFocus
                         />
                     </PopoverContent>
