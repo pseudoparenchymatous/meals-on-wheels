@@ -11,7 +11,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { differenceInDays, parseISO } from 'date-fns';
 import { ShieldAlert } from 'lucide-react';
 
-export default function Dashboard({ mealAssignments }) {
+export default function Dashboard({ orgName, mealAssignments }) {
     const [assignmentId, setAssignmentId] = useState(0);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [status, setStatus] = useState(0);
@@ -34,10 +34,10 @@ export default function Dashboard({ mealAssignments }) {
     }
 
     return (
-        
         <KitchenPartnerLayout>
             <Toaster position="top-center" richColors />
             <div className="m-10">
+                <h2 className="font-semibold mb-4 text-2xl">Hello, {orgName}!</h2>
                 <KitchenCard assignments={mealAssignments} expiringIngredients={getExpiringIngredients(mealAssignments)}/>
                 
 

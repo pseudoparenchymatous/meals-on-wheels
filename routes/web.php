@@ -69,6 +69,7 @@ Route::name('kitchen-partner.')->group(function () {
                         'rider',
                         'meal.ingredients',
                     ]),
+                    'orgName' => auth()->user()->userable->org_name,
                 ]);
             })->name('dashboard');
 
