@@ -45,7 +45,7 @@ const Cards = ({ data }) => {
         {
             title: "Urgent Alerts",
             value: data.alerts,
-            route: "#",
+            route: "/admin/meals",
             icon: <ClockAlert className="h-6 w-6 text-red-500" />,
         },
     ];
