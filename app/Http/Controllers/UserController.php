@@ -16,7 +16,16 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Users', [
-            'users' => User::with('userable')->get(),
+            'users' => User::with('userable')
+                ->get()
+                ->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'email' => $user->email,
+                        'name' => $this->userName($user),
+                        'type' => $user->userable_type,
+                    ];
+                }),
             'unverifiedMembers' => Member::where('verified', false)
                 ->get()
                 ->map(function ($member) {
@@ -81,5 +90,14 @@ class UserController extends Controller
         });
 
         return back()->with('message', 'User has been deleted');
+    }
+
+    public function userName(User $user)
+    {
+        if ($user->userable_type == 'kitchen partner') {
+            return $user->userable->org_name;
+        } else {
+            return $user->userable->first_name.' '.$user->userable->last_name;
+        }
     }
 }

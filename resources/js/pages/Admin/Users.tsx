@@ -44,13 +44,9 @@ export default function Users({ unverifiedMembers, users }) {
                                         {users.map(user => (
                                             <TableRow key={user.id}>
                                                 <TableCell className="font-medium">{user.id}</TableCell>
-                                                {user.userable_type !== 'kitchen partner' ? (
-                                                    <TableCell>{user.userable.first_name} {user.userable.last_name}</TableCell>
-                                                ) : (
-                                                        <TableCell>{user.userable.org_name}</TableCell>
-                                                    )}
+                                                <TableCell>{user.name}</TableCell>
                                                 <TableCell>{user.email}</TableCell>
-                                                <TableCell>{user.userable_type}</TableCell>
+                                                <TableCell>{user.type}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                     <Button asChild variant="outline">
                                                         <Link href={route('admin.users.edit', user.id)}>Edit</Link>
