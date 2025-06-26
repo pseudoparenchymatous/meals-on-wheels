@@ -17,6 +17,18 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/Users', [
             'users' => User::with('userable')->get(),
+            'unverifiedMembers' => Member::where('verified', false)
+                ->get()
+                ->map(function ($member) {
+                    return [
+                        'id' => $member->id,
+                        'birth_date' => $member->birth_date,
+                        'first_name' => $member->first_name,
+                        'last_name' => $member->last_name,
+                        'proof_of_identity' => $member->proof_of_identity,
+                        'medical_condition' => $member->medical_condition,
+                    ];
+                }),
         ]);
     }
 
