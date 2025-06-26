@@ -163,11 +163,11 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                     <SelectValue placeholder="Meal" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {meals.map(meal => (
-                                        <SelectItem key={meal.id} value={meal.id.toString()}>
-                                            {meal.name}
-                                        </SelectItem>
-                                    ))}
+                                    {kitchenPartners.find(partner => partner.id == data.kitchenPartnerId)?.meals.map(meal => (
+                                            <SelectItem key={meal.id} value={meal.id.toString()}>
+                                                {meal.name}
+                                            </SelectItem>
+                                        ))}
                                 </SelectContent>
                             </Select>
                         </div>

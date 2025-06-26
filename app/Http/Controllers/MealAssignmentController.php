@@ -33,7 +33,7 @@ class MealAssignmentController extends Controller
     public function create()
     {
         return Inertia::render('Admin/AssignMeal', [
-            'kitchenPartners' => KitchenPartner::all(),
+            'kitchenPartners' => KitchenPartner::with('meals')->get(),
             'meals' => Meal::all(),
             'members' => Member::with('mealAssignments')->get(),
             'riders' => Rider::all(),
