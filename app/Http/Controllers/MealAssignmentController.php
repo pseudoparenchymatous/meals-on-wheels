@@ -43,6 +43,15 @@ class MealAssignmentController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'day' => 'required',
+            'kitchenPartnerId' => 'required',
+            'mealId' => 'required',
+            'memberId' => 'required',
+            'riderId' => 'required',
+            'weeklyPlanId' => 'required',
+        ]);
+
         $memberUser = Member::find($request->memberId)->user;
         $kitchenUser = KitchenPartner::find($request->kitchenPartnerId)->user;
 
