@@ -115,6 +115,16 @@ export default function Meallist({ meals, ingredients }) {
         <div>
         <Toaster position="top-center" richColors/>
         {/*this is the componnet of the admin to view/edit meals */}
+        {activeTab === 'Meals' && (
+            <MealForm
+                selected={selected}
+                setSelectedMeal={setSelected}
+                open={open}
+                setOpen={setOpen}
+                activeTab={activeTab}
+                showAddButton={false}
+            />
+        )}
 
         {activeTab === 'Ingredients' && (
             <IngredientForm
@@ -237,8 +247,7 @@ export default function Meallist({ meals, ingredients }) {
                             onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={isSubmitting}
-                            onClick={() => activeTab === "Meals" ? deleteMeal(mealToDelete.id) : deleteIngredient(ingredientToDelete.id)
-                                }
+                            onClick={() =>  deleteMeal(mealToDelete.id)}
                         > {isSubmitting ? 'Processing...' : 'Delete'}
                         </AlertDialogAction>
                     </AlertDialogFooter>
