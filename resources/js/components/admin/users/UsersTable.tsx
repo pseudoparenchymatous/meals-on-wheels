@@ -3,16 +3,19 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import {
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
     useReactTable,
 } from "@tanstack/react-table"
 import { Link } from '@inertiajs/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useState } from 'react';
 
 export function UsersTable({ data }) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [columnFilters, setColumnFilters] = useState([]);
     const [userId, setUserId] = useState(0);
 
     const columns = [
@@ -30,7 +33,22 @@ export function UsersTable({ data }) {
         },
         {
             accessorKey: 'type',
-            header: 'Type',
+            header: ({ column }) => (
+                <Select
+                    onValueChange={value => table.getColumn("type")?.setFilterValue(value)}
+                >
+                    <SelectTrigger className="w-fit">
+                        <SelectValue placeholder="Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="admin">Admin</SelectItem>
+                        <SelectItem value="caregiver">Caregiver</SelectItem>
+                        <SelectItem value="kitchen partner">Kitchen Partner</SelectItem>
+                        <SelectItem value="member">Member</SelectItem>
+                        <SelectItem value="rider">Rider</SelectItem>
+                    </SelectContent>
+                </Select>
+            ),
         },
         {
             accessorKey: 'action',
@@ -53,6 +71,11 @@ export function UsersTable({ data }) {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        state: {
+            columnFilters,
+        },
     })
 
     return (
