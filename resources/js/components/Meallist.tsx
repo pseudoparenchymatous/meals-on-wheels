@@ -138,6 +138,7 @@ export default function Meallist({ meals, ingredients }) {
                 <TableHeader>
                     <TableRow className="text-xs uppercase">
                         <TableHead>Image</TableHead>
+                        <TableHead>Kitchen Name</TableHead>
                         <TableHead>Meal Name</TableHead>
                         <TableHead>Prep Time</TableHead>
                         <TableHead>Meal Tags</TableHead>
@@ -154,6 +155,7 @@ export default function Meallist({ meals, ingredients }) {
                                 className="h-16 w-20 object-cover rounded place-content-center" 
                                 />
                             </TableCell>
+                            <TableCell>{meal.org_name}</TableCell>
                             <TableCell>{meal.name} </TableCell>
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredients;
 use App\Models\Meal;
+use App\Models\KitchenPartner;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,10 +14,20 @@ class MealController extends Controller
     {
 
         $user = auth()->user();
-
+        
         if (auth()->user()->userable_type === 'admin') {
             // Admin: Show all meals
-            $meals = Meal::with('ingredients')->get();
+            $meals = Meal::with(['ingredients', 'kitchenPartner'])->get()->map(function ($meal) {
+            return [
+                'id' => $meal->id,
+                'name' => $meal->name,
+                'meal_tag' => $meal->meal_tag,
+                'preparation_time' => $meal->preparation_time,
+                'image_path' => $meal->image_path,
+                'org_name' => $meal->kitchenPartner ? $meal->kitchenPartner->org_name : 'N/A',
+            ];
+        });
+
         } else {
             // Kitchen Partner: Show only their meals
             $meals = auth()->user()->userable->meals;
@@ -33,6 +44,7 @@ class MealController extends Controller
                 'meal_name' => $ing->meal ? $ing->meal->name : 'N/A',
             ];
         });
+        
         // Render different pages based on role
         if (auth()->user()->userable_type === 'admin') {
             return Inertia::render('Admin/AdminMeals', [
