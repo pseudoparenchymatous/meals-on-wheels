@@ -139,24 +139,6 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                     </div>
                     <div>
                         <div className="flex gap-4 items-center justify-between">
-                            <Label htmlFor="meal">Meal</Label>
-                            <Select value={data.mealId} onValueChange={(value) => setData('mealId', value)}>
-                                <SelectTrigger id="meal" className="w-auto">
-                                    <SelectValue placeholder="Meal" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {meals.map(meal => (
-                                        <SelectItem key={meal.id} value={meal.id.toString()}>
-                                            {meal.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <InputError message={errors.mealId} />
-                    </div>
-                    <div>
-                        <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="kitchen">Kitchen</Label>
                             <Select value={data.kitchenPartnerId} onValueChange={(value) => setData('kitchenPartnerId', value)}>
                                 <SelectTrigger id="kitchen" className="w-auto">
@@ -172,6 +154,24 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                             </Select>
                         </div>
                         <InputError message={errors.kitchenPartnerId} />
+                    </div>
+                    <div>
+                        <div className="flex gap-4 items-center justify-between">
+                            <Label htmlFor="meal">Meal</Label>
+                            <Select value={data.mealId} onValueChange={(value) => setData('mealId', value)}>
+                                <SelectTrigger id="meal" className="w-auto">
+                                    <SelectValue placeholder="Meal" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {meals.map(meal => (
+                                        <SelectItem key={meal.id} value={meal.id.toString()}>
+                                            {meal.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <InputError message={errors.mealId} />
                     </div>
                     <div>
                         <div className="flex gap-4 items-center justify-between">
