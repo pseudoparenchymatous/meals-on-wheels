@@ -16,7 +16,7 @@ class MemberDashboardController extends Controller
         // Fetch meals assigned to this member
         $mealAssignments = MealAssignment::with('meal')
             ->where('member_id', $member->id)
-            ->orderBy('day') // optional: to keep them sorted by day
+            ->orderBy('day') 
             ->get();
 
         // Transform the assigned meals
@@ -27,7 +27,7 @@ class MemberDashboardController extends Controller
                 'id' => $meal->id,
                 'name' => $meal->name,
                 'image' => $meal->image_path
-                    ? asset('storage/' . $meal->image_path)
+                    ? asset('images/' . $meal->image_path)  
                     : null,
             ];
         });
