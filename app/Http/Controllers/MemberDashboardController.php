@@ -26,8 +26,8 @@ class MemberDashboardController extends Controller
             return [
                 'id' => $meal->id,
                 'name' => $meal->name,
-                'image' => $meal->image_path
-                    ? asset('images/'.$meal->image_path)
+                'image_path' => $meal->image_path
+                    ? url('private-meal-images/'.basename($meal->image_path))
                     : null,
             ];
         });
