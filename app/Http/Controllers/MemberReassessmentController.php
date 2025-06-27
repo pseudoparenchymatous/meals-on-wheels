@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +10,9 @@ class MemberReassessmentController extends Controller
 {
     public function index()
     {
-        $reassessments = Auth::user()
-            ->member
+        $member = Auth::user()->userable;
+
+        $reassessments = $member
             ->reassessments()
             ->latest()
             ->get();
