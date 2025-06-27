@@ -163,7 +163,19 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                     <SelectValue placeholder="Meal" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {kitchenPartners.find(partner => partner.id == data.kitchenPartnerId)?.meals.map(meal => (
+                                    {kitchenPartners.find(partner => partner.id == data.kitchenPartnerId)?.meals.filter(meal => {
+                                        const member = members.find(member => member.id === Number(data.memberId))
+
+                                        if (!member.diet) {
+                                            return true;
+                                        }
+
+                                        if (member.diet.toUpperCase() === meal.meal_tag.toUpperCase()) {
+                                            return true;
+                                        }
+
+                                        return false;
+                                    }).map(meal => (
                                             <SelectItem key={meal.id} value={meal.id.toString()}>
                                                 {meal.name}
                                             </SelectItem>
