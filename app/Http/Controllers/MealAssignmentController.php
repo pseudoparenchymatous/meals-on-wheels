@@ -36,7 +36,16 @@ class MealAssignmentController extends Controller
         return Inertia::render('Admin/AssignMeal', [
             'kitchenPartners' => KitchenPartner::with('meals')->get(),
             'meals' => Meal::all(),
-            'members' => Member::with('mealAssignments')->get(),
+            'members' => Member::with('mealAssignments')
+                ->get()
+                ->map(function ($member) {
+                    return [
+                        'id' => $member->id,
+                        'name' => "{$member->first_name} {$member->last_name}",
+                        'diet' => $member->diet,
+                        'mealAssignments' => $member->mealAssignments,
+                    ];
+            }),
             'riders' => Rider::all(),
             'weeklyPlans' => WeeklyPlan::all(),
         ]);

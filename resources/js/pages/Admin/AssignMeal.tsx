@@ -88,7 +88,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                         className="w-[200px] justify-between"
                                     >
                                         {data.memberId
-                                            ? members.find(member => member.id === Number(data.memberId)).first_name + ' ' + members.find(member => member.id == data.memberId).last_name
+                                            ? members.find(member => member.id === Number(data.memberId)).name
                                             : "Select member..."}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                     </Button>
@@ -100,7 +100,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                             <CommandEmpty>No member found.</CommandEmpty>
                                             <CommandGroup>
                                                 {members.filter(member => {
-                                                    const arrayLength = member.meal_assignments.length;
+                                                    const arrayLength = member.mealAssignments.length;
                                                     for (let i = 0; i < arrayLength; i++) {
                                                         if (
                                                             member.meal_assignments[i].day === data.day
@@ -115,12 +115,12 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                                     <CommandItem
                                                         key={member.id}
                                                         value={member.name}
-                                                        onSelect={currentValue => {
-                                                            setData('memberId', currentValue);
+                                                        onSelect={selectedName => {
+                                                            setData('memberId', members.find(member => member.name == selectedName).id);
                                                             setOpenMemberPopover(false);
                                                         }}
                                                     >
-                                                        {member.first_name} {member.last_name}
+                                                        {member.name}
                                                         <Check
                                                             className={cn(
                                                                 "mr-2 h-4 w-4",
