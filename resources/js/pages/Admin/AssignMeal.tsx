@@ -114,7 +114,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                                 }).map(member => (
                                                     <CommandItem
                                                         key={member.id}
-                                                        value={member.id.toString()}
+                                                        value={member.name}
                                                         onSelect={currentValue => {
                                                             setData('memberId', currentValue);
                                                             setOpenMemberPopover(false);
