@@ -155,7 +155,7 @@ export function UsersTable({ data }) {
                     variant="outline"
                     size="sm"
                     onClick={() => table.previousPage()}
-                    disable={!table.getCanPreviousPage()}
+                    disabled={!table.getCanPreviousPage()}
                 >
                     Previous
                 </Button>
