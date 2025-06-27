@@ -10,8 +10,9 @@ class MemberReassessmentController extends Controller
 {
     public function index()
     {
-        $reassessments = Auth::user()
-            ->member
+        $member = Auth::user()->userable;
+
+        $reassessments = $member
             ->reassessments()
             ->latest()
             ->get();
