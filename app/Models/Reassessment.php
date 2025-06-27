@@ -11,7 +11,7 @@ class Reassessment extends Model
 
     protected $fillable = [
         'member_id',
-        'date',
+        'assessment_date',
         'notes',
     ];
 

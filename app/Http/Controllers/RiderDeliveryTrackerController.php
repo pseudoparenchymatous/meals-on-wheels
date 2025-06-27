@@ -58,6 +58,16 @@ class RiderDeliveryTrackerController extends Controller
                     ? "{$delivery->member->first_name} {$delivery->member->last_name}"
                     : 'Unassigned',
             ],
+            'route' => [
+                'from' => [
+                    'lat' => $delivery->kitchenPartner->user->location_lat,
+                    'lng' => $delivery->kitchenPartner->user->location_lng,
+                ],
+                'to' => [
+                    'lat' => $delivery->member->user->location_lat,
+                    'lng' => $delivery->member->user->location_lng,
+                ],
+            ],
         ]);
     }
 
