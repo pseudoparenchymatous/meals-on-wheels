@@ -103,8 +103,8 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                                     const arrayLength = member.mealAssignments.length;
                                                     for (let i = 0; i < arrayLength; i++) {
                                                         if (
-                                                            member.meal_assignments[i].day === data.day
-                                                            && member.meal_assignments[i].weekly_plan_id === Number(data.weeklyPlanId)
+                                                            member.mealAssignments[i].day === data.day
+                                                            && member.mealAssignments[i].weekly_plan_id === Number(data.weeklyPlanId)
                                                         ) {
                                                             return false;
                                                         }
