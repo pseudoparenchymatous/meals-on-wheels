@@ -187,20 +187,19 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                         <Label>Meal Image
                             <span className="text-sm text-muted-foreground ml-2">(Optional)</span>
                         </Label>
-                        <input
+                        <Input
                             name="image"
                             type="file"
                             onChange={handleChange}
-                            className="mt-1 w-full border border-gray-300 rounded-md p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#4361EE] file:text-white hover:file:bg-[#4361EE]/90"
                         />
                     </div>
                     <div>
-                        <span
-                                className="text-sm text-blue-600 underline cursor-pointer inline-block"
-                                onClick={() => setIngredientFormOpen(true)}
+                        <Button
+                            variant='link'
+                            onClick={() => setIngredientFormOpen(true)}
                             >
-                                + Add Ingredient
-                        </span>
+                            + Add Ingredient
+                        </Button>
                     </div>
 
                     <Button
