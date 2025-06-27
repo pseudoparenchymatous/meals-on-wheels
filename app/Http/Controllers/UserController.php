@@ -70,7 +70,7 @@ class UserController extends Controller
         $user->location_lng = $request->location_lng;
         $user->save();
 
-        return back()->with('message', 'User has been updated');
+        return to_route('admin.users.index')->with('message', 'User has been updated');
     }
 
     public function destroy(User $user)
