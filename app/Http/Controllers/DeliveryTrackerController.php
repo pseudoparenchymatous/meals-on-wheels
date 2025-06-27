@@ -22,6 +22,7 @@ class DeliveryTrackerController extends Controller
                     'meal' => $assignment->meal->name,
                     'rider' => "{$assignment->rider->first_name} {$assignment->rider->last_name}",
                     'status' => $assignment->status,
+                    'temperature' => $assignment->temperature,
                     'week' => $assignment->weeklyPlan->id,
                 ];
             });

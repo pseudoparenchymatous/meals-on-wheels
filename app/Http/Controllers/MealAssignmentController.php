@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\Rider;
 use App\Models\WeeklyPlan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class MealAssignmentController extends Controller
@@ -33,9 +34,18 @@ class MealAssignmentController extends Controller
     public function create()
     {
         return Inertia::render('Admin/AssignMeal', [
-            'kitchenPartners' => KitchenPartner::all(),
+            'kitchenPartners' => KitchenPartner::with('meals')->get(),
             'meals' => Meal::all(),
-            'members' => Member::with('mealAssignments')->get(),
+            'members' => Member::with('mealAssignments')
+                ->get()
+                ->map(function ($member) {
+                    return [
+                        'id' => $member->id,
+                        'name' => "{$member->first_name} {$member->last_name}",
+                        'diet' => $member->diet,
+                        'mealAssignments' => $member->mealAssignments,
+                    ];
+            }),
             'riders' => Rider::all(),
             'weeklyPlans' => WeeklyPlan::all(),
         ]);
@@ -43,6 +53,24 @@ class MealAssignmentController extends Controller
 
     public function store(Request $request)
     {
+        Validator::make($request->all(),
+            [
+                'day' => 'required',
+                'kitchenPartnerId' => 'required',
+                'mealId' => 'required',
+                'memberId' => 'required',
+                'riderId' => 'required',
+                'weeklyPlanId' => 'required',
+            ],
+            [
+                'day.required' => 'Please select which day',
+                'kitchenPartnerId' => 'Please select a kitchen partner',
+                'mealId' => 'Please select a meal',
+                'memberId' => 'Please select a member',
+                'riderId' => 'Please select a rider',
+                'weeklyPlanId' => 'Please select a week',
+            ])->validate();
+
         $memberUser = Member::find($request->memberId)->user;
         $kitchenUser = KitchenPartner::find($request->kitchenPartnerId)->user;
 
@@ -61,7 +89,7 @@ class MealAssignmentController extends Controller
             'weekly_plan_id' => $request->weeklyPlanId,
         ]);
 
-        return redirect()->back()->with('message', 'Meal assignment created successfully!');
+        return to_route('admin.meal-assignments.index')->with('message', 'Meal assigned successfully!');
     }
 
     /**

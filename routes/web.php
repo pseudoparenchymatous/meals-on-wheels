@@ -34,6 +34,8 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/donation', 'Donation')->name('donation');
 
+Route::get('/private-meal-images/{filename}', [MealController::class, 'servePrivateImage']);
+
 Route::post('/donations', [DonationController::class, 'store']);
 
 Route::name('member.')->group(function () {
@@ -43,6 +45,9 @@ Route::name('member.')->group(function () {
 
             // Delivery Tracker
             Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+
+            // Reassessments
+            Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
 
             Route::get('verify', function () {
                 return Inertia::render('Member/Verify', [
@@ -118,6 +123,9 @@ Route::middleware('auth:admin')->group(function () {
                     ],
                 ]);
             })->name('dashboard');
+
+            // Reassessments
+            Route::resource('reassessments', ReassessmentController::class)->names('admin.reassessments');
 
             // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');

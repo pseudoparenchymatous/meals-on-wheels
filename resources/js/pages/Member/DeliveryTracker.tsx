@@ -22,7 +22,10 @@ export default function DeliveryTracker({ deliveries }) {
                     <ul className="space-y-3">
                         {deliveries.map((delivery) => (
                             <li key={delivery.id} className="border rounded-md p-4 shadow">
-                                <div className="font-medium text-lg">{delivery.meal}</div>
+                                <div className="font-medium text-lg">
+                                    <span>{delivery.temperature.toUpperCase()} </span>
+                                    {delivery.meal}
+                                </div>
                                 <div>
                                     Status: <strong className={statusColor[delivery.status] || 'text-gray-800'}>{delivery.status.toUpperCase()}</strong>
                                 </div>

@@ -45,9 +45,9 @@ export default function Dashboard({ auth, meals }: Props) {
                 </h3>
             )}
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-white/10 dark:bg-gray-800/30 backdrop-blur shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1">
-                {meal.image ? (
+                {meal.image_path ? (
                     <img
-                        src={meal.image}
+                        src={meal.image_path}
                         alt={meal.name}
                         className="absolute inset-0 w-full h-full object-cover brightness-95 hover:brightness-100 transition"
                     />

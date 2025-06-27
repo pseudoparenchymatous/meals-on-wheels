@@ -29,4 +29,9 @@ class Member extends Model
     {
         return $this->hasMany(MealAssignment::class);
     }
+
+    public function reassessments()
+    {
+        return $this->hasMany(Reassessment::class);
+    }
 }
