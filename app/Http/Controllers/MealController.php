@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredients;
 use App\Models\Meal;
-use App\Models\KitchenPartner;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,39 +13,26 @@ class MealController extends Controller
     {
 
         $user = auth()->user();
-        
-        if (auth()->user()->userable_type === 'admin') {
-            // Admin: Show all meals
-            $meals = Meal::with(['ingredients', 'kitchenPartner'])->get()->map(function ($meal) {
-            return [
-                'id' => $meal->id,
-                'name' => $meal->name,
-                'meal_tag' => $meal->meal_tag,
-                'preparation_time' => $meal->preparation_time,
-                'image_path' => $meal->image_path,
-                'org_name' => $meal->kitchenPartner ? $meal->kitchenPartner->org_name : 'N/A',
-            ];
-        });
+
+        // Check if Admin or Kitchen Partner
+        if ($user->userable_type === 'admin') {
+            // Admin: All meals and all ingredients
+            $meals = Meal::with(['ingredients', 'kitchenPartner'])->get();
+            $ingredients = Ingredients::with('meal')->get();
 
         } else {
-            // Kitchen Partner: Show only their meals
-            $meals = auth()->user()->userable->meals;
+
+            $meals = auth()->user()->userable->meals()->with('kitchenPartner')->get();
+
+            $meal_id = $meals->pluck('id');
+            $ingredients = Ingredients::with('meal')->whereIn('meal_id', $meal_id)->get();
         }
 
-        $ingredients = Ingredients::with('meal')->get()->map(function ($ing) {
-            return [
-                'id' => $ing->id,
-                'ing_name' => $ing->ing_name,
-                'ing_type' => $ing->ing_type,
-                'unit' => $ing->unit,
-                'date_arrive' => $ing->date_arrive,
-                'expiration_date' => $ing->expiration_date,
-                'meal_name' => $ing->meal ? $ing->meal->name : 'N/A',
-            ];
-        });
-        
-        // Render different pages based on role
-        if (auth()->user()->userable_type === 'admin') {
+        // Shared meal mapping for both roles
+        $meals = $this->formatMeals($meals);
+        $ingredients = $this->formatIngredients($ingredients);
+
+        if ($user->userable_type === 'admin') {
             return Inertia::render('Admin/AdminMeals', [
                 'meals' => $meals,
                 'ingredients' => $ingredients,
@@ -72,7 +58,8 @@ class MealController extends Controller
 
         $path = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('meals', 'public');
+            $originalName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('meals', $originalName);
         }
 
         $meal = auth()->user()->userable->meals()->create([
@@ -110,17 +97,19 @@ class MealController extends Controller
             'preparation_time' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('meals', 'public');
-            $meal->image_path = $path;
-        }
-
-        $meal->update([
+        $updateData = [
             'name' => $validated['name'],
             'meal_tag' => $validated['meal_tag'],
             'preparation_time' => $validated['preparation_time'],
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $originalName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('updatedmeals', $originalName);
+            $updateData['image_path'] = $path;
+        }
+
+        $meal->update($updateData);
 
         return redirect()->back()->with('success', 'Meal updated successfully!');
     }
@@ -129,7 +118,44 @@ class MealController extends Controller
     {
         $meal->delete();
 
-        return redirect(url('/kitchen-partner/meals'))
-            ->with('success', 'Meal deleted!');
+        return redirect()->back()->with('success', 'Meal deleted successfully!');
+    }
+
+    private function formatIngredients($ingredients)
+    {
+        return $ingredients->map(function ($ing) {
+            return [
+                'id' => $ing->id,
+                'ing_name' => $ing->ing_name,
+                'ing_type' => $ing->ing_type,
+                'unit' => $ing->unit,
+                'date_arrive' => $ing->date_arrive,
+                'expiration_date' => $ing->expiration_date,
+                'meal_name' => $ing->meal ? $ing->meal->name : 'N/A',
+            ];
+        });
+    }
+
+    private function formatMeals($meals)
+    {
+        return $meals->map(function ($meal) {
+            return [
+                'id' => $meal->id,
+                'name' => $meal->name,
+                'meal_tag' => $meal->meal_tag,
+                'preparation_time' => $meal->preparation_time,
+                'image_path' => $meal->image_path
+                    ? url('private-meal-images/'.basename($meal->image_path))
+                    : null,
+                'org_name' => $meal->kitchenPartner ? $meal->kitchenPartner->org_name : 'N/A',
+            ];
+        });
+    }
+
+    public function servePrivateImage($filename)
+    {
+        $path = storage_path('app/private/meals/'.$filename);
+
+        return response()->file($path);
     }
 }

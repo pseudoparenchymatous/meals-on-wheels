@@ -36,12 +36,19 @@ export function UsersTable({ data }) {
             accessorKey: 'type',
             header: ({ column }) => (
                 <Select
-                    onValueChange={value => table.getColumn("type")?.setFilterValue(value)}
+                    onValueChange={value => {
+                        if (value === "none") {
+                            table.resetColumnFilters(true);
+                        } else {
+                            table.getColumn("type")?.setFilterValue(value)
+                        }
+                    }}
                 >
                     <SelectTrigger className="w-fit">
                         <SelectValue placeholder="Type" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="none">All</SelectItem>
                         <SelectItem value="admin">Admin</SelectItem>
                         <SelectItem value="caregiver">Caregiver</SelectItem>
                         <SelectItem value="kitchen partner">Kitchen Partner</SelectItem>
@@ -148,7 +155,7 @@ export function UsersTable({ data }) {
                     variant="outline"
                     size="sm"
                     onClick={() => table.previousPage()}
-                    disable={!table.getCanPreviousPage()}
+                    disabled={!table.getCanPreviousPage()}
                 >
                     Previous
                 </Button>

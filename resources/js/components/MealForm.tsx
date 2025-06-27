@@ -20,12 +20,13 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
 
     const [form, setForm] = useState({
         name: '',
-        meal_tag: null,
+        meal_tag: 'Regular Meal',
         preparation_time: '',
         image: null,
     });
 
     const mealTags = [
+        { value: 'Regular Meal', label: 'Regular Meal' },
         { value: 'Diabetic', label: 'Diabetic' },
         { value: 'Lactose Intulerant', label: 'Lactose Intulerant' },
         { value: 'Halal', label: 'Halal' },
@@ -44,7 +45,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         } else {
             setForm({ 
                 name: '',
-                meal_tag: null,
+                meal_tag: 'Regular Meal',
                 preparation_time: '',
                 image: null,
             });
