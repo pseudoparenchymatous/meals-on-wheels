@@ -34,6 +34,8 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/donation', 'Donation')->name('donation');
 
+Route::get('/private-meal-images/{filename}', [MealController::class, 'servePrivateImage']);
+
 Route::post('/donations', [DonationController::class, 'store']);
 
 Route::name('member.')->group(function () {
