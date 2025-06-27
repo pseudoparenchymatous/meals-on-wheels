@@ -75,24 +75,7 @@ export default function Meallist({ meals, ingredients }) {
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [activeTab, setActiveTabs] =useState('Meals')
-    const [ingredientToDelete, setIngredientToDelete] = useState(null);
-
-    const deleteIngredient = (id) => {
-        setIsSubmitting(true);
-        router.delete(`/admin/ingredients/${id}`, {
-        onSuccess: () => {
-            toast.success("Ingredient has been deleted.");
-                setOpenConfirmDialog(false);
-                setIngredientToDelete(null);
-                setIsSubmitting(false);
-        },
-        onError: (error) => {
-                console.error(error);
-                toast.error("Ingredient deletion failed!");
-                setIsSubmitting(false);
-            },
-        });
-    };
+    const [ingredientToDelete, setIngredientToDelete] = useState(null);    
 
     const deleteMeal = (id) => {
         setIsSubmitting(true);
@@ -160,8 +143,8 @@ export default function Meallist({ meals, ingredients }) {
                         <TableRow key={meal.id} className="">
                             <TableCell>
                                 <img 
-                                src={meal.image_path} 
-                                alt={meal.title} 
+                                src={meal.image_path}  
+                                alt={meal.name} 
                                 className="h-16 w-20 object-cover rounded place-content-center" 
                                 />
                             </TableCell>
