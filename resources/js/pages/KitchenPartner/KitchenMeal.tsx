@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
     },
 ];
 
-export default function KitchenMeal({meals, ingredients}) {
+export default function KitchenMeal({meals, ingredients, userType}) {
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
 
@@ -29,16 +29,16 @@ export default function KitchenMeal({meals, ingredients}) {
                     <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
                     <div className="flex justify-end">
                     <MealForm
-                        selected={selected}
-                        setSelectedMeal={setSelected}
-                        open={open}
-                        setOpen={setOpen}
-                        activeTab={undefined}                    
-                        />
+                            selected={selected}
+                            setSelectedMeal={setSelected}
+                            open={open}
+                            setOpen={setOpen}
+                            activeTab={undefined} 
+                            userType={userType}                        />
                 </div>
                 </div>
                 
-                <Meallist meals={meals} ingredients={ingredients}/>
+                <Meallist meals={meals} ingredients={ingredients} userType={userType}/>
             </div>
         </KitchenPartnerLayout>
     );

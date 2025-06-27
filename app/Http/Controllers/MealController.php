@@ -36,11 +36,13 @@ class MealController extends Controller
             return Inertia::render('Admin/AdminMeals', [
                 'meals' => $meals,
                 'ingredients' => $ingredients,
+                'userType' => 'admin',
             ]);
         } else {
             return Inertia::render('KitchenPartner/KitchenMeal', [
                 'meals' => $meals,
                 'ingredients' => $ingredients,
+                'userType' => 'kitchen-partner',
             ]);
         }
     }

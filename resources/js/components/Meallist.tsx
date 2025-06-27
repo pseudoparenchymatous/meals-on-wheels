@@ -68,31 +68,31 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
 
     
 
-export default function Meallist({ meals, ingredients }) {
-    const [selected, setSelected] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [mealToDelete, setMealtoDelete] = useState(null);
-    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [activeTab, setActiveTabs] =useState('Meals')
-    const [ingredientToDelete, setIngredientToDelete] = useState(null);    
+    export default function Meallist({ meals, ingredients, userType}) {
+        const [selected, setSelected] = useState(null);
+        const [open, setOpen] = useState(false);
+        const [mealToDelete, setMealtoDelete] = useState(null);
+        const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [activeTab, setActiveTabs] =useState('Meals')
+        const [ingredientToDelete, setIngredientToDelete] = useState(null);    
 
-    const deleteMeal = (id) => {
-        setIsSubmitting(true);
-        router.delete(`/kitchen-partner/meals/${id}`, {
-            onSuccess: () => {
-                toast.success("Meal has been deleted.");
-                setOpenConfirmDialog(false);
-                setMealtoDelete(null);
-                setIsSubmitting(false);
+        const deleteMeal = (id) => {
+            setIsSubmitting(true);
+            router.delete( userType === 'admin' ? `/admin/meals/${id}` : `/kitchen-partner/meals/${id}`, {
+                onSuccess: () => {
+                    toast.success("Meal has been deleted.");
+                    setOpenConfirmDialog(false);
+                    setMealtoDelete(null);
+                    setIsSubmitting(false);
+                    },
+                onError: (error) => {
+                    console.error(error);
+                    toast.error("Meal has run into an error!")
+                    setIsSubmitting(false);
                 },
-            onError: (error) => {
-                console.error(error);
-                toast.error("Meal has run into an error!")
-                setIsSubmitting(false);
-            },
-        });
-    };
+            });
+        };
     
     return (
         <div>
@@ -100,13 +100,12 @@ export default function Meallist({ meals, ingredients }) {
         {/*this is the componnet of the admin to view/edit meals */}
         {activeTab === 'Meals' && (
             <MealForm
-                selected={selected}
-                setSelectedMeal={setSelected}
-                open={open}
-                setOpen={setOpen}
-                activeTab={activeTab}
-                showAddButton={false}
-            />
+                    selected={selected}
+                    setSelectedMeal={setSelected}
+                    open={open}
+                    setOpen={setOpen}
+                    activeTab={activeTab}
+                    showAddButton={false} userType={userType}            />
         )}
 
         {activeTab === 'Ingredients' && (
@@ -153,11 +152,14 @@ export default function Meallist({ meals, ingredients }) {
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
                             <TableCell className="space-x-2">
+                                { userType !== 'admin' && (
                                 <button
                                    onClick={() => {setSelected(meal); setOpen(true)}}
                                    className="text-blue-600 hover:underline">
                                    Edit
                                 </button>
+                                )}  
+                               
                                 <button
                                    onClick={() => {
                                       setMealtoDelete(meal);

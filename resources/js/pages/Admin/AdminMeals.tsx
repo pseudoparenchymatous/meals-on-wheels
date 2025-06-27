@@ -21,16 +21,16 @@ const navItems: NavItem[] = [
     },
 ];
 
-export default function MealAdminDashboard({meals, ingredients}) {
+export default function MealAdminDashboard({meals, ingredients, userType}) {
 
     return (
         <AdminLayout>
             <Head title="Meals" />
             <div>
                 <div className="fg-foreground text-2xl p-10 m-1">
-                    <h1 className="text-3xl font-bold pb-10">Meals Dashboard Control</h1>
+                    <h1 className="text-3xl font-bold pb-10">Meals Dashboard View</h1>
                 </div>
-                <Meallist meals={meals} ingredients={ingredients}/>
+                <Meallist meals={meals} ingredients={ingredients} userType={userType}/>
             </div>
         </AdminLayout>
     );
