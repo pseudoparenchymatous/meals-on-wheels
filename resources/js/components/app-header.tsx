@@ -38,6 +38,7 @@ interface AppHeaderProps {
 export function AppHeader({ navItems, breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
+    const { userName } = page.props;
     const getInitials = useInitials();
     return (
         <>
@@ -148,7 +149,7 @@ export function AppHeader({ navItems, breadcrumbs = [] }: AppHeaderProps) {
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage src={auth.user.avatar} alt={auth.userName} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                            {getInitials(auth.userName)}
+                                            {getInitials(userName)}
                                         </AvatarFallback>
                                     </Avatar>
                                 </Button>
