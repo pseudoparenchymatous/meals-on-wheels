@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminReassessmentController;
+use App\Http\Controllers\MemberReassessmentController;
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
@@ -125,14 +127,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('dashboard');
 
             // Reassessments
-            Route::prefix('admin')->name('admin.')->group(function () {
-                Route::get('/reassessments', [AdminReassessmentController::class, 'index'])->name('reassessments.index');
-                Route::get('/reassessments/create', [AdminReassessmentController::class, 'create'])->name('reassessments.create');
-                Route::post('/reassessments', [AdminReassessmentController::class, 'store'])->name('reassessments.store');
-                Route::get('/reassessments/{reassessment}/edit', [AdminReassessmentController::class, 'edit'])->name('reassessments.edit');
-                Route::put('/reassessments/{reassessment}', [AdminReassessmentController::class, 'update'])->name('reassessments.update');
-                Route::delete('/reassessments/{reassessment}', [AdminReassessmentController::class, 'destroy'])->name('reassessments.destroy');
-            });
+            Route::resource('reassessments', AdminReassessmentController::class);
 
             // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
