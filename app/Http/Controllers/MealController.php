@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredients;
 use App\Models\Meal;
-use App\Models\KitchenPartner;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\File;
 
 class MealController extends Controller
 {
@@ -18,28 +16,28 @@ class MealController extends Controller
 
         // Check if Admin or Kitchen Partner
         if ($user->userable_type === 'admin') {
-        // Admin: All meals and all ingredients
-        $meals = Meal::with(['ingredients', 'kitchenPartner'])->get();
-        $ingredients = Ingredients::with('meal')->get();
+            // Admin: All meals and all ingredients
+            $meals = Meal::with(['ingredients', 'kitchenPartner'])->get();
+            $ingredients = Ingredients::with('meal')->get();
 
-    } else {
-        
-        $meals = auth()->user()->userable->meals()->with('kitchenPartner')->get();
+        } else {
 
-        $meal_id = $meals->pluck('id');
-        $ingredients = Ingredients::with('meal')->whereIn('meal_id', $meal_id)->get();
+            $meals = auth()->user()->userable->meals()->with('kitchenPartner')->get();
+
+            $meal_id = $meals->pluck('id');
+            $ingredients = Ingredients::with('meal')->whereIn('meal_id', $meal_id)->get();
         }
 
         // Shared meal mapping for both roles
         $meals = $this->formatMeals($meals);
         $ingredients = $this->formatIngredients($ingredients);
 
-    if ($user->userable_type === 'admin') {
+        if ($user->userable_type === 'admin') {
             return Inertia::render('Admin/AdminMeals', [
                 'meals' => $meals,
                 'ingredients' => $ingredients,
             ]);
-    } else {
+        } else {
             return Inertia::render('KitchenPartner/KitchenMeal', [
                 'meals' => $meals,
                 'ingredients' => $ingredients,
@@ -57,8 +55,8 @@ class MealController extends Controller
             'preparation_time' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
-        
-        $path = null;   
+
+        $path = null;
         if ($request->hasFile('image')) {
             $originalName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('meals', $originalName);
@@ -105,7 +103,7 @@ class MealController extends Controller
             'preparation_time' => $validated['preparation_time'],
         ];
 
-    if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $originalName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('updatedmeals', $originalName);
             $updateData['image_path'] = $path;
@@ -122,8 +120,8 @@ class MealController extends Controller
 
         return redirect()->back()->with('success', 'Meal deleted successfully!');
     }
-   
-      private function formatIngredients($ingredients)
+
+    private function formatIngredients($ingredients)
     {
         return $ingredients->map(function ($ing) {
             return [
@@ -137,7 +135,7 @@ class MealController extends Controller
             ];
         });
     }
-    
+
     private function formatMeals($meals)
     {
         return $meals->map(function ($meal) {
@@ -147,7 +145,7 @@ class MealController extends Controller
                 'meal_tag' => $meal->meal_tag,
                 'preparation_time' => $meal->preparation_time,
                 'image_path' => $meal->image_path
-                    ? url('private-meal-images/' . basename($meal->image_path))
+                    ? url('private-meal-images/'.basename($meal->image_path))
                     : null,
                 'org_name' => $meal->kitchenPartner ? $meal->kitchenPartner->org_name : 'N/A',
             ];
@@ -156,8 +154,8 @@ class MealController extends Controller
 
     public function servePrivateImage($filename)
     {
-        $path = storage_path('app/private/meals/' . $filename);
-    
+        $path = storage_path('app/private/meals/'.$filename);
+
         return response()->file($path);
     }
 }
