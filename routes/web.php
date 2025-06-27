@@ -44,6 +44,9 @@ Route::name('member.')->group(function () {
             // Delivery Tracker
             Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
 
+            // Reassessments
+            Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
+
             Route::get('verify', function () {
                 return Inertia::render('Member/Verify', [
                     'verified' => auth()->user()->userable->verified,
@@ -118,6 +121,9 @@ Route::middleware('auth:admin')->group(function () {
                     ],
                 ]);
             })->name('dashboard');
+
+            // Reassessments
+            Route::resource('reassessments', ReassessmentController::class)->names('admin.reassessments');
 
             // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');

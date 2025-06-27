@@ -7,6 +7,7 @@ import {
     HandPlatter,
     LayoutGrid,
     Users,
+    ClipboardList,
 } from 'lucide-react';
 
 const navItems: NavItem[] = [
@@ -39,6 +40,11 @@ const navItems: NavItem[] = [
         title: 'Donor Management',
         href: '/admin/donor-management',
         icon: Users,
+    },
+    {
+        title: 'Reassessments',
+        href: '/admin/reassessments',
+        icon: ClipboardList,
     },
 ];
 
