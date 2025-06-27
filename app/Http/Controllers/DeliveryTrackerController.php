@@ -17,6 +17,7 @@ class DeliveryTrackerController extends Controller
             ->get()
             ->map(function ($assignment) {
                 return [
+                    'id' => $assignment->id,
                     'day' => ucfirst($assignment->day),
                     'kitchen_partner' => $assignment->kitchenPartner->org_name,
                     'meal' => $assignment->meal->name,
