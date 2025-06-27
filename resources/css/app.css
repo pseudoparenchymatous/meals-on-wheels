@@ -175,3 +175,7 @@
         @apply bg-background text-foreground;
     }
 }
+
+.leaflet-routing-container {
+  display: none !important;
+}
