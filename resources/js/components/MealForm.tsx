@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { SheetDescription } from './ui/sheet';
 import IngredientForm from './IngredientForm';
 import {usePage} from '@inertiajs/react';
+import { CirclePlus, LoaderCircle, Plus } from 'lucide-react';
 
 export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true, userType }) {
     const {auth} = usePage().props;
@@ -195,10 +196,11 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                     </div>
                     <div>
                         <Button
+                            type='button'
                             variant='link'
                             onClick={() => setIngredientFormOpen(true)}
                             >
-                            + Add Ingredient
+                            <CirclePlus/><span>Add Ingredient</span> 
                         </Button>
                     </div>
 
@@ -207,7 +209,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                         type="submit"
                         className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white "
                     >
-                        {isSubmitting ? (selected ? "Updating…" : "Submitting…") : (selected ? "Update Meal" : "Add Meal")}
+                        {isSubmitting ? <LoaderCircle className="animate-spin" /> : (selected ? "Update Meal" : "Add Meal")}
                     </Button>
                 </form>
             </DialogContent>
