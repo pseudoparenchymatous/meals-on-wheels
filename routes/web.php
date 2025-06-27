@@ -47,6 +47,7 @@ Route::name('member.')->group(function () {
 
             // Delivery Tracker
             Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+            Route::post('delivery-tracker/{meal}/feedback', [DeliveryTrackerController::class, 'feedback'])->name('meal.feedback');
 
             // Reassessments
             Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
