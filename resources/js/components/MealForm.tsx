@@ -10,7 +10,7 @@ import { SheetDescription } from './ui/sheet';
 import IngredientForm from './IngredientForm';
 import {usePage} from '@inertiajs/react';
 
-export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true }) {
+export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true, userType }) {
     const {auth} = usePage().props;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,6 +32,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         { value: 'Halal', label: 'Halal' },
         { value: 'Vegan', label: 'Vegan' },
         { value: 'Vegetarian', label: 'Vegetarian' },
+        { value: 'High Protein', label: 'High Protein'},
     ];
 
     useEffect(() => {
@@ -84,7 +85,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
 
         if (selected) {
             data.append('_method', 'PUT'); 
-            router.post(`/kitchen-partner/meals/${selected.id}`, data, {
+            router.post(userType === 'admin' ? `/admin/meals/${selected.id}`: `/kitchen-partner/meals/${selected.id}`, data, {
                 onSuccess: () => {
                 setOpen(false);
                 setSelectedMeal(null);
