@@ -97,11 +97,12 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
         e.preventDefault();
         if (isSubmitting) return;
 
+        /** Note: this will validate the expiration date to be not the same/below from the date purchased
         if (form.expiration_date <= form.date_arrive) {
             toast.error("Expiration date must be after purchase date.");
             return;
         }
-
+        */
         setIsSubmitting(true);
 
         const data = new FormData();
