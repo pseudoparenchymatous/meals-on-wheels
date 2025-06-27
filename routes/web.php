@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminReassessmentController;
+use App\Http\Controllers\MemberReassessmentController;
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
@@ -125,7 +127,7 @@ Route::middleware('auth:admin')->group(function () {
             })->name('dashboard');
 
             // Reassessments
-            Route::resource('reassessments', ReassessmentController::class)->names('admin.reassessments');
+            Route::resource('reassessments', AdminReassessmentController::class);
 
             // Donor Management
             Route::get('/donor-management', [DonationController::class, 'manage'])->name('donor.management');
