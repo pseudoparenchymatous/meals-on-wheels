@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/react';
 import {
     LayoutGrid,
     Truck,
+    ClipboardList,
 } from 'lucide-react';
 
 const navItems: NavItem[] = [
@@ -16,6 +17,11 @@ const navItems: NavItem[] = [
         title: 'Delivery Tracker',
         href: '/member/delivery-tracker',
         icon: Truck,
+    },
+    {
+        title: 'Reassessments',
+        href: '/member/reassessments',
+        icon: ClipboardList,
     },
 ];
 
