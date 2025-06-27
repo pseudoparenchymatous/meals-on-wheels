@@ -13,7 +13,9 @@ import { UsersTable } from '@/components/admin/users/UsersTable';
 export default function Users({ unverifiedMembers, users }) {
     const { flash } = usePage().props
     if (flash.message) {
-        toast.success(flash.message);
+        setTimeout(() => {
+            toast.success(flash.message);
+        }, 0)
     }
 
     const [dialogOpen, setDialogOpen] = useState(false);
