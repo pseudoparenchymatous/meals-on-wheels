@@ -97,7 +97,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                     <Command>
                                         <CommandInput placeholder="Search member..." />
                                         <CommandList>
-                                            <CommandEmpty>No framework found.</CommandEmpty>
+                                            <CommandEmpty>No member found.</CommandEmpty>
                                             <CommandGroup>
                                                 {members.filter(member => {
                                                     const arrayLength = member.meal_assignments.length;
@@ -114,7 +114,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                                 }).map(member => (
                                                     <CommandItem
                                                         key={member.id}
-                                                        value={member.id.toString()}
+                                                        value={member.name}
                                                         onSelect={currentValue => {
                                                             setData('memberId', currentValue);
                                                             setOpenMemberPopover(false);
