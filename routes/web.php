@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminReassessmentController;
-use App\Http\Controllers\MemberReassessmentController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
+use App\Http\Controllers\MemberReassessmentController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\UserController;
