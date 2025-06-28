@@ -40,27 +40,25 @@ Route::get('/private-meal-images/{filename}', [MealController::class, 'servePriv
 
 Route::post('/donations', [DonationController::class, 'store']);
 
-Route::name('member.')->group(function () {
-    Route::prefix('member')->group(function () {
-        Route::middleware(['auth:member', CheckMemberVerificationStatus::class])->group(function () {
-            Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+Route::prefix('member')
+    ->name('member.')
+    ->middleware(['auth:member', CheckMemberVerificationStatus::class])
+    ->group(function () {
+        Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
 
-            // Delivery Tracker
-            Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
-            Route::post('delivery-tracker/{meal}/feedback', [DeliveryTrackerController::class, 'feedback'])->name('meal.feedback');
+        // Delivery Tracker
+        Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+        Route::post('delivery-tracker/{meal}/feedback', [DeliveryTrackerController::class, 'feedback'])->name('meal.feedback');
 
-            // Reassessments
-            Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
+        // Reassessments
+        Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
 
-            Route::get('verify', function () {
-                return Inertia::render('Member/Verify', [
-                    'verified' => auth()->user()->userable->verified,
-                ]);
-            })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
-        });
-
+        Route::get('verify', function () {
+            return Inertia::render('Member/Verify', [
+                'verified' => auth()->user()->userable->verified,
+            ]);
+        })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
     });
-});
 
 Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
