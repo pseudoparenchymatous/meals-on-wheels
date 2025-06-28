@@ -65,7 +65,7 @@ class MealSeeder extends Seeder
             [
                 'name' => 'Pasta Salad',
                 'preparation_time' => '25 minutes',
-                'image_path' => 'meals/Pasta-salad.jpg',
+                'image_path' => 'meals/pasta-salad.jpg',
                 'ingredients' => [
                     ['ing_name' => 'Pasta', 'ing_type' => 'Grains', 'unit' => '200g'],
                     ['ing_name' => 'Bell Pepper', 'ing_type' => 'Vegetable', 'unit' => '1 piece'],
