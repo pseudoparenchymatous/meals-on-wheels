@@ -25,7 +25,7 @@ export default function Dashboard({ memberData }) {
             value: memberData.diet || "None",
         },
     ];
-    const keys = Object.keys(memberData);
+
     return (
         <CaregiverLayout>
             <Head title="Caregiver Dashboard" />
