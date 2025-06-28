@@ -174,7 +174,7 @@ Route::patch('/members/verify/{member}', function (Member $member) {
     $member->verified = true;
     $member->save();
 
-    return to_route('admin.users.index');
+    return back()->with('message', 'User has been verified successfully!');
 })->name('members.verify');
 
 require __DIR__.'/settings.php';
