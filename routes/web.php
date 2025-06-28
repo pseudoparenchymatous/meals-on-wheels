@@ -26,7 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('dashboard', DashboardController::class)->name('dashboard');
+Route::get('dashboard', DashboardController::class)->middleware('auth')->name('dashboard');
 
 Route::post('/contact', [ContactController::class, 'store']);
 

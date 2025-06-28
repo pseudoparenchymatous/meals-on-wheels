@@ -13,10 +13,6 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if (! auth()->check()) {
-            return redirect(route('login'));
-        }
-
         return match (auth()->user()->userable_type) {
             'admin' => redirect(route('admin.dashboard')),
             'member' => redirect(route('member.dashboard')),
