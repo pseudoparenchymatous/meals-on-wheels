@@ -47,10 +47,7 @@ class DashboardController extends Controller
         });
 
         return Inertia::render('Member/Dashboard', [
-            'auth' => [
-                'user' => auth()->user(),
-                'member' => $member,
-            ],
+            'memberName' => auth()->user()->userable->first_name,
             'meals' => $meals,
         ]);
     }

@@ -11,22 +11,11 @@ interface Meal {
 }
 
 interface Props {
-    auth: {
-        user: {
-            userable: {
-                first_name: string;
-                last_name: string;
-            };
-        };
-    };
+    memberName: String;
     meals: Meal[];
 }
 
-export default function Dashboard({ auth, meals }: Props) {
-    const memberName = auth?.user
-        ? `${auth.user.userable.first_name} ${auth.user.userable.last_name}`
-        : 'Member';
-
+export default function Dashboard({ memberName, meals }: Props) {
     const [wave, setWave] = useState(false);
 
     useEffect(() => {
