@@ -16,7 +16,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->email(),
             'password' => static::$password ??= Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
             'location_lat' => $this->faker->latitude(10.227136, 10.483014),
