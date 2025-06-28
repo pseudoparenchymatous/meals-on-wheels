@@ -65,41 +65,39 @@ Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(func
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
-Route::name('kitchen-partner.')->group(function () {
-    Route::prefix('kitchen-partner')->group(function () {
-        Route::middleware('auth:kitchen-partner')->group(function () {
-            Route::get('dashboard', function () {
-                return Inertia::render('KitchenPartner/Dashboard', [
-                    'mealAssignments' => MealAssignment::all()->load([
-                        'meal',
-                        'rider',
-                        'meal.ingredients',
-                        'member',
-                    ]),
-                    'orgName' => auth()->user()->userable->org_name,
-                ]);
-            })->name('dashboard');
+Route::prefix('kitchen-partner')
+    ->name('kitchen-partner.')
+    ->middleware('auth:kitchen-partner')
+    ->group(function () {
+        Route::get('dashboard', function () {
+            return Inertia::render('KitchenPartner/Dashboard', [
+                'mealAssignments' => MealAssignment::all()->load([
+                    'meal',
+                    'rider',
+                    'meal.ingredients',
+                    'member',
+                ]),
+                'orgName' => auth()->user()->userable->org_name,
+            ]);
+        })->name('dashboard');
 
-            Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
-                $mealAssignment->status = $request->status;
-                $mealAssignment->save();
+        Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
+            $mealAssignment->status = $request->status;
+            $mealAssignment->save();
 
-                return redirect(route('kitchen-partner.dashboard'));
-            })->name('meal-assignments.update');
+            return redirect(route('kitchen-partner.dashboard'));
+        })->name('meal-assignments.update');
 
-            Route::post('meals', [MealController::class, 'store'])->name('meals.store');
-            Route::get('/meals', [MealController::class, 'index'])->name('meals');
-            Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
-            Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
+        Route::post('meals', [MealController::class, 'store'])->name('meals.store');
+        Route::get('/meals', [MealController::class, 'index'])->name('meals');
+        Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
+        Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 
-            Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
-            Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
-            Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
-            Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
-
-        });
+        Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
+        Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
+        Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
+        Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
     });
-});
 
 Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
     Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
