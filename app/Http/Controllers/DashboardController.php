@@ -23,6 +23,11 @@ class DashboardController extends Controller
         };
     }
 
+    public function caregiver()
+    {
+        return Inertia::render('Caregiver/Dashboard');
+    }
+
     public function member()
     {
         $member = auth()->user()->userable;
