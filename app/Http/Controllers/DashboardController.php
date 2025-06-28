@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MealAssignment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,7 +26,15 @@ class DashboardController extends Controller
 
     public function caregiver()
     {
-        return Inertia::render('Caregiver/Dashboard');
+        $member = auth()->user()->userable->member;
+
+        return Inertia::render('Caregiver/Dashboard', [
+            'memberData' => [
+                'fullName' => "{$member->first_name} {$member->last_name}",
+                'age' => Carbon::now()->year - Carbon::parse($member->birth_date)->year,
+                'diet' => $member->diet,
+            ],
+        ]);
     }
 
     public function member()
