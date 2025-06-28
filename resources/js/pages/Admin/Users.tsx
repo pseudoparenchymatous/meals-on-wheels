@@ -12,9 +12,11 @@ import { UsersTable } from '@/components/admin/users/UsersTable';
 
 export default function Users({ unverifiedMembers, users }) {
     const { flash } = usePage().props
+
     if (flash.message) {
         setTimeout(() => {
             toast.success(flash.message);
+            flash.message = null;
         }, 0)
     }
 
