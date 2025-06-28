@@ -22,10 +22,9 @@ const navItems: NavItem[] = [
 export default function CaregiverLayout({ children }) {
     return (
         <AppLayout navItems={navItems} >
-            <div>
+            <div className="m-10">
                 { children }
             </div>
         </AppLayout>
-
     );
 }
