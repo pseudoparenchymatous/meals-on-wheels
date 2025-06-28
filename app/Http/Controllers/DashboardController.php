@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MealAssignment;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
@@ -23,5 +25,37 @@ class DashboardController extends Controller
             'caregiver' => redirect(route('caregiver.dashboard')),
             default => redirect(route('home'))
         };
+    }
+
+    public function member()
+    {
+        $member = auth()->user()->userable;
+
+        // Fetch meals assigned to this member
+        $mealAssignments = MealAssignment::with('meal')
+            ->where('member_id', $member->id)
+            ->orderBy('day')
+            ->get();
+
+        // Transform the assigned meals
+        $meals = $mealAssignments->map(function ($assignment) {
+            $meal = $assignment->meal;
+
+            return [
+                'id' => $meal->id,
+                'name' => $meal->name,
+                'image_path' => $meal->image_path
+                    ? url('private-meal-images/'.basename($meal->image_path))
+                    : null,
+            ];
+        });
+
+        return Inertia::render('Member/Dashboard', [
+            'auth' => [
+                'user' => auth()->user(),
+                'member' => $member,
+            ],
+            'meals' => $meals,
+        ]);
     }
 }

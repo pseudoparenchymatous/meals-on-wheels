@@ -11,7 +11,6 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
-use App\Http\Controllers\MemberDashboardController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\UserController;
@@ -44,7 +43,7 @@ Route::prefix('member')
     ->name('member.')
     ->middleware(['auth:member', CheckMemberVerificationStatus::class])
     ->group(function () {
-        Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'member'])->name('dashboard');
 
         // Delivery Tracker
         Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
