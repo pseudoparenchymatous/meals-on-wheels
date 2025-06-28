@@ -11,7 +11,7 @@ export default function Verify({ verified }) {
         >
             <Head title="Account Verification" />
             <div className="grid gap-2">
-                {verified == true &&
+                {verified &&
                     <Button asChild>
                         <Link href={route('dashboard')}>Dashboard</Link>
                     </Button>
