@@ -1,21 +1,8 @@
-import AdminLayout from '@/layouts/AdminLayout';
 import MealForm from "@/components/MealForm";
 import MealList from "@/components/MealList";
 import { Head } from "@inertiajs/react";
-import { usePage } from '@inertiajs/react';
-import { NavItem } from '@/types';
-import { LayoutGrid, Apple } from 'lucide-react';
 import { useState } from 'react';
-import IngredientsTable from '@/components/IngredientsTable';
 import KitchenPartnerLayout from '@/layouts/KitchenPartnerLayout';
-
-const navItems: NavItem[] = [
-    {
-        title: 'Meals',
-        href: '/admin/meals',
-        icon: Apple,
-    },
-];
 
 export default function KitchenMeal({meals, ingredients}) {
     const [selected, setSelected] = useState(null);
@@ -33,13 +20,14 @@ export default function KitchenMeal({meals, ingredients}) {
                         setSelectedMeal={setSelected}
                         open={open}
                         setOpen={setOpen}
-                        activeTab={undefined}                    
+                        activeTab={undefined}
                         />
                 </div>
                 </div>
-                
+
                 <MealList meals={meals} ingredients={ingredients}/>
             </div>
         </KitchenPartnerLayout>
     );
 }
+
