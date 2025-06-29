@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import MealForm from "./MealForm";
@@ -13,13 +14,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-
-
-const Button = ({ onClick, children, className, disabled }) => (
-    <button onClick={onClick} className={className} disabled={disabled}>
-        {children}
-    </button>
-);
 
 const AlertDialog = ({ open, onOpenChange, children }) => {
     if (!open) return null;
@@ -151,19 +145,20 @@ export default function Meallist({ meals, ingredients }) {
                                         <TableCell>{meal.meal_tag}</TableCell>
                                         <TableCell className="space-x-2">
                                             <Button
-
+                                                variant="outline"
                                                 onClick={() => {setSelected(meal); setOpen(true)}}
                                             >
                                                 Edit
                                             </Button>
-                                            <button
+                                            <Button
+                                                variant="destructive"
                                                 onClick={() => {
                                                     setMealtoDelete(meal);
                                                     setOpenConfirmDialog(true);
                                                 }}
-                                                className="text-red-600 hover:underline">
+                                            >
                                                 Delete
-                                            </button>
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
