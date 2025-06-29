@@ -10,23 +10,16 @@ export default function KitchenMeal({meals, ingredients}) {
 
     return (
         <KitchenPartnerLayout>
-            <Head title="Kitchen Meal" />
-            <div>
-                <div className="fg-foreground text-2xl p-10 m-1">
-                    <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
-                    <div className="flex justify-end">
-                        <MealForm
-                            selected={selected}
-                            setSelectedMeal={setSelected}
-                            open={open}
-                            setOpen={setOpen}
-                            activeTab={undefined}
-                        />
-                    </div>
-                </div>
-
-                <MealList meals={meals} ingredients={ingredients}/>
-            </div>
+            <Head title="Kitchen Meals" />
+            <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
+            <MealForm
+                selected={selected}
+                setSelectedMeal={setSelected}
+                open={open}
+                setOpen={setOpen}
+                activeTab={undefined}
+            />
+            <MealList meals={meals} ingredients={ingredients}/>
         </KitchenPartnerLayout>
     );
 }
