@@ -11,7 +11,7 @@ export default function KitchenMeal({meals, ingredients}) {
     return (
         <KitchenPartnerLayout>
             <Head title="Kitchen Meals" />
-            <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
+            <h1 className="text-3xl font-bold mb-5">My Created Meals</h1>
             <AddMeal
                 selected={selected}
                 setSelectedMeal={setSelected}

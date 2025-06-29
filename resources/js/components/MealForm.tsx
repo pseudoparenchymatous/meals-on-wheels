@@ -108,9 +108,9 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
             }
         }}>
             {showAddButton && (
-                <div className="">
-                    <DialogTrigger asChild variant="outline">
-                        <Button className="" onClick={() => {
+                <div className="my-5">
+                    <DialogTrigger asChild>
+                        <Button variant="outline" className="ml-auto" onClick={() => {
                             if(activeTab === 'Meals'){
                                 setForm({
                                     name: '',
