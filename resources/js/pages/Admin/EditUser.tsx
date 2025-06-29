@@ -30,6 +30,7 @@ export default function EditUser({ user }: UserData) {
     const { data, setData, patch, processing, errors } = useForm({
         first_name: user.userable.first_name,
         last_name: user.userable.last_name,
+        email: user.email,
         org_name: user.userable.org_name,
         location_lat: user.location_lat,
         location_lng: user.location_lng,
@@ -87,6 +88,21 @@ export default function EditUser({ user }: UserData) {
                 }
                 <div className='w-100'>
                     <Label className="mt-4">Location</Label>
+                <div className="flex items-center justify-between my-4">
+                    <Label htmlFor="email">Email address</Label>
+                    <Input
+                        id="email"
+                        type="email"
+                        className="w-fit"
+                        value={data.email}
+                        onChange={(e) => setData('email', e.target.value)}
+                        required
+                        autoComplete="email"
+                        placeholder="Email address"
+                    />
+
+                    <InputError className="mt-2" message={errors.email} />
+                </div>
                     <Map markAt={{ lat: data.location_lat, lng: data.location_lng }} sendLocation={getLocation} />
                 </div>
                 <div className="flex gap-3 justify-end mt-4">
