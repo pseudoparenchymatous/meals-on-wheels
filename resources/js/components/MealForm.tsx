@@ -8,11 +8,8 @@ import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SheetDescription } from './ui/sheet';
 import IngredientForm from './IngredientForm';
-import {usePage} from '@inertiajs/react';
 
 export default function MealForm({ setOpen, open, selected, setSelectedMeal, activeTab, showAddButton = true }) {
-    const {auth} = usePage().props;
-
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [ingredients, setIngredients] = useState([]);
     const [ingredientFormOpen, setIngredientFormOpen] = useState(false);
