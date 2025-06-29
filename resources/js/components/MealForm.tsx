@@ -58,20 +58,20 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         const { name, value, files } = e.target;
         setForm((prev) => ({...prev, [name]: files ? files[0] : value, }));
     };
-   
-    
 
-   const handleSubmit = (e) => {
+
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (isSubmitting) return;
         setIsSubmitting(true);
-    
+
         const data = new FormData();
-            data.append('name', form.name);
-            data.append('meal_tag', form.meal_tag);
-            data.append('preparation_time', form.preparation_time);
-    
+        data.append('name', form.name);
+        data.append('meal_tag', form.meal_tag);
+        data.append('preparation_time', form.preparation_time);
+
         if (form.image) {
             data.append('image', form.image);
         };
@@ -83,56 +83,56 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
             data.append('_method', 'PUT');
             router.post(`/kitchen-partner/meals/${selected.id}`, data, {
                 onSuccess: () => {
-                setOpen(false);
-                setSelectedMeal(null);
-                setIsSubmitting(false);
-                toast.success("Meal has been Updated!");
-                router.reload({ only: ['meals'] });
-            },
-        });
+                    setOpen(false);
+                    setSelectedMeal(null);
+                    setIsSubmitting(false);
+                    toast.success("Meal has been Updated!");
+                    router.reload({ only: ['meals'] });
+                },
+            });
         } else {
             router.post('/kitchen-partner/meals', data, {
                 onSuccess: () => {
-                setOpen(false);
-                setSelectedMeal(null);
-                setIsSubmitting(false);
-                toast.success("Meal has been Added!");
-                router.reload({ only: ['meals'] });
-            },
-        });
-    }
-};
+                    setOpen(false);
+                    setSelectedMeal(null);
+                    setIsSubmitting(false);
+                    toast.success("Meal has been Added!");
+                    router.reload({ only: ['meals'] });
+                },
+            });
+        }
+    };
 
     return (
         <Dialog open={open} onOpenChange={(isOpen) => {
             setOpen(isOpen);
-                if (!isOpen){
-                    setSelectedMeal(null);
-                }
-            }}>
+            if (!isOpen){
+                setSelectedMeal(null);
+            }
+        }}>
             {showAddButton && (
-            <div className="">
-                <DialogTrigger asChild variant="outline">
-                    <Button className="" onClick={() => {
-                        if(activeTab === 'Meals'){
-                        setForm({
-                            name: '',
-                            meal_tag: null,
-                            preparation_time: '',
-                            image: null,
-                        });
-                        setIngredients([]);
-                    }
-                    }}>
-                        Add meal
-                    </Button>
-                </DialogTrigger>
-            </div>
+                <div className="">
+                    <DialogTrigger asChild variant="outline">
+                        <Button className="" onClick={() => {
+                            if(activeTab === 'Meals'){
+                                setForm({
+                                    name: '',
+                                    meal_tag: null,
+                                    preparation_time: '',
+                                    image: null,
+                                });
+                                setIngredients([]);
+                            }
+                        }}>
+                            Add meal
+                        </Button>
+                    </DialogTrigger>
+                </div>
             )}
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>{selected ? 'Edit Meal' : 'Add New Meal'}</DialogTitle>
-                        <SheetDescription className="">{selected ? 'Admin can update the information of the meal in this form.' : 'Admin can add/create new meal in this form.'}</SheetDescription>
+                    <SheetDescription className="">{selected ? 'Admin can update the information of the meal in this form.' : 'Admin can add/create new meal in this form.'}</SheetDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5 ">
                     <div className="grid gap-2">
@@ -158,25 +158,25 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                     </div>
 
                     <div className="grid gap-2">
-                    <Label htmlFor="meal_tag">
-                        Meal Tag:
-                    </Label>
+                        <Label htmlFor="meal_tag">
+                            Meal Tag:
+                        </Label>
                         <Select
-                        name="meal_tag"
-                        value={form.meal_tag}
-                        onValueChange={(value) => setForm((prev) => ({...prev, meal_tag: value, })) }
-                    >
-                        <SelectTrigger id="meal_tag" autoFocus>
-                            <SelectValue placeholder="Select meal tag" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {mealTags.map((type) => (
-                                <SelectItem key={type.value} value={type.value}>
-                                    {type.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                            name="meal_tag"
+                            value={form.meal_tag}
+                            onValueChange={(value) => setForm((prev) => ({...prev, meal_tag: value, })) }
+                        >
+                            <SelectTrigger id="meal_tag" autoFocus>
+                                <SelectValue placeholder="Select meal tag" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {mealTags.map((type) => (
+                                    <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     <div className="grid gap-2">
@@ -192,10 +192,10 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                     </div>
                     <div>
                         <span
-                                className="text-sm text-blue-600 underline cursor-pointer inline-block"
-                                onClick={() => setIngredientFormOpen(true)}
-                            >
-                                + Add Ingredient
+                            className="text-sm text-blue-600 underline cursor-pointer inline-block"
+                            onClick={() => setIngredientFormOpen(true)}
+                        >
+                            + Add Ingredient
                         </span>
                     </div>
 
