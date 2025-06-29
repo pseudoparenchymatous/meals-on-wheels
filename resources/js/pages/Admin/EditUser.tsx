@@ -89,20 +89,21 @@ export default function EditUser({ user }: UserData) {
                         <InputError message={errors.org_name} />
                     </div>
                 }
-                <div className="flex items-center justify-between my-4">
-                    <Label htmlFor="email">Email address</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        className="w-fit"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        autoComplete="email"
-                        placeholder="Email address"
-                    />
-
-                    <InputError className="mt-2" message={errors.email} />
+                <div className="grid my-4">
+                    <div className='flex items-center justify-between'>
+                        <Label htmlFor="email">Email address</Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            className="w-fit"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            required
+                            autoComplete="email"
+                            placeholder="Email address"
+                        />
+                    </div>
+                    <InputError className="mt-2 text-right" message={errors.email} />
                 </div>
                 <div className='grid gap-4 w-100'>
                     <Label>Location</Label>
