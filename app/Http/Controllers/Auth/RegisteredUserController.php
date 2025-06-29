@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\MemberDiet;
 use App\Models\Admin;
 use App\Models\Caregiver;
 use App\Models\KitchenPartner;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -26,7 +28,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/register');
+        return Inertia::render('auth/register', [
+            'availableDiets' => MemberDiet::values(),
+        ]);
     }
 
     /**
@@ -89,7 +93,7 @@ class RegisteredUserController extends Controller
                 'birth_date' => 'required|date|before:today',
                 'proof_of_identity' => 'required|file',
                 'medical_condition' => 'nullable|file',
-                'diet' => 'nullable|in:vegetarian,vegan,halal,lactose_intolerant,diabetic',
+                'diet' => ['nullable', Rule::enum(MemberDiet::class)],
             ],
             'caregiver' => [],
             'kitchen partner' => [

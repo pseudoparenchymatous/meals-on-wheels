@@ -57,15 +57,13 @@ const userTypes: { value: UserTypes, label: string }[] = [
     { value: UserTypes.Rider, label: 'Rider' },
 ];
 
-const availableDiets = [
-    { value: 'vegetarian', label: 'Vegetarian' },
-    { value: 'vegan', label: 'Vegan' },
-    { value: 'halal', label: 'Halal' },
-    { value: 'lactose_intolerant', label: 'Lactose Intolerant' },
-    { value: 'diabetic', label: 'Diabetic' },
-];
+type Diet = string;
+type AvailableDiets = Diet[];
+interface RegisterProp {
+    availableDiets:  AvailableDiets,
+}
 
-export default function Register() {
+export default function Register(registerProp: RegisterProp) {
     const [calendarOpen, setCalendarOpen] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         user_type: '',
@@ -341,7 +339,6 @@ export default function Register() {
                                     <span className="text-sm text-muted-foreground ml-1">(Optional)</span>
                                 </Label>
                                 <Select
-                                    id="diet"
                                     value={data.diet}
                                     onValueChange={(value) => setData('diet', value)}
                                 >
@@ -349,9 +346,9 @@ export default function Register() {
                                         <SelectValue placeholder="Diet" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {availableDiets.map((dietItem) => (
-                                            <SelectItem key={dietItem.value} value={dietItem.value}>
-                                                {dietItem.label}
+                                        {registerProp.availableDiets.map((diet, index) => (
+                                            <SelectItem key={index} value={diet}>
+                                                {diet}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
