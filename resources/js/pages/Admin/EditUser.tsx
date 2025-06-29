@@ -29,7 +29,7 @@ export default function EditUser({ user }) {
         <AdminLayout>
             <Head title="Edit User" />
             <h1 className="font-semibold text-2xl mb-5">Edit User</h1>
-            <form className="border p-4 rounded-xl w-fit" onSubmit={submit}>
+            <form className="border p-10 rounded-xl w-fit" onSubmit={submit}>
                 {user.userable_type !== 'kitchen partner' ?
                     <div className="grid gap-4">
                         <div className="grid gap-2">
