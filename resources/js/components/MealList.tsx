@@ -16,21 +16,21 @@ import {
 
 
 const Button = ({ onClick, children, className, disabled }) => (
-  <button onClick={onClick} className={className} disabled={disabled}>
-    {children}
-  </button>
+    <button onClick={onClick} className={className} disabled={disabled}>
+        {children}
+    </button>
 );
 
 const AlertDialog = ({ open, onOpenChange, children }) => {
     if (!open) return null;
     return (
-        <div 
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 transition-opacity duration-200 animate-in fade-in-0 "
-          onClick={() => onOpenChange(false)}
+        <div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 transition-opacity duration-200 animate-in fade-in-0 "
+            onClick={() => onOpenChange(false)}
         >
-            <div 
-              className="bg-white w-full max-w-md m-4 p-6 rounded-2xl shadow-2xl text-center transform transition-transform duration-300 scale-100"
-              onClick={(e) => e.stopPropagation()}
+            <div
+                className="bg-white w-full max-w-md m-4 p-6 rounded-2xl shadow-2xl text-center transform transition-transform duration-300 scale-100"
+                onClick={(e) => e.stopPropagation()}
             >
                 {children}
             </div>
@@ -63,7 +63,7 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
     </Button>
 );
 
-    
+
 
 export default function Meallist({ meals, ingredients }) {
     const [selected, setSelected] = useState(null);
@@ -72,7 +72,7 @@ export default function Meallist({ meals, ingredients }) {
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [activeTab, setActiveTabs] =useState('Meals')
-    const [ingredientToDelete, setIngredientToDelete] = useState(null);    
+    const [ingredientToDelete, setIngredientToDelete] = useState(null);
 
     const deleteMeal = (id) => {
         setIsSubmitting(true);
@@ -82,7 +82,7 @@ export default function Meallist({ meals, ingredients }) {
                 setOpenConfirmDialog(false);
                 setMealtoDelete(null);
                 setIsSubmitting(false);
-                },
+            },
             onError: (error) => {
                 console.error(error);
                 toast.error("Meal has run into an error!")
@@ -90,103 +90,104 @@ export default function Meallist({ meals, ingredients }) {
             },
         });
     };
-    
+
     return (
         <div>
-        <Toaster position="top-center" richColors/>
-        {/*this is the componnet of the admin to view/edit meals */}
-        {activeTab === 'Meals' && (
-            <MealForm
-                selected={selected}
-                setSelectedMeal={setSelected}
-                open={open}
-                setOpen={setOpen}
-                activeTab={activeTab}
-                showAddButton={false}
-            />
-        )}
+            <Toaster position="top-center" richColors/>
+            {/*this is the componnet of the admin to view/edit meals */}
+            {activeTab === 'Meals' && (
+                <MealForm
+                    selected={selected}
+                    setSelectedMeal={setSelected}
+                    open={open}
+                    setOpen={setOpen}
+                    activeTab={activeTab}
+                    showAddButton={false}
+                />
+            )}
 
-        {activeTab === 'Ingredients' && (
-            <IngredientForm
-                selected={selected}
-                setSelectedIng={setSelected}
-                open={open}
-                setOpen={setOpen}
-                activeTab={activeTab}
-            />
-        )}
-        
-        {/*Meals Table view and actions */}
-        <Tabs value={activeTab} onValueChange={setActiveTabs}>
-            <TabsList>
-                <TabsTrigger value="Meals">All Meals</TabsTrigger>
-                <TabsTrigger value="Ingredients">List Ingredients</TabsTrigger>
-            </TabsList>
-            <TabsContent value="Meals">
-        <div className="border rounded-xl">
-            <Table>
-                <TableHeader>
-                    <TableRow className="text-xs uppercase">
-                        <TableHead>Image</TableHead>
-                        <TableHead>Kitchen Name</TableHead>
-                        <TableHead>Meal Name</TableHead>
-                        <TableHead>Prep Time</TableHead>
-                        <TableHead>Meal Tags</TableHead>
-                        <TableHead>Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {meals.map(meal => (
-                        <TableRow key={meal.id} className="">
-                            <TableCell>
-                                <img 
-                                src={meal.image_path}  
-                                alt={meal.name} 
-                                className="h-16 w-20 object-cover rounded place-content-center" 
-                                />
-                            </TableCell>
-                            <TableCell>{meal.org_name}</TableCell>
-                            <TableCell>{meal.name} </TableCell>
-                            <TableCell>{meal.preparation_time}</TableCell>
-                            <TableCell>{meal.meal_tag}</TableCell>
-                            <TableCell className="space-x-2">
-                                <button
-                                   onClick={() => {setSelected(meal); setOpen(true)}}
-                                   className="text-blue-600 hover:underline">
-                                   Edit
-                                </button>
-                                <button
-                                   onClick={() => {
-                                      setMealtoDelete(meal);
-                                      setOpenConfirmDialog(true);
-                                   }}
-                                   className="text-red-600 hover:underline">
-                                   Delete
-                                </button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
-            </TabsContent>
-            
-            <TabsContent value="Ingredients">
-                <div className="border rounded-xl">
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="text-xs uppercase">
-                                <TableHead>ID</TableHead>
-                                <TableHead>Meal</TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Stocks</TableHead>
-                                <TableHead>Date Purchased</TableHead>
-                                <TableHead>Expiration Date</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
+            {activeTab === 'Ingredients' && (
+                <IngredientForm
+                    selected={selected}
+                    setSelectedIng={setSelected}
+                    open={open}
+                    setOpen={setOpen}
+                    activeTab={activeTab}
+                />
+            )}
+
+            {/*Meals Table view and actions */}
+            <Tabs value={activeTab} onValueChange={setActiveTabs}>
+                <TabsList>
+                    <TabsTrigger value="Meals">All Meals</TabsTrigger>
+                    <TabsTrigger value="Ingredients">List Ingredients</TabsTrigger>
+                </TabsList>
+                <TabsContent value="Meals">
+                    <div className="border rounded-xl">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="text-xs uppercase">
+                                    <TableHead>Image</TableHead>
+                                    <TableHead>Kitchen Name</TableHead>
+                                    <TableHead>Meal Name</TableHead>
+                                    <TableHead>Prep Time</TableHead>
+                                    <TableHead>Meal Tags</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {meals.map(meal => (
+                                    <TableRow key={meal.id} className="">
+                                        <TableCell>
+                                            <img
+                                                src={meal.image_path}
+                                                alt={meal.name}
+                                                className="h-16 w-20 object-cover rounded place-content-center"
+                                            />
+                                        </TableCell>
+                                        <TableCell>{meal.org_name}</TableCell>
+                                        <TableCell>{meal.name} </TableCell>
+                                        <TableCell>{meal.preparation_time}</TableCell>
+                                        <TableCell>{meal.meal_tag}</TableCell>
+                                        <TableCell className="space-x-2">
+                                            <Button
+
+                                                onClick={() => {setSelected(meal); setOpen(true)}}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <button
+                                                onClick={() => {
+                                                    setMealtoDelete(meal);
+                                                    setOpenConfirmDialog(true);
+                                                }}
+                                                className="text-red-600 hover:underline">
+                                                Delete
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="Ingredients">
+                    <div className="border rounded-xl">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="text-xs uppercase">
+                                    <TableHead>ID</TableHead>
+                                    <TableHead>Meal</TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Stocks</TableHead>
+                                    <TableHead>Date Purchased</TableHead>
+                                    <TableHead>Expiration Date</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
                             <IngredientsTable
                                 Ingredients={ingredients}
                                 setSelected={setSelected}
@@ -194,13 +195,13 @@ export default function Meallist({ meals, ingredients }) {
                                 setIngToDelete={setIngredientToDelete}
                                 setOpenConfirmDialog={setOpenConfirmDialog}
                             />
-                    </Table>
-                </div>
-            </TabsContent>
-        </Tabs>
-        
-        {/* Confirm delete dialog*/}
-        <AlertDialog
+                        </Table>
+                    </div>
+                </TabsContent>
+            </Tabs>
+
+            {/* Confirm delete dialog*/}
+            <AlertDialog
                 open={openConfirmDialog}
                 onOpenChange={(isOpen) => {
                     setOpenConfirmDialog(isOpen);
@@ -216,14 +217,14 @@ export default function Meallist({ meals, ingredients }) {
                             <p>Are you sure you want to delete this {''}<br/>
                                 <strong className="text-red-600 font-bold text-lg">
                                     {activeTab === "Meals" ? mealToDelete?.name : ingredientToDelete?.ing_name}
-                                </strong> 
+                                </strong>
                                 ?
                             </p>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel 
-                            disabled={isSubmitting} 
+                        <AlertDialogCancel
+                            disabled={isSubmitting}
                             onClick={ () => setOpenConfirmDialog(false)}>Cancel</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={isSubmitting}
@@ -236,3 +237,5 @@ export default function Meallist({ meals, ingredients }) {
         </div>
     );
 }
+
+
