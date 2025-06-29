@@ -1,4 +1,4 @@
-import MealForm from "@/components/MealForm";
+import AddMeal from "@/components/MealForm";
 import MealList from "@/components/MealList";
 import { Head } from "@inertiajs/react";
 import { useState } from 'react';
@@ -12,7 +12,7 @@ export default function KitchenMeal({meals, ingredients}) {
         <KitchenPartnerLayout>
             <Head title="Kitchen Meals" />
             <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
-            <MealForm
+            <AddMeal
                 selected={selected}
                 setSelectedMeal={setSelected}
                 open={open}
