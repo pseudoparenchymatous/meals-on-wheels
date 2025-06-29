@@ -59,7 +59,7 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
 
 
 
-export default function Meallist({ meals, ingredients }) {
+export default function MealList({ meals, ingredients, userType }) {
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const [mealToDelete, setMealtoDelete] = useState(null);
@@ -70,7 +70,7 @@ export default function Meallist({ meals, ingredients }) {
 
     const deleteMeal = (id) => {
         setIsSubmitting(true);
-        router.delete(`/kitchen-partner/meals/${id}`, {
+        router.delete( userType === 'admin' ? `/admin/meals/${id}` : `/kitchen-partner/meals/${id}`, {
             onSuccess: () => {
                 toast.success("Meal has been deleted.");
                 setOpenConfirmDialog(false);
@@ -97,6 +97,7 @@ export default function Meallist({ meals, ingredients }) {
                     setOpen={setOpen}
                     activeTab={activeTab}
                     showAddButton={false}
+                    userType={userType}
                 />
             )}
 
@@ -144,14 +145,17 @@ export default function Meallist({ meals, ingredients }) {
                                         <TableCell>{meal.preparation_time}</TableCell>
                                         <TableCell>{meal.meal_tag}</TableCell>
                                         <TableCell className="space-x-2">
+                                            { userType !== 'admin' && (
+                                                <Button
+                                                    variant='outline'
+                                                    onClick={() => {setSelected(meal); setOpen(true)}}
+                                                >
+                                                    Edit
+                                                </Button>
+                                            )}
+
                                             <Button
-                                                variant="outline"
-                                                onClick={() => {setSelected(meal); setOpen(true)}}
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                variant="destructive"
+                                                variant='destructive'
                                                 onClick={() => {
                                                     setMealtoDelete(meal);
                                                     setOpenConfirmDialog(true);
@@ -232,5 +236,4 @@ export default function Meallist({ meals, ingredients }) {
         </div>
     );
 }
-
 

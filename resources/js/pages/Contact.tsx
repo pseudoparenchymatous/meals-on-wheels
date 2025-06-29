@@ -84,7 +84,7 @@ const Contact = () => {
                         <div className="h-64 overflow-hidden rounded-xl shadow-md border border-gray-700">
                             <iframe
                                 className="w-full h-full"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.236651146681!2d-122.42002108468118!3d37.77851957975833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7e2e0db4c70d%3A0x8f2f23e0c0ef0e1e!2sCivic%20Center%20Plaza!5e0!3m2!1sen!2sus!4v1616719457881!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.31521301611036!2d123.91157825176683!3d10.338411374552967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a998e133925eeb%3A0xfeda037a6ba9d730!2sUniversity%20of%20Cebu%20-%20Banilad%20Campus!5e0!3m2!1sen!2sph!4v1751202312298!5m2!1sen!2sph"
                                 allowFullScreen
                                 loading="lazy"
                             ></iframe>
