@@ -102,16 +102,16 @@ export default function Register(registerProp: RegisterProp) {
             <form className="flex flex-col gap-5" onSubmit={submit}>
                 {/* User Type */}
                 <div className="border grid gap-2 p-6 rounded-lg">
-                    <Label htmlFor="user_type">
+                    <Label htmlFor="userType">
                         Register as
                     </Label>
                     <Select
-                        id="user_type"
+                        name="userType"
                         value={data.user_type}
                         onValueChange={(value) => setData('user_type', value)}
                         required
                     >
-                        <SelectTrigger id="user_type" autoFocus>
+                        <SelectTrigger id="userType" autoFocus>
                             <SelectValue placeholder="I am a.." />
                         </SelectTrigger>
                         <SelectContent>
