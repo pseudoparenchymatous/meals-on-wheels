@@ -15,14 +15,14 @@ export default function KitchenMeal({meals, ingredients}) {
                 <div className="fg-foreground text-2xl p-10 m-1">
                     <h1 className="text-3xl font-bold pb-10">My Created Meals</h1>
                     <div className="flex justify-end">
-                    <MealForm
-                        selected={selected}
-                        setSelectedMeal={setSelected}
-                        open={open}
-                        setOpen={setOpen}
-                        activeTab={undefined}
+                        <MealForm
+                            selected={selected}
+                            setSelectedMeal={setSelected}
+                            open={open}
+                            setOpen={setOpen}
+                            activeTab={undefined}
                         />
-                </div>
+                    </div>
                 </div>
 
                 <MealList meals={meals} ingredients={ingredients}/>
