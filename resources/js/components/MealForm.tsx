@@ -59,8 +59,6 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         setForm((prev) => ({...prev, [name]: files ? files[0] : value, }));
     };
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -77,7 +75,6 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         };
 
         data.append('ingredients', JSON.stringify(ingredients));
-
 
         if (selected) {
             data.append('_method', 'PUT');
