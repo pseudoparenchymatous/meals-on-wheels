@@ -66,6 +66,7 @@ export default function EditUser({ user, diets }: EditUserProp) {
                                 className='w-fit'
                                 onChange={e => setData('first_name', e.target.value)}
                                 type="text"
+                                autoComplete='given-name'
                                 value={data.first_name}
                             />
                             <InputError message={errors.first_name} />
@@ -77,6 +78,7 @@ export default function EditUser({ user, diets }: EditUserProp) {
                                 className='w-fit'
                                 onChange={e => setData('last_name', e.target.value)}
                                 type="text"
+                                autoComplete='family-name'
                                 value={data.last_name}
                             />
                             <InputError message={errors.last_name} />
