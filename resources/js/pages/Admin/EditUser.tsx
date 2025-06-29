@@ -32,7 +32,7 @@ export default function EditUser({ user }) {
     return (
         <AdminLayout>
             <Head title="Edit User" />
-            <div className="mb-2">Edit User</div>
+            <h1 className="font-semibold text-2xl mb-5">Edit User</h1>
             <form className="border p-4 rounded-xl w-fit" onSubmit={submit}>
                 <Toaster position="top-center" richColors/>
                 {user.userable_type !== 'kitchen partner' ?
