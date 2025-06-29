@@ -7,7 +7,6 @@ export default function MealAdminDashboard({meals, ingredients, userType}) {
         <AdminLayout>
             <Head title="Meals" />
             <h1 className="text-3xl font-bold pb-10">Meals Dashboard View</h1>
-            <h1 className="text-3xl font-bold pb-10">Meals Dashboard Control</h1>
             <MealList meals={meals} ingredients={ingredients} userType={userType}/>
         </AdminLayout>
     );
