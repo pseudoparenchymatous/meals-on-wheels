@@ -5,9 +5,29 @@ import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Map from '@/components/Map';
+import { FormEvent } from 'react';
 
-export default function EditUser({ user }) {
     const { data, setData, patch, processing, errors, reset } = useForm({
+interface Userable {
+    first_name: string,
+    last_name: string,
+    org_name: string,
+}
+
+interface User {
+    id: number,
+    userable: Userable,
+    userable_type: string,
+    email: string,
+    location_lat: number,
+    location_lng: number,
+}
+
+interface UserData {
+    user: User,
+}
+
+export default function EditUser({ user }: UserData) {
         first_name: user.userable.first_name,
         last_name: user.userable.last_name,
         org_name: user.userable.org_name,
@@ -15,12 +35,12 @@ export default function EditUser({ user }) {
         location_lng: user.location_lng,
     });
 
-    function submit(e) {
+    function submit(e: FormEvent) {
         e.preventDefault();
         patch(route('admin.users.update', user.id));
     }
 
-    function getLocation(lat, lng) {
+    function getLocation(lat: number, lng: number) {
         setData('location_lat', lat);
         setData('location_lng', lng);
     }
