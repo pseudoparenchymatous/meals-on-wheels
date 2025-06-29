@@ -5,6 +5,7 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import IngredientsTable from "./IngredientsTable";
 import IngredientForm from "./IngredientForm";
+import { Button } from '@/components/ui/button';
 
 import {
   Table,
@@ -18,11 +19,7 @@ import {
 } from "@/components/ui/table"
 
 
-const Button = ({ onClick, children, className, disabled }) => (
-  <button onClick={onClick} className={className} disabled={disabled}>
-    {children}
-  </button>
-);
+
 
 const AlertDialog = ({ open, onOpenChange, children }) => {
     if (!open) return null;
@@ -51,7 +48,7 @@ const AlertDialogCancel = ({ children, disabled, onClick }) => (
     <Button
         onClick={onClick}
         disabled={disabled}
-        className="py-2 px-5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold"
+        variant='outline'
     >
         {children}
     </Button>
@@ -60,7 +57,7 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
     <Button
         onClick={onClick}
         disabled={disabled}
-        className="py-2 px-5 rounded-lg bg-[#F72585] hover:bg-[#F72585]/90 text-white"
+        variant='destructive'
     >
         {children}
     </Button>
@@ -68,31 +65,31 @@ const AlertDialogAction = ({ children, disabled, onClick }) => (
 
     
 
-export default function Meallist({ meals, ingredients }) {
-    const [selected, setSelected] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [mealToDelete, setMealtoDelete] = useState(null);
-    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [activeTab, setActiveTabs] =useState('Meals')
-    const [ingredientToDelete, setIngredientToDelete] = useState(null);    
+    export default function Meallist({ meals, ingredients, userType}) {
+        const [selected, setSelected] = useState(null);
+        const [open, setOpen] = useState(false);
+        const [mealToDelete, setMealtoDelete] = useState(null);
+        const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [activeTab, setActiveTabs] =useState('Meals')
+        const [ingredientToDelete, setIngredientToDelete] = useState(null);    
 
-    const deleteMeal = (id) => {
-        setIsSubmitting(true);
-        router.delete(`/kitchen-partner/meals/${id}`, {
-            onSuccess: () => {
-                toast.success("Meal has been deleted.");
-                setOpenConfirmDialog(false);
-                setMealtoDelete(null);
-                setIsSubmitting(false);
+        const deleteMeal = (id) => {
+            setIsSubmitting(true);
+            router.delete( userType === 'admin' ? `/admin/meals/${id}` : `/kitchen-partner/meals/${id}`, {
+                onSuccess: () => {
+                    toast.success("Meal has been deleted.");
+                    setOpenConfirmDialog(false);
+                    setMealtoDelete(null);
+                    setIsSubmitting(false);
+                    },
+                onError: (error) => {
+                    console.error(error);
+                    toast.error("Meal has run into an error!")
+                    setIsSubmitting(false);
                 },
-            onError: (error) => {
-                console.error(error);
-                toast.error("Meal has run into an error!")
-                setIsSubmitting(false);
-            },
-        });
-    };
+            });
+        };
     
     return (
         <div>
@@ -100,13 +97,12 @@ export default function Meallist({ meals, ingredients }) {
         {/*this is the componnet of the admin to view/edit meals */}
         {activeTab === 'Meals' && (
             <MealForm
-                selected={selected}
-                setSelectedMeal={setSelected}
-                open={open}
-                setOpen={setOpen}
-                activeTab={activeTab}
-                showAddButton={false}
-            />
+                    selected={selected}
+                    setSelectedMeal={setSelected}
+                    open={open}
+                    setOpen={setOpen}
+                    activeTab={activeTab}
+                    showAddButton={false} userType={userType}            />
         )}
 
         {activeTab === 'Ingredients' && (
@@ -153,19 +149,24 @@ export default function Meallist({ meals, ingredients }) {
                             <TableCell>{meal.preparation_time}</TableCell>
                             <TableCell>{meal.meal_tag}</TableCell>
                             <TableCell className="space-x-2">
-                                <button
-                                   onClick={() => {setSelected(meal); setOpen(true)}}
-                                   className="text-blue-600 hover:underline">
-                                   Edit
-                                </button>
-                                <button
-                                   onClick={() => {
+                                { userType !== 'admin' && (
+                                <Button
+                                    variant='outline'
+                                    onClick={() => {setSelected(meal); setOpen(true)}}
+                                    >
+                                    Edit
+                                </Button>
+                                )}  
+                               
+                                <Button
+                                    variant='destructive'
+                                    onClick={() => {
                                       setMealtoDelete(meal);
                                       setOpenConfirmDialog(true);
-                                   }}
-                                   className="text-red-600 hover:underline">
-                                   Delete
-                                </button>
+                                    }}
+                                    >
+                                    Delete
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
