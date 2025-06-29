@@ -5,8 +5,6 @@ import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Map from '@/components/Map';
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 
 export default function EditUser({ user }) {
     const { data, setData, patch, processing, errors, reset } = useForm({
@@ -19,9 +17,7 @@ export default function EditUser({ user }) {
 
     function submit(e) {
         e.preventDefault();
-        patch(route('admin.users.update', user.id), {
-            onSuccess: () => toast.success("User has been updated"),
-        });
+        patch(route('admin.users.update', user.id));
     }
 
     function getLocation(lat, lng) {
@@ -34,7 +30,6 @@ export default function EditUser({ user }) {
             <Head title="Edit User" />
             <h1 className="font-semibold text-2xl mb-5">Edit User</h1>
             <form className="border p-4 rounded-xl w-fit" onSubmit={submit}>
-                <Toaster position="top-center" richColors/>
                 {user.userable_type !== 'kitchen partner' ?
                     <div className="grid gap-4">
                         <div className="grid gap-2">
