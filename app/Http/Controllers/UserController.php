@@ -9,6 +9,7 @@ use App\Models\Rider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -66,6 +67,18 @@ class UserController extends Controller
         }
         $user->userable->save();
 
+        $request->validate([
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id),
+            ],
+        ]);
+
+        $user->email = $request->email;
         $user->location_lat = $request->location_lat;
         $user->location_lng = $request->location_lng;
         $user->save();
