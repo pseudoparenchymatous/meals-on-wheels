@@ -5,17 +5,14 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import IngredientsTable from "./IngredientsTable";
 import IngredientForm from "./IngredientForm";
-
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 
 const Button = ({ onClick, children, className, disabled }) => (
@@ -239,5 +236,3 @@ export default function Meallist({ meals, ingredients }) {
         </div>
     );
 }
-
-
