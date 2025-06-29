@@ -1,6 +1,6 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import MealForm from "@/components/MealForm";
-import Meallist from "@/components/Meallist";
+import MealList from "@/components/MealList";
 import { Head } from "@inertiajs/react";
 import { usePage } from '@inertiajs/react';
 import { NavItem } from '@/types';
@@ -38,9 +38,8 @@ export default function KitchenMeal({meals, ingredients}) {
                 </div>
                 </div>
                 
-                <Meallist meals={meals} ingredients={ingredients}/>
+                <MealList meals={meals} ingredients={ingredients}/>
             </div>
         </KitchenPartnerLayout>
     );
 }
-
