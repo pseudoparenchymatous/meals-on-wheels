@@ -30,7 +30,7 @@ export default function Users({ unverifiedMembers, users }) {
             <Head title="Users" />
             <Toaster richColors position="top-center"/>
             <div>
-                <h1 className="font-semibold mb-4 text-2xl">Users</h1>
+                <h1 className="font-semibold mb-4 text-3xl">Users</h1>
                 <Tabs defaultValue="all">
                     <TabsList>
                         <TabsTrigger value="all">All Users</TabsTrigger>
