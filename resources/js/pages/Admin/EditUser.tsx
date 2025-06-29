@@ -6,11 +6,15 @@ import { Input } from '@/components/ui/input';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Map from '@/components/Map';
 import { FormEvent } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+type Diet = string;
 
 interface Userable {
     first_name: string,
     last_name: string,
     org_name: string,
+    diet: string,
 }
 
 interface User {
@@ -22,11 +26,12 @@ interface User {
     location_lng: number,
 }
 
-interface UserData {
+interface EditUserProp {
     user: User,
+    diets: Diet[],
 }
 
-export default function EditUser({ user }: UserData) {
+export default function EditUser({ user, diets }: EditUserProp) {
     const { data, setData, patch, processing, errors } = useForm({
         first_name: user.userable.first_name,
         last_name: user.userable.last_name,
@@ -34,6 +39,7 @@ export default function EditUser({ user }: UserData) {
         org_name: user.userable.org_name,
         location_lat: user.location_lat,
         location_lng: user.location_lng,
+        diet: user.userable.diet,
     });
 
     function submit(e: FormEvent) {
@@ -105,6 +111,35 @@ export default function EditUser({ user }: UserData) {
                     </div>
                     <InputError className="mt-2 text-right" message={errors.email} />
                 </div>
+                {user.userable_type === "member" &&
+                    <div className="grid my-4">
+                        <div className='flex items-center justify-between'>
+                            <Label htmlFor="diet">Diet</Label>
+                            <Select
+                                name='selectDiet'
+                                value={data.diet}
+                                onValueChange={(value) => setData('diet', value)}
+                            >
+                                <SelectTrigger
+                                    id='diet'
+                                    className='w-fit'
+                                >
+                                    <SelectValue placeholder="Diet" />
+                                </SelectTrigger>
+                                <SelectContent
+                                    className='z-1000'
+                                >
+                                    {diets.map((diet, index) => (
+                                        <SelectItem key={index} value={diet}>
+                                            {diet}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <InputError className="mt-2 text-right" message={errors.diet} />
+                    </div>
+                }
                 <div className='grid gap-4 w-100'>
                     <Label>Location</Label>
                     <Map markAt={{ lat: data.location_lat, lng: data.location_lng }} sendLocation={getLocation} />

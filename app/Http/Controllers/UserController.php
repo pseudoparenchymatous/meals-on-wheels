@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MemberDiet;
 use App\Models\Caregiver;
 use App\Models\KitchenPartner;
 use App\Models\Member;
@@ -45,11 +46,20 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/EditUser', [
             'user' => $user->load('userable'),
+            'diets' => MemberDiet::values(),
         ]);
     }
 
     public function update(Request $request, User $user)
     {
+        if ($user->userable_type === 'member') {
+            $request->validate([
+                'diet' => ['nullable', Rule::enum(MemberDiet::class)],
+            ]);
+
+            $user->userable->diet = $request->diet;
+        }
+
         if ($user->userable_type == 'kitchen partner') {
             $request->validate([
                 'org_name' => 'required|string|max:255',
