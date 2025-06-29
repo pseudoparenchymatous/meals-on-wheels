@@ -7,7 +7,6 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import Map from '@/components/Map';
 import { FormEvent } from 'react';
 
-    const { data, setData, patch, processing, errors, reset } = useForm({
 interface Userable {
     first_name: string,
     last_name: string,
@@ -28,6 +27,7 @@ interface UserData {
 }
 
 export default function EditUser({ user }: UserData) {
+    const { data, setData, patch, processing, errors } = useForm({
         first_name: user.userable.first_name,
         last_name: user.userable.last_name,
         org_name: user.userable.org_name,
