@@ -33,14 +33,14 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
 
     useEffect(() => {
         if (selected) {
-            setForm({ 
+            setForm({
                 name: selected.name,
                 meal_tag: selected.meal_tag,
                 preparation_time: selected.preparation_time,
                 image: null,
             });
         } else {
-            setForm({ 
+            setForm({
                 name: '',
                 meal_tag: 'Regular Meal',
                 preparation_time: '',
@@ -80,7 +80,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
 
 
         if (selected) {
-            data.append('_method', 'PUT'); 
+            data.append('_method', 'PUT');
             router.post(`/kitchen-partner/meals/${selected.id}`, data, {
                 onSuccess: () => {
                 setOpen(false);
@@ -92,7 +92,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
         });
         } else {
             router.post('/kitchen-partner/meals', data, {
-                onSuccess: () => {  
+                onSuccess: () => {
                 setOpen(false);
                 setSelectedMeal(null);
                 setIsSubmitting(false);
@@ -122,7 +122,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                             image: null,
                         });
                         setIngredients([]);
-                    }    
+                    }
                     }}>
                         Add meal
                     </Button>
