@@ -253,6 +253,7 @@ export default function Register(registerProp: RegisterProp) {
                             <Input
                                 id="password"
                                 type="password"
+                                autoComplete="new-password"
                                 required
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
@@ -268,6 +269,7 @@ export default function Register(registerProp: RegisterProp) {
                             <Input
                                 id="password_confirmation"
                                 type="password"
+                                autoComplete="new-password"
                                 required
                                 value={data.password_confirmation}
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
