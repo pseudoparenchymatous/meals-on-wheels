@@ -191,12 +191,12 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
     };
 
     const renderRecurringActions = (donor) => (
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
             <Button
                 size="sm"
                 variant="outline"
                 onClick={() => handleEditClick(donor)}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 w-full sm:w-auto"
             >
                 <Edit className="w-4 h-4" />
                 Edit
@@ -205,7 +205,7 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                 size="sm"
                 variant="outline"
                 onClick={() => handleCancelClick(donor)}
-                className="flex items-center gap-1 text-red-600 hover:text-red-700"
+                className="flex items-center gap-1 text-red-600 hover:text-red-700 w-full sm:w-auto"
             >
                 <X className="w-4 h-4" />
                 Cancel
@@ -237,6 +237,65 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
         a.click();
         window.URL.revokeObjectURL(url);
     };
+
+    // Responsive Card Component for Mobile
+    const DonorCard = ({ donor, showActions = true, isRecurring = false }) => (
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 space-y-3">
+            <div className="flex justify-between items-start">
+                <div className="flex-1">
+                    <div className="font-medium text-gray-900 dark:text-white">
+                        {donor.donor_name}
+                        {donor.is_anonymous && (
+                            <span className="ml-2 text-xs text-gray-500">(Anonymous)</span>
+                        )}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {donor.donor_email}
+                    </div>
+                </div>
+                <div className="text-right">
+                    <div className="font-semibold text-lg text-gray-900 dark:text-white">
+                        {formatCurrency(donor.amount)}
+                    </div>
+                    {isRecurring && (
+                        <div className="text-xs text-gray-500 mt-1">
+                            {donor.frequency || 'Monthly'}
+                        </div>
+                    )}
+                </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+                {getTypeBadge(donor.donation_type)}
+                {getStatusBadge(donor.status)}
+            </div>
+            
+            <div className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-700">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {isRecurring && donor.next_payment_date ? (
+                        <>Next: {formatDate(donor.next_payment_date)}</>
+                    ) : (
+                        formatDate(donor.created_at)
+                    )}
+                </div>
+                {showActions && (
+                    <div className="flex gap-2">
+                        {isRecurring ? (
+                            renderRecurringActions(donor)
+                        ) : (
+                            <Button 
+                                size="sm" 
+                                variant="destructive"
+                                onClick={() => handleDeleteClick(donor)}
+                            >
+                                Delete
+                            </Button>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 
     return (
         <div>
@@ -299,11 +358,11 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
             </div>
 
             <Tabs defaultValue="all">
-                <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="all">All Donors</TabsTrigger>
-                    <TabsTrigger value="recent">Recent (30 days)</TabsTrigger>
-                    <TabsTrigger value="recurring">Recurring Donors</TabsTrigger>
-                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">
+                    <TabsTrigger value="all" className="text-xs sm:text-sm">All Donors</TabsTrigger>
+                    <TabsTrigger value="recent" className="text-xs sm:text-sm">Recent</TabsTrigger>
+                    <TabsTrigger value="recurring" className="text-xs sm:text-sm">Recurring</TabsTrigger>
+                    <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="all">
@@ -340,13 +399,14 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                 <SelectItem value="recurring">Recurring</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button variant="outline" size="sm" onClick={handleExport}>
+                        <Button variant="outline" size="sm" onClick={handleExport} className="w-full sm:w-auto">
                             <Download className="w-4 h-4 mr-2" />
                             Export
                         </Button>
                     </div>
 
-                    <div className="border rounded-xl">
+                    {/* Desktop Table View */}
+                    <div className="hidden lg:block border rounded-xl overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -389,24 +449,13 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                             </TableCell>
                                             <TableCell>{formatDate(donor.created_at)}</TableCell>
                                             <TableCell>
-                                                <div className="flex gap-2">
-                                                    {/* Email and View buttons 
-                                                    <Button size="sm" variant="outline">
-                                                        <Mail className="w-4 h-4 mr-1" />
-                                                        Email
-                                                    </Button>
-                                                    <Button size="sm" variant="outline">
-                                                        View
-                                                    </Button>
-                                                    */}
-                                                    <Button 
-                                                        size="sm" 
-                                                        variant="destructive"
-                                                        onClick={() => handleDeleteClick(donor)}
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </div>
+                                                <Button 
+                                                    size="sm" 
+                                                    variant="destructive"
+                                                    onClick={() => handleDeleteClick(donor)}
+                                                >
+                                                    Delete
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -414,10 +463,24 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </TableBody>
                         </Table>
                     </div>
+
+                    {/* Mobile Card View */}
+                    <div className="lg:hidden space-y-4">
+                        {filteredDonors.length === 0 ? (
+                            <div className="text-center py-8 text-gray-500">
+                                No donors found matching your criteria
+                            </div>
+                        ) : (
+                            filteredDonors.map(donor => (
+                                <DonorCard key={donor.id} donor={donor} />
+                            ))
+                        )}
+                    </div>
                 </TabsContent>
 
                 <TabsContent value="recent">
-                    <div className="border rounded-xl">
+                    {/* Desktop Table View */}
+                    <div className="hidden lg:block border rounded-xl overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -427,13 +490,12 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                     <TableHead>Type</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Date</TableHead>
-                                    {/*<TableHead>Actions</TableHead>*/}
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {recentDonors.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                                        <TableCell colSpan={6} className="text-center py-8 text-gray-500">
                                             No recent donations found
                                         </TableCell>
                                     </TableRow>
@@ -457,29 +519,30 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                                                 {getStatusBadge(donor.status)}
                                             </TableCell>
                                             <TableCell>{formatDate(donor.created_at)}</TableCell>
-                                            <TableCell>
-                                                <div className="flex gap-2">
-                                                    {/* Email and View buttons
-                                                    <Button size="sm" variant="outline">
-                                                        <Mail className="w-4 h-4 mr-1" />
-                                                        Thank
-                                                    </Button>
-                                                    <Button size="sm" variant="outline">
-                                                        View
-                                                    </Button>
-                                                    */}
-                                                </div>
-                                            </TableCell>
                                         </TableRow>
                                     ))
                                 )}
                             </TableBody>
                         </Table>
                     </div>
+
+                    {/* Mobile Card View */}
+                    <div className="lg:hidden space-y-4">
+                        {recentDonors.length === 0 ? (
+                            <div className="text-center py-8 text-gray-500">
+                                No recent donations found
+                            </div>
+                        ) : (
+                            recentDonors.map(donor => (
+                                <DonorCard key={donor.id} donor={donor} showActions={false} />
+                            ))
+                        )}
+                    </div>
                 </TabsContent>
 
                 <TabsContent value="recurring">
-                    <div className="border rounded-xl">
+                    {/* Desktop Table View */}
+                    <div className="hidden lg:block border rounded-xl overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -532,10 +595,23 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             </TableBody>
                         </Table>
                     </div>
+
+                    {/* Mobile Card View */}
+                    <div className="lg:hidden space-y-4">
+                        {recurringDonors.length === 0 ? (
+                            <div className="text-center py-8 text-gray-500">
+                                No recurring donations found
+                            </div>
+                        ) : (
+                            recurringDonors.map(donor => (
+                                <DonorCard key={donor.id} donor={donor} showActions={true} isRecurring={true} />
+                            ))
+                        )}
+                    </div>
                 </TabsContent>
 
                 <TabsContent value="analytics">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
                             <h3 className="text-lg font-semibold mb-4">Donation Summary</h3>
                             <div className="space-y-4">
@@ -567,11 +643,11 @@ export default function DonorManagementCom({ donors = [], stats = {} }) {
                             <div className="space-y-3">
                                 {recentDonors.slice(0, 5).map(donor => (
                                     <div key={donor.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                        <div>
-                                            <div className="font-medium">{donor.donor_name}</div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-medium truncate">{donor.donor_name}</div>
                                             <div className="text-sm text-gray-500">{formatDate(donor.created_at)}</div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-right ml-4">
                                             <div className="font-semibold">{formatCurrency(donor.amount)}</div>
                                             <div className="text-sm">{getStatusBadge(donor.status)}</div>
                                         </div>
