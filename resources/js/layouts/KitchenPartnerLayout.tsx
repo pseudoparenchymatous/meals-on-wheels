@@ -23,7 +23,7 @@ export default function AdminLayout({ children }) {
     return (
         <AppLayout navItems={navItems} >
             <Head title="Kitchen Partner" />
-            <div>
+            <div className='m-10'>
                 { children }
             </div>
         </AppLayout>

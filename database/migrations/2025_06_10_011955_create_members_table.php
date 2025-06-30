@@ -1,5 +1,6 @@
 <?php
 
+use App\MemberDiet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->date('birth_date');
             $table->string('proof_of_identity');
             $table->string('medical_condition')->nullable();
-            $table->string('diet')->nullable();
+            $table->enum('diet', MemberDiet::values())->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();
         });

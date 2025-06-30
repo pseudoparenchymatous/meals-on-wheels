@@ -20,6 +20,7 @@ class MealSeeder extends Seeder
         $meals = [
             [
                 'name' => 'Chicken Adobo',
+                'meal_tag'=> 'High Protein',
                 'preparation_time' => '45 minutes',
                 'image_path' => 'meals/chicken-adobo.jpg',
                 'ingredients' => [
@@ -31,6 +32,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Fish Fillet',
+                'meal_tag'=> 'High Protein',
                 'preparation_time' => '30 minutes',
                 'image_path' => 'meals/fish-fillet.jpg',
                 'ingredients' => [
@@ -42,6 +44,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Baked Salmon',
+                'meal_tag'=> 'High Protein',
                 'preparation_time' => '50 minutes',
                 'image_path' => 'meals/baked-salmon.jpg',
                 'ingredients' => [
@@ -53,6 +56,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Vegetable Kare-Kare',
+                'meal_tag'=> 'Vegan',
                 'preparation_time' => '60 minutes',
                 'image_path' => 'meals/Vegetable-Kare-Kare.jpg',
                 'ingredients' => [
@@ -64,8 +68,9 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Pasta Salad',
+                'meal_tag'=> 'Vegan',
                 'preparation_time' => '25 minutes',
-                'image_path' => 'meals/Pasta-salad.jpg',
+                'image_path' => 'meals/pasta-salad.jpg',
                 'ingredients' => [
                     ['ing_name' => 'Pasta', 'ing_type' => 'Grains', 'unit' => '200g'],
                     ['ing_name' => 'Bell Pepper', 'ing_type' => 'Vegetable', 'unit' => '1 piece'],
@@ -75,6 +80,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Scrambled Eggs',
+                'meal_tag'=> 'Regular Meal',
                 'preparation_time' => '15 minutes',
                 'image_path' => 'meals/scrambled-egg.jpg',
                 'ingredients' => [
@@ -86,6 +92,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Grilled Chicken',
+                'meal_tag'=> 'Regular Meal',
                 'preparation_time' => '40 minutes',
                 'image_path' => 'meals/grilled-chicken.jpg',
                 'ingredients' => [
@@ -97,6 +104,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Beef Caldereta',
+                'meal_tag'=> 'Regular Meal',
                 'preparation_time' => '1 hour',
                 'image_path' => 'meals/beef-caldereta.jpg',
                 'ingredients' => [
@@ -108,6 +116,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Pancit Bihon',
+                'meal_tag'=> 'Regular Meal',
                 'preparation_time' => '40 minutes',
                 'image_path' => 'meals/pancit-bihon.jpg',
                 'ingredients' => [
@@ -119,6 +128,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Sweet and Sour Pork',
+                'meal_tag'=> 'Halal',
                 'preparation_time' => '45 minutes',
                 'image_path' => 'meals/Sweet-and-Sour-pork.jpg',
                 'ingredients' => [
@@ -130,6 +140,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Sinigang na Baboy',
+                'meal_tag'=> 'Halal',
                 'preparation_time' => '1 hour',
                 'image_path' => 'meals/sinigang-na-baboy.jpg',
                 'ingredients' => [
@@ -141,6 +152,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Tuna Sandwich',
+                'meal_tag'=> 'High Protein',
                 'preparation_time' => '15 minutes',
                 'image_path' => 'meals/Tuna-sandwich.jpg',
                 'ingredients' => [
@@ -152,6 +164,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Fried Tilapia',
+                'meal_tag'=> 'High Protein',
                 'preparation_time' => '30 minutes',
                 'image_path' => 'meals/Fried-Fish-Tilapia.jpg',
                 'ingredients' => [
@@ -163,6 +176,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Chicken Curry',
+                'meal_tag'=> 'Vegetarian',
                 'preparation_time' => '50 minutes',
                 'image_path' => 'meals/Chicken-curry.jpg',
                 'ingredients' => [
@@ -174,6 +188,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Lupiang Shanghai',
+                'meal_tag'=> 'Vegetarian',
                 'preparation_time' => '1 hour',
                 'image_path' => 'meals/Lumpiang-Shanghai.jpg',
                 'ingredients' => [
@@ -185,6 +200,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Ginataang Gulay',
+                'meal_tag'=> 'Vegan',
                 'preparation_time' => '35 minutes',
                 'image_path' => 'meals/Ginataang-gulay.jpg',
                 'ingredients' => [
@@ -197,6 +213,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Bangus Sisig',
+                'meal_tag'=> 'Vegan',
                 'preparation_time' => '40 minutes',
                 'image_path' => 'meals/bangus-sisig.jpg',
                 'ingredients' => [
@@ -208,6 +225,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Shrimp Tempura',
+                'meal_tag'=> 'Halal',
                 'preparation_time' => '40 minutes',
                 'image_path' => 'meals/Shrimp-Tempura.png',
                 'ingredients' => [
@@ -219,6 +237,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Tortang Talong',
+                'meal_tag'=> 'Halal',
                 'preparation_time' => '30 minutes',
                 'image_path' => 'meals/Tortang-talong.jpg',
                 'ingredients' => [
@@ -230,6 +249,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Chicken Teriyaki',
+                'meal_tag'=> 'Lactose Intulerant',
                 'preparation_time' => '50 minutes',
                 'image_path' => 'meals/chicken-Teriyaki.jpg',
                 'ingredients' => [
@@ -242,6 +262,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Beef Stroganoff',
+                'meal_tag'=> 'Lactose Intulerant',
                 'preparation_time' => '45 minutes',
                 'image_path' => 'meals/Beef-Stroganoff.jpg',
                 'ingredients' => [
@@ -254,6 +275,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Tapsilog',
+                'meal_tag'=> 'Diabetic',
                 'preparation_time' => '35 minutes',
                 'image_path' => 'meals/Tapsilog.jpg',
                 'ingredients' => [
@@ -265,6 +287,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Ginisang Ampalaya',
+                'meal_tag'=> 'Diabetic',
                 'preparation_time' => '30 minutes',
                 'image_path' => 'meals/ginisang-ampalaya.jpg',
                 'ingredients' => [
@@ -285,6 +308,7 @@ class MealSeeder extends Seeder
             $meal = Meal::create([
                 'kitchen_partner_id' => $kitchenPartner->id,
                 'name' => $mealData['name'],
+                'meal_tag' => $mealData['meal_tag'],
                 'preparation_time' => $mealData['preparation_time'],
                 'image_path' => $mealData['image_path'],
             ]);

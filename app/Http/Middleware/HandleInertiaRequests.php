@@ -52,10 +52,10 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'userName' => $user_name,
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $user,
-                'userName' => $user_name,
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

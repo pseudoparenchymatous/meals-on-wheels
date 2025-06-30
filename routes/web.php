@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminReassessmentController;
-use App\Http\Controllers\MemberReassessmentController;
-use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -11,7 +9,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
-use App\Http\Controllers\MemberDashboardController;
+use App\Http\Controllers\MemberReassessmentController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Http\Controllers\UserController;
@@ -27,7 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('dashboard', DashboardController::class)->name('dashboard');
+Route::get('dashboard', DashboardController::class)->middleware('auth')->name('dashboard');
 
 Route::post('/contact', [ContactController::class, 'store']);
 
@@ -44,67 +42,64 @@ Route::post('/donations/create-payment-intent', [DonationController::class, 'cre
 Route::post('/stripe/webhook', [DonationController::class, 'handleWebhook'])->name('stripe.webhook');
 Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
 
-Route::name('member.')->group(function () {
-    Route::prefix('member')->group(function () {
-        Route::middleware(['auth:member', CheckMemberVerificationStatus::class])->group(function () {
-            Route::get('dashboard', [MemberDashboardController::class, 'index'])->name('dashboard');
+Route::prefix('member')
+    ->name('member.')
+    ->middleware(['auth:member', CheckMemberVerificationStatus::class])
+    ->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'member'])->name('dashboard');
 
-            // Delivery Tracker
-            Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+        // Delivery Tracker
+        Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
+        Route::post('delivery-tracker/{meal}/feedback', [DeliveryTrackerController::class, 'feedback'])->name('meal.feedback');
 
-            // Reassessments
-            Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
+        // Reassessments
+        Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
 
-            Route::get('verify', function () {
-                return Inertia::render('Member/Verify', [
-                    'verified' => auth()->user()->userable->verified,
-                ]);
-            })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
-        });
-
+        Route::get('verify', function () {
+            return Inertia::render('Member/Verify', [
+                'verified' => auth()->user()->userable->verified,
+            ]);
+        })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
     });
-});
 
 Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [CaregiverDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'caregiver'])->name('dashboard');
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
 
-Route::name('kitchen-partner.')->group(function () {
-    Route::prefix('kitchen-partner')->group(function () {
-        Route::middleware('auth:kitchen-partner')->group(function () {
-            Route::get('dashboard', function () {
-                return Inertia::render('KitchenPartner/Dashboard', [
-                    'mealAssignments' => MealAssignment::all()->load([
-                        'meal',
-                        'rider',
-                        'meal.ingredients',
-                        'member',
-                    ]),
-                    'orgName' => auth()->user()->userable->org_name,
-                ]);
-            })->name('dashboard');
+Route::prefix('kitchen-partner')
+    ->name('kitchen-partner.')
+    ->middleware('auth:kitchen-partner')
+    ->group(function () {
+        Route::get('dashboard', function () {
+            return Inertia::render('KitchenPartner/Dashboard', [
+                'mealAssignments' => MealAssignment::all()->load([
+                    'meal',
+                    'rider',
+                    'meal.ingredients',
+                    'member',
+                ]),
+                'orgName' => auth()->user()->userable->org_name,
+            ]);
+        })->name('dashboard');
 
-            Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
-                $mealAssignment->status = $request->status;
-                $mealAssignment->save();
+        Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
+            $mealAssignment->status = $request->status;
+            $mealAssignment->save();
 
-                return redirect(route('kitchen-partner.dashboard'));
-            })->name('meal-assignments.update');
+            return redirect(route('kitchen-partner.dashboard'));
+        })->name('meal-assignments.update');
 
-            Route::post('meals', [MealController::class, 'store'])->name('meals.store');
-            Route::get('/meals', [MealController::class, 'index'])->name('meals');
-            Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
-            Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
+        Route::post('meals', [MealController::class, 'store'])->name('meals.store');
+        Route::get('/meals', [MealController::class, 'index'])->name('meals');
+        Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
+        Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
 
-            Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
-            Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
-            Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
-            Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
-
-        });
+        Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
+        Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
+        Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
+        Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
     });
-});
 
 Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
     Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
@@ -181,7 +176,7 @@ Route::patch('/members/verify/{member}', function (Member $member) {
     $member->verified = true;
     $member->save();
 
-    return to_route('admin.users.index');
+    return back()->with('message', 'User has been verified successfully!');
 })->name('members.verify');
 
 require __DIR__.'/settings.php';

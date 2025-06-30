@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MealAssignment;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DeliveryTrackerController extends Controller
@@ -17,6 +18,7 @@ class DeliveryTrackerController extends Controller
             ->get()
             ->map(function ($assignment) {
                 return [
+                    'id' => $assignment->id,
                     'day' => ucfirst($assignment->day),
                     'kitchen_partner' => $assignment->kitchenPartner->org_name,
                     'meal' => $assignment->meal->name,
@@ -30,5 +32,18 @@ class DeliveryTrackerController extends Controller
         return Inertia::render('Member/DeliveryTracker', [
             'deliveries' => $deliveries,
         ]);
+    }
+
+    public function feedback(MealAssignment $meal, Request $request)
+    {
+        $request->validate([
+            'feedback' => 'required:string',
+        ]);
+
+        $meal->mealFeedback()->create([
+            'feedback' => $request->feedback
+        ]);
+
+        return to_route('member.delivery-tracker')->with('message', 'Feedback submitted!');
     }
 }

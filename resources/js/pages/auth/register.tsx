@@ -7,7 +7,6 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
 import Map from '@/components/Map';
@@ -57,15 +56,13 @@ const userTypes: { value: UserTypes, label: string }[] = [
     { value: UserTypes.Rider, label: 'Rider' },
 ];
 
-const availableDiets = [
-    { value: 'vegetarian', label: 'Vegetarian' },
-    { value: 'vegan', label: 'Vegan' },
-    { value: 'halal', label: 'Halal' },
-    { value: 'lactose_intolerant', label: 'Lactose Intolerant' },
-    { value: 'diabetic', label: 'Diabetic' },
-];
+type Diet = string;
+type AvailableDiets = Diet[];
+interface RegisterProp {
+    availableDiets:  AvailableDiets,
+}
 
-export default function Register() {
+export default function Register(registerProp: RegisterProp) {
     const [calendarOpen, setCalendarOpen] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         user_type: '',
@@ -105,16 +102,16 @@ export default function Register() {
             <form className="flex flex-col gap-5" onSubmit={submit}>
                 {/* User Type */}
                 <div className="border grid gap-2 p-6 rounded-lg">
-                    <Label htmlFor="user_type">
+                    <Label htmlFor="userType">
                         Register as
                     </Label>
                     <Select
-                        id="user_type"
+                        name="userType"
                         value={data.user_type}
                         onValueChange={(value) => setData('user_type', value)}
                         required
                     >
-                        <SelectTrigger id="user_type" autoFocus>
+                        <SelectTrigger id="userType" autoFocus>
                             <SelectValue placeholder="I am a.." />
                         </SelectTrigger>
                         <SelectContent>
@@ -256,6 +253,7 @@ export default function Register() {
                             <Input
                                 id="password"
                                 type="password"
+                                autoComplete="new-password"
                                 required
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
@@ -271,6 +269,7 @@ export default function Register() {
                             <Input
                                 id="password_confirmation"
                                 type="password"
+                                autoComplete="new-password"
                                 required
                                 value={data.password_confirmation}
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -341,7 +340,6 @@ export default function Register() {
                                     <span className="text-sm text-muted-foreground ml-1">(Optional)</span>
                                 </Label>
                                 <Select
-                                    id="diet"
                                     value={data.diet}
                                     onValueChange={(value) => setData('diet', value)}
                                 >
@@ -349,9 +347,9 @@ export default function Register() {
                                         <SelectValue placeholder="Diet" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {availableDiets.map((dietItem) => (
-                                            <SelectItem key={dietItem.value} value={dietItem.value}>
-                                                {dietItem.label}
+                                        {registerProp.availableDiets.map((diet, index) => (
+                                            <SelectItem key={index} value={diet}>
+                                                {diet}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>

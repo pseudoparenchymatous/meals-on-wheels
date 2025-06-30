@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table" 
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -12,8 +12,12 @@ import { UsersTable } from '@/components/admin/users/UsersTable';
 
 export default function Users({ unverifiedMembers, users }) {
     const { flash } = usePage().props
+
     if (flash.message) {
-        toast.success(flash.message);
+        setTimeout(() => {
+            toast.success(flash.message);
+            flash.message = null;
+        }, 0)
     }
 
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -26,7 +30,7 @@ export default function Users({ unverifiedMembers, users }) {
             <Head title="Users" />
             <Toaster richColors position="top-center"/>
             <div>
-                <h1 className="font-semibold mb-4 text-2xl">Users</h1>
+                <h1 className="font-semibold mb-4 text-3xl">Users</h1>
                 <Tabs defaultValue="all">
                     <TabsList>
                         <TabsTrigger value="all">All Users</TabsTrigger>

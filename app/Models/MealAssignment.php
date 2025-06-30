@@ -18,6 +18,11 @@ class MealAssignment extends Model
         'weekly_plan_id',
     ];
 
+    public function mealFeedback()
+    {
+        return $this->hasOne(MealFeedback::class);
+    }
+
     public function meal(): BelongsTo
     {
         return $this->belongsTo(Meal::class);

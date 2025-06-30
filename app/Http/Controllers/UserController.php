@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MemberDiet;
 use App\Models\Caregiver;
 use App\Models\KitchenPartner;
 use App\Models\Member;
@@ -9,6 +10,7 @@ use App\Models\Rider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -44,11 +46,20 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/EditUser', [
             'user' => $user->load('userable'),
+            'diets' => MemberDiet::values(),
         ]);
     }
 
     public function update(Request $request, User $user)
     {
+        if ($user->userable_type === 'member') {
+            $request->validate([
+                'diet' => ['nullable', Rule::enum(MemberDiet::class)],
+            ]);
+
+            $user->userable->diet = $request->diet;
+        }
+
         if ($user->userable_type == 'kitchen partner') {
             $request->validate([
                 'org_name' => 'required|string|max:255',
@@ -66,11 +77,23 @@ class UserController extends Controller
         }
         $user->userable->save();
 
+        $request->validate([
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id),
+            ],
+        ]);
+
+        $user->email = $request->email;
         $user->location_lat = $request->location_lat;
         $user->location_lng = $request->location_lng;
         $user->save();
 
-        return back()->with('message', 'User has been updated');
+        return to_route('admin.users.index')->with('message', 'User has been updated');
     }
 
     public function destroy(User $user)

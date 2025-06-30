@@ -1,13 +1,14 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import RiderLayout from '@/layouts/RiderLayout';
 import { NavItem } from '@/types';
+import RiderMap from '@/components/RiderMap';
 
 const navItems: NavItem[] = [
   { title: 'Dashboard', href: '/rider/dashboard' },
   { title: 'Delivery Tracker', href: '/rider/delivery-tracker' },
 ];
 
-export default function DeliveryDetails({ delivery }) {
+export default function DeliveryDetails({ delivery, route }) {
   const { data, setData, post, processing, errors } = useForm({
     status: delivery.status,
   });
@@ -41,6 +42,10 @@ export default function DeliveryDetails({ delivery }) {
         <p><strong>Week:</strong> {delivery.week}</p>
         <p><strong>Kitchen Partner:</strong> {delivery.kitchen_partner}</p>
         <p><strong>To Member:</strong> {delivery.member}</p>
+        
+        <div>
+          <RiderMap from={route.from} to={route.to}/>
+        </div>
 
         <form onSubmit={submit} className="mt-4 space-y-4">
           <label className="block">
