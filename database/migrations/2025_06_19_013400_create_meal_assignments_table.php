@@ -16,11 +16,11 @@ return new class extends Migration
             $table->enum('day', ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']);
             $table->enum('status', ['pending', 'preparing', 'picked up', 'on the way', 'delivered'])->default('pending');
             $table->enum('temperature', ['hot', 'frozen']);
-            $table->foreignIdFor(App\Models\WeeklyPlan::class);
-            $table->foreignIdFor(App\Models\Member::class);
-            $table->foreignIdFor(App\Models\Meal::class);
-            $table->foreignIdFor(App\Models\KitchenPartner::class);
-            $table->foreignIdFor(App\Models\Rider::class);
+            $table->foreignIdFor(App\Models\WeeklyPlan::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Member::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Meal::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\KitchenPartner::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Rider::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
