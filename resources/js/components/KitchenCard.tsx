@@ -14,7 +14,7 @@ export default function KitchenCard ({assignments = [], expiringIngredients = []
                         <Utensils  className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
                         <div className="ml-4">
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Meals</p>
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assign Meals</p>
                             <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalMealsToday}</p>
                         </div>
                 </div>
