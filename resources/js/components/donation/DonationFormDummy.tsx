@@ -27,6 +27,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+// Import your StripeTest component
+import StripeTest from '@/components/donation/StripeTest';
+
 export default function DonationFormDummy() {
   const [selectedAmount, setSelectedAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
@@ -37,6 +40,7 @@ export default function DonationFormDummy() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showStripeForm, setShowStripeForm] = useState(false);
   const [donorInfo, setDonorInfo] = useState({
     name: '',
     email: '',
@@ -86,8 +90,21 @@ export default function DonationFormDummy() {
     return true;
   };
 
+  const handlePaymentMethodChange = (method: string) => {
+    setPaymentMethod(method);
+    // Reset stripe form visibility when changing payment methods
+    setShowStripeForm(false);
+  };
+
   const handleSubmit = async () => {
     if (!validateForm()) return;
+
+    // If stripe is selected, show the stripe form instead of processing directly
+    if (paymentMethod === 'stripe') {
+      setShowStripeForm(true);
+      setShowConfirmDialog(false);
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -145,40 +162,6 @@ export default function DonationFormDummy() {
           setShowConfirmDialog(false);
         }
       });
-
-      // Alternative: Direct fetch for API-ready approach (commented out for now)
-      /*
-      const response = await fetch('/api/donations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-        },
-        body: JSON.stringify(donationData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        
-        if (result.payment_url) {
-          window.location.href = result.payment_url;
-        } else {
-          alert(`Thank you for your donation of $${getFinalAmount().toFixed(2)}! You will receive a confirmation email shortly.`);
-          
-          // Reset form
-          setSelectedAmount(25);
-          setCustomAmount('');
-          setIsCustom(false);
-          setDonorInfo({ name: '', email: '', message: '' });
-          setDonationType('one_time');
-          setPaymentMethod('stripe');
-          setIsAnonymous(false);
-        }
-      } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.message || 'Something went wrong. Please try again.'}`);
-      }
-      */
     } catch (error) {
       console.error('Donation submission error:', error);
       alert('Network error. Please check your connection and try again.');
@@ -191,6 +174,79 @@ export default function DonationFormDummy() {
     if (!validateForm()) return;
     setShowConfirmDialog(true);
   };
+
+  const handleBackToForm = () => {
+    setShowStripeForm(false);
+  };
+
+  // If showing Stripe form, render it with donation data
+  if (showStripeForm) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-white-50 to-white-100 dark:from-black-900 dark:to-black-800 transition-colors duration-300">
+        <div className="max-w-2xl mx-auto px-4 py-16">
+          {/* Back button */}
+          <div className="mb-6">
+            <Button
+              onClick={handleBackToForm}
+              variant="outline"
+              className="mb-4"
+            >
+              ← Back to Donation Form
+            </Button>
+          </div>
+
+          {/* Donation Summary */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300 mb-6">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Donation Summary</h3>
+            <div className="space-y-2 text-gray-600 dark:text-gray-300">
+              <div className="flex justify-between">
+                <span>Donor:</span>
+                <span>{isAnonymous ? 'Anonymous' : donorInfo.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Email:</span>
+                <span>{donorInfo.email}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Type:</span>
+                <span>{donationType === 'recurring' ? `Recurring (${frequency})` : 'One-time'}</span>
+              </div>
+              <div className="flex justify-between font-semibold text-lg border-t pt-2">
+                <span>Amount:</span>
+                <span className="text-pink-600 dark:text-pink-400">${getFinalAmount().toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Stripe Test Component */}
+          <StripeTest 
+            donationData={{
+              donor_name: isAnonymous ? 'Anonymous' : donorInfo.name,
+              donor_email: donorInfo.email,
+              amount: getFinalAmount(),
+              currency: 'USD',
+              donation_type: donationType,
+              frequency: donationType === 'recurring' ? frequency : null,
+              donor_message: donorInfo.message || null,
+              is_anonymous: isAnonymous,
+            }}
+            onSuccess={() => {
+              // Reset form after successful payment
+              setSelectedAmount(25);
+              setCustomAmount('');
+              setIsCustom(false);
+              setDonorInfo({ name: '', email: '', message: '' });
+              setDonationType('one_time');
+              setPaymentMethod('stripe');
+              setIsAnonymous(false);
+              setShowStripeForm(false);
+            }}
+            onCancel={handleBackToForm}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white-50 to-white-100 dark:from-black-900 dark:to-black-800 transition-colors duration-300">
@@ -285,7 +341,7 @@ export default function DonationFormDummy() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                onClick={() => setPaymentMethod('stripe')}
+                onClick={() => handlePaymentMethodChange('stripe')}
                 disabled={isSubmitting}
                 className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 disabled:opacity-50 ${
                   paymentMethod === 'stripe'
@@ -298,7 +354,7 @@ export default function DonationFormDummy() {
               </button>
               <button
                 type="button"
-                onClick={() => setPaymentMethod('paypal')}
+                onClick={() => handlePaymentMethodChange('paypal')}
                 disabled={isSubmitting}
                 className={`py-4 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-3 disabled:opacity-50 ${
                   paymentMethod === 'paypal'
