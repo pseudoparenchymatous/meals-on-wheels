@@ -27,7 +27,7 @@ interface StripeTestProps {
 }
 
 // Initialize Stripe
-const STRIPE_PUBLISHABLE_KEY = '';
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx';
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const DonationForm: React.FC<StripeTestProps> = ({ donationData, onSuccess, onCancel }) => {
