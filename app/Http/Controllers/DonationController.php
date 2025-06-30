@@ -19,7 +19,7 @@ class DonationController extends Controller
             'amount' => 'required|numeric|min:1|max:99999999.99',
             'currency' => 'string|size:3',
             'donation_type' => 'required|in:one_time,recurring',
-            'frequency' => 'nullable|required_if:donation_type,recurring|in:weekly,monthly,quarterly,yearly',
+            'frequency' => 'nullable|required_if:donation_type,recurring|in:monthly,quarterly,yearly',
             'donor_message' => 'nullable|string|max:1000',
             'is_anonymous' => 'boolean',
             'payment_method' => 'required|in:stripe,paypal',
@@ -35,10 +35,8 @@ class DonationController extends Controller
         // Process the payment (placeholder for real payment gateway integration)
         $paymentResult = $this->processPayment($donation);
 
-        if ($paymentResult['success']) {
-            if ($donation->donation_type === 'recurring') {
-                $donation->setNextPaymentDate();
-            }
+        if ($paymentResult['success'] && $donation->donation_type === 'recurring') {
+            $donation->setNextPaymentDate();
         }
 
         return back()->with('success', 'Donation submitted successfully!');
@@ -76,7 +74,8 @@ class DonationController extends Controller
         $stats = [
             'total_donors' => $donations->count(),
             'total_amount' => $donations->sum('amount'),
-            'recurring_donors' => $donations->where('donation_type', 'recurring')->where('status', 'active')->count(),
+            
+            'recurring_donors' => $donations->where('donation_type', 'recurring')->where('status', 'pending')->count(),
             'recent_donors' => $donations->where('created_at', '>=', now()->subDays(30))->count(),
         ];
 
@@ -95,7 +94,7 @@ class DonationController extends Controller
             'donor_name' => 'sometimes|required|string|max:255',
             'donor_email' => 'sometimes|required|email|max:255',
             'amount' => 'sometimes|required|numeric|min:1|max:99999999.99',
-            'frequency' => 'nullable|in:weekly,monthly,quarterly,yearly',
+            'frequency' => 'nullable|in:monthly,quarterly,yearly',
             'next_payment_date' => 'nullable|date',
         ]);
 
@@ -123,7 +122,7 @@ class DonationController extends Controller
             $donation->update([
                 'status' => 'cancelled',
                 'cancelled_at' => now(),
-                'next_payment_date' => null, // Stop future payments
+                'next_payment_date' => null,
             ]);
 
             return redirect()->back()->with('success', 'Recurring donation cancelled successfully.');
@@ -134,19 +133,14 @@ class DonationController extends Controller
 
     /**
      * A placeholder for processing payments.
-     * In a real application this integrate with Stripe/PayPal APIs.
      */
     private function processPayment(Donation $donation)
     {
         // Simulate a successful payment
-        $donation->markAsCompleted();
+        $donation->markAsCompleted(); // Sets status to 'completed'
 
-        // For recurring donations, set the status to active
-        if ($donation->donation_type === 'recurring') {
-            $donation->status = 'pending';
-            $donation->save();
-        }
-
+        // No need to change to 'active'
+        // For recurring, it will be considered completed per cycle
         return [
             'success' => true,
             'payment_url' => null,

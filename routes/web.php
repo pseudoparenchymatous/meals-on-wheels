@@ -36,7 +36,11 @@ Route::inertia('/donation', 'Donation')->name('donation');
 
 Route::get('/private-meal-images/{filename}', [MealController::class, 'servePrivateImage']);
 
-Route::post('/donations', [DonationController::class, 'store']);
+// Donation and Stripe routes
+Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donations/create-payment-intent', [DonationController::class, 'createPaymentIntent'])->name('donations.create-payment-intent');
+Route::post('/stripe/webhook', [DonationController::class, 'handleWebhook'])->name('stripe.webhook');
+Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
 
 Route::prefix('member')
     ->name('member.')
