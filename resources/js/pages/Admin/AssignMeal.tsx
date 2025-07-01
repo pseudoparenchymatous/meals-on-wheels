@@ -7,21 +7,64 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import InputError from "@/components/input-error";
 
-export default function AssignMeal({ kitchenPartners, meals, members, riders, weeklyPlans }) {
+type WeeklyPlan = {
+    id: number,
+    start_date: string,
+};
+
+type MealAssignment = {
+    day: string,
+    weekly_plan_id: number,
+};
+
+type KitchenPartner = {
+    id: number,
+    org_name: string,
+    meals: Meal[],
+};
+
+type Meal = {
+    id: number,
+    name: string,
+    meal_tag: string,
+};
+
+type Member = {
+    id: number,
+    name: string,
+    diet: string | null,
+    mealAssignments: MealAssignment[],
+};
+
+type Rider = {
+    id: number,
+    first_name: string,
+    last_name: string,
+};
+
+interface AssignMealProps {
+    kitchenPartners: KitchenPartner[],
+    members: Member[],
+    meals: Meal[],
+    riders: Rider[],
+    weeklyPlans: WeeklyPlan[],
+}
+
+export default function AssignMeal({ kitchenPartners, members, riders, weeklyPlans }: AssignMealProps) {
     const [openMemberPopover, setOpenMemberPopover] = useState(false);
-    const { data, setData, post, processing, reset, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         day: '',
         weeklyPlanId: '',
-        memberId: '',
+        memberId: 0,
         mealId: '',
         kitchenPartnerId: '',
         riderId: '',
     });
 
-    function onSubmit(e) {
+    function onSubmit(e: FormEvent) {
         e.preventDefault();
         post(route('admin.meal-assignments.store'));
     }
@@ -88,7 +131,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                         className="w-[200px] justify-between"
                                     >
                                         {data.memberId
-                                            ? members.find(member => member.id === Number(data.memberId)).name
+                                            ? members.find(member => member.id === Number(data.memberId))?.name
                                             : "Select member..."}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                     </Button>
@@ -116,7 +159,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                                         key={member.id}
                                                         value={member.name}
                                                         onSelect={selectedName => {
-                                                            setData('memberId', members.find(member => member.name == selectedName).id);
+                                                            setData('memberId', members.find(member => member.name == selectedName)?.id || 0);
                                                             setOpenMemberPopover(false);
                                                         }}
                                                     >
@@ -164,7 +207,7 @@ export default function AssignMeal({ kitchenPartners, meals, members, riders, we
                                 </SelectTrigger>
                                 <SelectContent>
                                     {kitchenPartners.find(partner => partner.id == data.kitchenPartnerId)?.meals.filter(meal => {
-                                        const member = members.find(member => member.id === Number(data.memberId))
+                                        const member = members.find(member => member.id === Number(data.memberId));
 
                                         if (!member.diet) {
                                             return true;
