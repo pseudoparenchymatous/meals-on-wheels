@@ -33,6 +33,7 @@
         nodejs_22
         blade-formatter
         phpactor
+        vtsls
 
         sql-studio
       ];
