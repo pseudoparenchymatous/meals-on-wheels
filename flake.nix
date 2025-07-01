@@ -31,7 +31,6 @@
         php84Packages.composer
         laravel
         nodejs_22
-        blade-formatter
         phpactor
         vtsls
 
