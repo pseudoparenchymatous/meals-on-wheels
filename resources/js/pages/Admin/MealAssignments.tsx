@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast, Toaster } from "sonner";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export default function MealAssignments({ mealAssignments }) {
     const { flash } = usePage().props
