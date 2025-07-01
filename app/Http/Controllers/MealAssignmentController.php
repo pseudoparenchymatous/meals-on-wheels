@@ -27,6 +27,7 @@ class MealAssignmentController extends Controller
                 'member',
                 'rider',
                 'weeklyPlan',
+                'mealFeedback',
             ]),
         ]);
     }

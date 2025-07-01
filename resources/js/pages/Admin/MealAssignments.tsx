@@ -35,6 +35,7 @@ export default function MealAssignments({ mealAssignments }) {
                             <TableHead>Temperature</TableHead>
                             <TableHead>Rider</TableHead>
                             <TableHead>Status</TableHead>
+                            <TableHead>Feedback</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -49,6 +50,20 @@ export default function MealAssignments({ mealAssignments }) {
                                 <TableCell>{assignment.temperature}</TableCell>
                                 <TableCell>{assignment.rider.first_name} {assignment.rider.last_name}</TableCell>
                                 <TableCell>{assignment.status}</TableCell>
+                                <TableCell>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="outline">Show</Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="p-2 text-xs">
+                                            {assignment.meal_feedback ? (
+                                                <p>{assignment.meal_feedback.feedback}</p>
+                                            ) : (
+                                                <p>Nothing</p>
+                                            )}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
