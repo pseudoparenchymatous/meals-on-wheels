@@ -68,7 +68,9 @@ export default function DeliveryTracker({ deliveries }) {
                                     <div>Rider: {delivery.rider}</div>
                                     {delivery.status === "delivered" && (
                                         <DialogTrigger asChild className="mt-2">
-                                            <Button onClick={() => setDeliveryId(delivery.id)}>Submit Feedback</Button>
+                                            <Button disabled={delivery.hasFeedback} onClick={() => setDeliveryId(delivery.id)}>
+                                                {delivery.hasFeedback ? "Feedback Submitted" : "Submit Feedback"}
+                                            </Button>
                                         </DialogTrigger>
                                     )}
                                 </li>

@@ -26,6 +26,7 @@ class DeliveryTrackerController extends Controller
                     'status' => $assignment->status,
                     'temperature' => $assignment->temperature,
                     'week' => $assignment->weeklyPlan->id,
+                    'hasFeedback' => $assignment->mealFeedback ? true : false,
                 ];
             });
 
@@ -41,7 +42,7 @@ class DeliveryTrackerController extends Controller
         ]);
 
         $meal->mealFeedback()->create([
-            'feedback' => $request->feedback
+            'feedback' => $request->feedback,
         ]);
 
         return to_route('member.delivery-tracker')->with('message', 'Feedback submitted!');
