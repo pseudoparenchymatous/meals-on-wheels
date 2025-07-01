@@ -249,7 +249,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Chicken Teriyaki',
-                'meal_tag'=> 'Lactose Intulerant',
+                'meal_tag'=> 'Lactose Intolerant',
                 'preparation_time' => '50 minutes',
                 'image_path' => 'meals/chicken-Teriyaki.jpg',
                 'ingredients' => [
@@ -262,7 +262,7 @@ class MealSeeder extends Seeder
             ],
             [
                 'name' => 'Beef Stroganoff',
-                'meal_tag'=> 'Lactose Intulerant',
+                'meal_tag'=> 'Lactose Intolerant',
                 'preparation_time' => '45 minutes',
                 'image_path' => 'meals/Beef-Stroganoff.jpg',
                 'ingredients' => [
