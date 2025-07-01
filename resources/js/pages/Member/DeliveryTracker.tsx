@@ -33,6 +33,7 @@ export default function DeliveryTracker({ deliveries }) {
     if (flash.message) {
         setTimeout(() => {
             toast.success(flash.message);
+            flash.message = "";
         }, 0);
     }
 
