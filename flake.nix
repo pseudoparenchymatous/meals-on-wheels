@@ -33,6 +33,7 @@
         nodejs_22
         phpactor
         vtsls
+        tailwindcss-language-server
 
         sql-studio
       ];
