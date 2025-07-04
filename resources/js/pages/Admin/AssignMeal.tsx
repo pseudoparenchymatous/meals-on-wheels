@@ -60,7 +60,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
         weeklyPlanId: 0,
         memberIndex: 0,
         memberId: 0,
-        mealId: '',
+        mealId: 0,
         kitchenPartnerId: 0,
         riderId: '',
     });
@@ -203,7 +203,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="meal">Meal</Label>
-                            <Select disabled={data.kitchenPartnerId === 0} value={data.mealId} onValueChange={(value) => setData('mealId', value)}>
+                            <Select disabled={data.kitchenPartnerId === 0} value={data.mealId.toString()} onValueChange={(value) => setData('mealId', Number(value))}>
                                 <SelectTrigger id="meal" className="w-auto">
                                     <SelectValue placeholder="Meal" />
                                 </SelectTrigger>
@@ -235,7 +235,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="rider">Rider</Label>
-                            <Select value={data.riderId} onValueChange={(value) => setData('riderId', value)}>
+                            <Select disabled={data.mealId === 0} value={data.riderId} onValueChange={(value) => setData('riderId', value)}>
                                 <SelectTrigger id="rider" className="w-auto">
                                     <SelectValue placeholder="Rider" />
                                 </SelectTrigger>
