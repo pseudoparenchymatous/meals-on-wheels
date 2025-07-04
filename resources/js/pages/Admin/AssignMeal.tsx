@@ -106,19 +106,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                         <CommandList>
                                             <CommandEmpty>No member found.</CommandEmpty>
                                             <CommandGroup>
-                                                {members.filter(member => {
-                                                    const arrayLength = member.mealAssignments.length;
-                                                    for (let i = 0; i < arrayLength; i++) {
-                                                        if (
-                                                            member.mealAssignments[i].day === data.day
-                                                            && member.mealAssignments[i].weekly_plan_id === Number(data.weeklyPlanId)
-                                                        ) {
-                                                            return false;
-                                                        }
-                                                    }
-
-                                                    return true;
-                                                }).map(member => (
+                                                {members.map(member => (
                                                     <CommandItem
                                                         key={member.id}
                                                         value={member.name}
