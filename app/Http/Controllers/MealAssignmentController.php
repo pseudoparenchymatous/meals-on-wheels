@@ -46,7 +46,7 @@ class MealAssignmentController extends Controller
                         'diet' => $member->diet,
                         'mealAssignments' => $member->mealAssignments,
                     ];
-            }),
+                }),
             'riders' => Rider::all(),
             'weeklyPlans' => WeeklyPlan::all(),
         ]);
