@@ -53,6 +53,7 @@ export default function EditUser({ user, diets }: EditUserProp) {
     }
 
     return (
+        // Use layout template to reduce code repetition
         <AdminLayout>
             <Head title="Edit User" />
             <h1 className="font-semibold text-2xl mb-5">Edit User</h1>
