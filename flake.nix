@@ -15,36 +15,36 @@
   };
 
   outputs = { self, nixpkgs }:
-  let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      system = system;
-      config.allowUnfree = true;
-    };
-  in {
-    devShells.${system}.default = pkgs.mkShell {
-      name = "laravel-devshell";
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        system = system;
+        config.allowUnfree = true;
+      };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        name = "laravel-devshell";
 
-      nativeBuildInputs = with pkgs; [
-        # TOOLS
-        php
-        php84Packages.composer
-        laravel
-        nodejs_22
-        phpactor
-        vtsls
-        tailwindcss-language-server
+        nativeBuildInputs = with pkgs; [
+          # TOOLS
+          php
+          php84Packages.composer
+          laravel
+          nodejs_22
+          phpactor
+          vtsls
+          tailwindcss-language-server
 
-        sql-studio
-      ];
+          sql-studio
+        ];
 
-      shellHook = ''
+        shellHook = ''
         echo "Developing Meals on Wheels";
         PATH=./vendor/bin:$PATH
-      '';
+        '';
 
-      # Environment variables
+        # Environment variables
+      };
     };
-  };
 }
 
