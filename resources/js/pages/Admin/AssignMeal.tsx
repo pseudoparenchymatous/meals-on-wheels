@@ -137,7 +137,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="week">Week</Label>
-                            <Select disabled={data.memberId === 0} value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
+                            <Select disabled={data.memberId === 0} value={data.weeklyPlanId.toString()} onValueChange={(value) => setData('weeklyPlanId', Number(value))}>
                                 <SelectTrigger id="week" className="p-5 w-auto">
                                     <SelectValue placeholder="Select week" />
                                 </SelectTrigger>
@@ -164,7 +164,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                         const assignments = members[data.memberIndex].mealAssignments
                                         const arrayLength = assignments.length
                                         for (let i = 0; i < arrayLength; i++) {
-                                            if (data.weeklyPlanId == assignments[i].weekly_plan_id
+                                            if (data.weeklyPlanId === assignments[i].weekly_plan_id
                                                 && day.value === assignments[i].day) {
                                                 return false;
                                             }
