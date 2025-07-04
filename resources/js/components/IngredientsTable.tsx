@@ -9,7 +9,7 @@ import {
 import { PencilLine } from "lucide-react";
 import { differenceInDays, parseISO } from "date-fns";
 
-export default function IngredientsTable({ Ingredients, setSelected, setOpen }) {
+export default function IngredientsTable({ Ingredients, setSelected, setOpen, userType }) {
 
     return (
         <TableBody>

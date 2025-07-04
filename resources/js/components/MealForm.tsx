@@ -15,7 +15,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
     const [ingredients, setIngredients] = useState([]);
     const [ingredientFormOpen, setIngredientFormOpen] = useState(false);
     const [selectedIng, setSelectedIng] = useState(null);
-
+    
     const [form, setForm] = useState({
         name: '',
         meal_tag: 'Regular Meal',
@@ -51,7 +51,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
             setIngredients([])
         }
     }, [selected, open]);
-
+    
     const handleIngredientAdd = (ingredient) => {
         setIngredients((prev) => [...prev, ingredient]);
     };
@@ -215,6 +215,7 @@ export default function MealForm({ setOpen, open, selected, setSelectedMeal, act
                 onAddIngredient={handleIngredientAdd}
                 currentIngredient={ingredients}
                 mealName={form.name}
+                userType={userType}
             />
         </Dialog>
     );

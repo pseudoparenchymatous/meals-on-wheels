@@ -68,9 +68,12 @@ export default function MealList({ meals, ingredients, userType }) {
     const [activeTab, setActiveTabs] =useState('Meals')
     const [ingredientToDelete, setIngredientToDelete] = useState(null);
 
+    // Function to handle deletion of a meal
     const deleteMeal = (id) => {
         setIsSubmitting(true);
-        router.delete( userType === 'admin' ? `/admin/meals/${id}` : `/kitchen-partner/meals/${id}`, {
+        
+        // Use the router to send a DELETE request to the appropriate endpoint based on user type
+        router.delete( userType === 'admin' ? `/admin/meals/${id}` : `/kitchen-partner/meals/${id}`, { 
             onSuccess: () => {
                 toast.success("Meal has been deleted.");
                 setOpenConfirmDialog(false);
@@ -108,6 +111,7 @@ export default function MealList({ meals, ingredients, userType }) {
                     open={open}
                     setOpen={setOpen}
                     activeTab={activeTab}
+                    userType={userType}
                 />
             )}
 
@@ -193,6 +197,7 @@ export default function MealList({ meals, ingredients, userType }) {
                                 setOpen={setOpen}
                                 setIngToDelete={setIngredientToDelete}
                                 setOpenConfirmDialog={setOpenConfirmDialog}
+                                userType={userType}
                             />
                         </Table>
                     </div>
