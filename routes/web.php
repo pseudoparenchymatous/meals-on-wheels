@@ -87,7 +87,7 @@ Route::prefix('kitchen-partner')
             $mealAssignment->status = $request->status;
             $mealAssignment->save();
 
-            return redirect(route('kitchen-partner.dashboard'));
+            return to_route('kitchen-partner.dashboard');
         })->name('meal-assignments.update');
 
         Route::post('meals', [MealController::class, 'store'])->name('meals.store');
