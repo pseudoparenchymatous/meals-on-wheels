@@ -190,7 +190,18 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                     <SelectValue placeholder="Kitchen" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {kitchenPartners.map(kitchen => (
+                                    {kitchenPartners.filter(kitchen => {
+                                        const meals = kitchen.meals;
+                                        const arrayLength = kitchen.meals.length;
+                                        for (let i = 0; i < arrayLength; i++) {
+                                            if (!members[data.memberIndex].diet
+                                                || members[data.memberIndex].diet === meals[i].meal_tag) {
+                                                return true;
+                                            }
+                                        }
+
+                                        return false;
+                                    }).map(kitchen => (
                                         <SelectItem key={kitchen.id} value={kitchen.id.toString()}>
                                             {kitchen.org_name}
                                         </SelectItem>
