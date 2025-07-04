@@ -62,7 +62,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
         memberId: 0,
         mealId: 0,
         kitchenPartnerId: 0,
-        riderId: '',
+        riderId: 0,
     });
 
     function onSubmit(e: FormEvent) {
@@ -235,7 +235,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="rider">Rider</Label>
-                            <Select disabled={data.mealId === 0} value={data.riderId} onValueChange={(value) => setData('riderId', value)}>
+                            <Select disabled={data.mealId === 0} value={data.riderId.toString()} onValueChange={(value) => setData('riderId', Number(value))}>
                                 <SelectTrigger id="rider" className="w-auto">
                                     <SelectValue placeholder="Rider" />
                                 </SelectTrigger>
@@ -256,7 +256,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                 Cancel
                             </Link>
                         </Button>
-                        <Button type="submit" disabled={processing}>
+                        <Button type="submit" disabled={processing || data.riderId === 0}>
                             Confirm
                         </Button>
                     </div>
