@@ -57,7 +57,8 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
     const [openMemberPopover, setOpenMemberPopover] = useState(false);
     const { data, setData, post, processing, errors } = useForm({
         day: '',
-        weeklyPlanId: '',
+        weeklyPlanId: 0,
+        memberIndex: 0,
         memberId: 0,
         mealId: '',
         kitchenPartnerId: 0,
@@ -106,12 +107,13 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                         <CommandList>
                                             <CommandEmpty>No member found.</CommandEmpty>
                                             <CommandGroup>
-                                                {members.map(member => (
+                                                {members.map((member, index) => (
                                                     <CommandItem
                                                         key={member.id}
                                                         value={member.name}
                                                         onSelect={selectedName => {
                                                             setData('memberId', members.find(member => member.name == selectedName)?.id || 0);
+                                                            setData("memberIndex", index);
                                                             setOpenMemberPopover(false);
                                                         }}
                                                     >
@@ -158,7 +160,19 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                     <SelectValue placeholder="Day" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {daysOfWeek.map(day => (
+                                    {daysOfWeek.filter(day => {
+                                        const assignments = members[data.memberIndex].mealAssignments
+                                        const arrayLength = assignments.length
+                                        for (let i = 0; i < arrayLength; i++) {
+                                            if (data.weeklyPlanId == assignments[i].weekly_plan_id
+                                                && day.value === assignments[i].day) {
+                                                return false;
+                                            }
+                                        }
+
+                                        return true;
+
+                                    }).map(day => (
                                         <SelectItem key={day.value} value={day.value}>
                                             {day.label}
                                         </SelectItem>
