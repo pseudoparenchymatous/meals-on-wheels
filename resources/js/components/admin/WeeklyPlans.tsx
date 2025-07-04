@@ -1,6 +1,15 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
-export default function WeeklyPlans({ weeklyPlans }) {
+interface WeeklyPlansProp {
+    weeklyPlans: WeeklyPlan[],
+}
+
+interface WeeklyPlan {
+    id: number,
+    start_date: string,
+}
+
+export default function WeeklyPlans({ weeklyPlans }: WeeklyPlansProp) {
     return (
         <div className="border rounded-xl">
             <Table>
