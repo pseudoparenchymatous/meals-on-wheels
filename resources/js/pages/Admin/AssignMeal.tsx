@@ -147,7 +147,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="week">Week</Label>
-                            <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
+                            <Select disabled={data.memberId === 0} value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
                                 <SelectTrigger id="week" className="p-5 w-auto">
                                     <SelectValue placeholder="Select week" />
                                 </SelectTrigger>
