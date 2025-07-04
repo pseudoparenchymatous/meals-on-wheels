@@ -155,7 +155,7 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                     <div>
                         <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="day">Day</Label>
-                            <Select value={data.day} onValueChange={(value) => setData('day', value)}>
+                            <Select disabled={data.weeklyPlanId === 0}value={data.day} onValueChange={(value) => setData('day', value)}>
                                 <SelectTrigger id="day" className="w-auto">
                                     <SelectValue placeholder="Day" />
                                 </SelectTrigger>
