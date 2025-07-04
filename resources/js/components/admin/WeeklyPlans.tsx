@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Link } from '@inertiajs/react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 export default function WeeklyPlans({ weeklyPlans }) {
