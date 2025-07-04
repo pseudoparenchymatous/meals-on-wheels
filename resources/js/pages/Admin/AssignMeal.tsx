@@ -209,12 +209,14 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                                     {kitchenPartners.find(partner => partner.id == data.kitchenPartnerId)?.meals.filter(meal => {
                                         const member = members.find(member => member.id === Number(data.memberId));
 
-                                        if (!member.diet) {
-                                            return true;
-                                        }
+                                        if (member) {
+                                            if (!member.diet) {
+                                                return true;
+                                            }
 
-                                        if (member.diet.toUpperCase() === meal.meal_tag.toUpperCase()) {
-                                            return true;
+                                            if (member.diet.toUpperCase() === meal.meal_tag.toUpperCase()) {
+                                                return true;
+                                            }
                                         }
 
                                         return false;
