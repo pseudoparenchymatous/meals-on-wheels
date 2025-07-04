@@ -5,8 +5,56 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { toast, Toaster } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-export default function MealAssignments({ mealAssignments }) {
-    const { flash } = usePage().props
+interface MealAssignmentsProps {
+    mealAssignments: MealAssignment[],
+}
+
+interface MealAssignment {
+    day: string,
+    id: string,
+    member: Member,
+    kitchen_partner: KitchenPartner,
+    weekly_plan_id: number,
+    meal: Meal,
+    rider: Rider,
+    status: string,
+    temperature: string,
+    meal_feedback: MealFeedback,
+}
+
+interface Member {
+    first_name: string,
+    last_name: string,
+}
+
+interface KitchenPartner {
+    org_name: string,
+}
+
+interface Meal {
+    name: string,
+}
+
+interface Rider {
+    first_name: string,
+    last_name: string,
+}
+
+interface MealFeedback {
+    feedback: string,
+}
+
+interface FlashProps {
+    message?: string,
+}
+
+type UsePageProp = {
+    flash: FlashProps,
+};
+
+// Add types to fix Typescript errors
+export default function MealAssignments({ mealAssignments }: MealAssignmentsProps) {
+    const { flash } = usePage<UsePageProp>().props
     if (flash.message) {
         setTimeout(() => {
             toast.success(flash.message);
@@ -14,13 +62,15 @@ export default function MealAssignments({ mealAssignments }) {
     }
 
     return (
+        // Use layout for all admin pages to reduce repetition
         <AdminLayout>
             <Head title="Meal Assignments" />
             <Toaster position="top-center" richColors />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold text-2xl">Meal Assignments</h1>
                 <Button asChild variant="outline" className="my-3">
-                    <Link href={route('admin.meal-assignments.create')}>Assign Meal</Link>
+                        {/* Use route() method to avoid hard-coding routes as strings */}
+                    <Link href={route("admin.meal-assignments.create")}>Assign Meal</Link>
                 </Button>
             </div>
             <div className="border rounded-md">
@@ -40,6 +90,7 @@ export default function MealAssignments({ mealAssignments }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
+                        {/* Use map() method to avoid repeating code for each table row */}
                         {mealAssignments.map(assignment => (
                             <TableRow id={assignment.id} key={assignment.id}>
                                 <TableCell>{assignment.id}</TableCell>
