@@ -7,7 +7,7 @@ import { Input } from './ui/input';
 import { SheetDescription } from './ui/sheet';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 
-export default function IngredientForm({ open, setOpen, selected, setSelectedIng, onAddIngredient, currentIngredient = [], mealName}) {
+export default function IngredientForm({ open, setOpen, selected, setSelectedIng, onAddIngredient, currentIngredient = [], mealName, userType }) {
 
     const getToday = () => new Date().toISOString().split('T')[0];
     const getNextWeek = () => {
@@ -25,7 +25,8 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
         date_arrive: getToday(),
         expiration_date: getNextWeek(),
     });
-
+    
+    // Effect to reset the form when the dialog opens or when an ingredient is selected
     useEffect(() => {
         if (selected) {
             setIngForm({
@@ -75,7 +76,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
             onAddIngredient(ingredient);
         }
         toast.success('Ingredient Added!');
-
+        
         if (addmore) {
             setIngForm({
                 ing_name: '',
@@ -113,7 +114,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
         data.append('expiration_date', form.expiration_date);
         data.append('_method', 'PUT');
 
-        router.post(`/kitchen-partner/ingredients/${selected.id}`, data, {
+        router.post(userType === 'admin' ? `/admin/meals/ingredients/${selected.id}` : `/kitchen-partner/ingredients/${selected.id}`, data, {
             onSuccess: () => {
                 toast.success('Ingredient Updated!');
                 router.reload({ only: ['ingredients'] });
@@ -211,7 +212,7 @@ export default function IngredientForm({ open, setOpen, selected, setSelectedIng
                                 <ul className="list-disc pl-4 text-sm">
                                     {currentIngredient.map((ing, i) => (
                                         <li key={i}>
-                                            {ing.ing_name} – {ing.unit}
+                                            {ing.ing_name} – {ing.unit} 
                                             | <span className="text-green-600 font-bold">{ing.date_arrive} </span>
                                             | <span className="text-red-600 font-bold">{ing.expiration_date}</span>
                                         </li>
