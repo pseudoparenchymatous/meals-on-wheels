@@ -10,13 +10,36 @@ import { Toaster } from "@/components/ui/sonner";
 import { useState } from 'react';
 import { UsersTable } from '@/components/admin/users/UsersTable';
 
-export default function Users({ unverifiedMembers, users }) {
-    const { flash } = usePage().props
+interface UsersProp {
+    unverifiedMembers: Unverified[],
+    users: User[],
+}
+
+interface User {}
+
+interface Unverified {
+    id: number,
+    name: string,
+    birth_date: string,
+    proof_of_identity: string,
+    medical_condition: string,
+}
+
+interface FlashProps {
+    message?: string,
+}
+
+type UsePageProp = {
+    flash: FlashProps,
+};
+
+export default function Users({ unverifiedMembers, users }: UsersProp) {
+    const { flash } = usePage<UsePageProp>().props
 
     if (flash.message) {
         setTimeout(() => {
             toast.success(flash.message);
-            flash.message = null;
+            flash.message = '';
         }, 0)
     }
 
@@ -26,6 +49,7 @@ export default function Users({ unverifiedMembers, users }) {
     const [conditionPath, setConditionPath] = useState('');
 
     return (
+        // Use layout template to reduce code repetition
         <AdminLayout>
             <Head title="Users" />
             <Toaster richColors position="top-center"/>
@@ -37,6 +61,7 @@ export default function Users({ unverifiedMembers, users }) {
                         <TabsTrigger value="unverified">Needs Verification</TabsTrigger>
                     </TabsList>
                     <TabsContent value="all">
+                        {/* Handle rendering of all users in a separate component */}
                         <UsersTable data={users} />
                     </TabsContent>
                     <TabsContent value="unverified">
