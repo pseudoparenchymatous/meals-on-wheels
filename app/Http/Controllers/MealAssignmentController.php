@@ -93,38 +93,6 @@ class MealAssignmentController extends Controller
         return to_route('admin.meal-assignments.index')->with('message', 'Meal assigned successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MealAssignment $mealAssignment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MealAssignment $mealAssignment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MealAssignment $mealAssignment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MealAssignment $mealAssignment)
-    {
-        //
-    }
-
     public function isWithin10Km($lat1, $lon1, $lat2, $lon2)
     {
         // Earth's radius in kilometers
