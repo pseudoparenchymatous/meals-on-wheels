@@ -85,42 +85,6 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                 <form onSubmit={onSubmit} className="border flex flex-col gap-6 p-5 rounded-lg w-fit">
                     <div>
                         <div className="flex gap-4 items-center justify-between">
-                            <Label htmlFor="week">Week</Label>
-                            <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
-                                <SelectTrigger id="week" className="p-5 w-auto">
-                                    <SelectValue placeholder="Select week" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {weeklyPlans.map(plan => (
-                                        <SelectItem key={plan.id} value={plan.id.toString()}>
-                                            Week {plan.id} - {plan.start_date}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <InputError message={errors.weeklyPlanId} />
-                    </div>
-                    <div>
-                        <div className="flex gap-4 items-center justify-between">
-                            <Label htmlFor="day">Day</Label>
-                            <Select value={data.day} onValueChange={(value) => setData('day', value)}>
-                                <SelectTrigger id="day" className="w-auto">
-                                    <SelectValue placeholder="Day" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {daysOfWeek.map(day => (
-                                        <SelectItem key={day.value} value={day.value}>
-                                            {day.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <InputError message={errors.day} />
-                    </div>
-                    <div>
-                        <div className="flex gap-4 items-center justify-between">
                             <Label htmlFor="member">Member</Label>
                             <Popover open={openMemberPopover} onOpenChange={setOpenMemberPopover}>
                                 <PopoverTrigger asChild>
@@ -179,6 +143,42 @@ export default function AssignMeal({ kitchenPartners, members, riders, weeklyPla
                             </Popover>
                         </div>
                         <InputError message={errors.memberId} />
+                    </div>
+                    <div>
+                        <div className="flex gap-4 items-center justify-between">
+                            <Label htmlFor="week">Week</Label>
+                            <Select value={data.weeklyPlanId} onValueChange={(value) => setData('weeklyPlanId', value)}>
+                                <SelectTrigger id="week" className="p-5 w-auto">
+                                    <SelectValue placeholder="Select week" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {weeklyPlans.map(plan => (
+                                        <SelectItem key={plan.id} value={plan.id.toString()}>
+                                            Week {plan.id} - {plan.start_date}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <InputError message={errors.weeklyPlanId} />
+                    </div>
+                    <div>
+                        <div className="flex gap-4 items-center justify-between">
+                            <Label htmlFor="day">Day</Label>
+                            <Select value={data.day} onValueChange={(value) => setData('day', value)}>
+                                <SelectTrigger id="day" className="w-auto">
+                                    <SelectValue placeholder="Day" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {daysOfWeek.map(day => (
+                                        <SelectItem key={day.value} value={day.value}>
+                                            {day.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <InputError message={errors.day} />
                     </div>
                     <div>
                         <div className="flex gap-4 items-center justify-between">
