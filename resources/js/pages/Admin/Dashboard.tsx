@@ -1,6 +1,5 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import { Head, Link } from '@inertiajs/react';
-
 import {
     Bike,
     ClipboardCheck,
@@ -10,7 +9,21 @@ import {
     Users
 } from 'lucide-react';
 
-const Cards = ({ data }) => {
+interface DashboardProp {
+    adminName: string,
+    data: CardData,
+}
+
+interface CardData {
+    members: number,
+    unverified: number,
+    mealsDelivered: number,
+    riders: number,
+    donations: number,
+    alerts: number,
+}
+
+const Cards = ({ data }: { data: CardData }) => {
     const stats = [
         {
             title: "Total Members",
@@ -51,8 +64,11 @@ const Cards = ({ data }) => {
     ];
 
     return (
+        // This is the parent container for the cards
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stats.map((stat, index) => (
+                // Each dashboard stat is looped/mapped, then a link to the relevant pages are rendered
+                // Each card has an icon, title and the actual stat value
                 <Link key={index} href={stat.route}>
                     <div className="border bg-secondary rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
@@ -71,7 +87,7 @@ const Cards = ({ data }) => {
     );
 }
 
-export default function Dashboard({ adminName, data }) {
+export default function Dashboard({ adminName, data }: DashboardProp) {
     return (
         <AdminLayout>
             <Head title="Admin Dashboard" />
