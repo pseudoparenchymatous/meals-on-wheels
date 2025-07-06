@@ -81,6 +81,7 @@ Route::prefix('kitchen-partner')
                     'member',
                 ])
                 ->get();
+
             return Inertia::render('KitchenPartner/Dashboard', [
                 'mealAssignments' => $mealAssignments,
                 'orgName' => $user->userable->org_name,
