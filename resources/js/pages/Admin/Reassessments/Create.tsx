@@ -1,5 +1,6 @@
 import { useForm, Head, Link } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
+import { Button } from '@/components/ui/button';
 
 export default function Create({ members }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -53,16 +54,17 @@ export default function Create({ members }) {
                     />
                     {errors.notes && <div className="text-red-600">{errors.notes}</div>}
                 </div>
-                <button
+                <Button
                     type="submit"
                     disabled={processing}
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
                 >
                     Save
-                </button>
-                <Link href={route('admin.reassessments.index')} className="ml-2">
-                    Cancel
-                </Link>
+                </Button>
+                <Button asChild variant="outline">
+                    <Link href={route('admin.reassessments.index')} className="ml-2">
+                        Cancel
+                    </Link>
+                </Button>
             </form>
         </AdminLayout>
     );

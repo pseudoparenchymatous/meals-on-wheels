@@ -1,5 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
+import { Button } from '@/components/ui/button';
 
 export default function Index() {
     const { reassessments } = usePage().props;
@@ -9,13 +10,13 @@ export default function Index() {
             <Head title="Reassessments" />
             <div className="flex justify-between mb-4">
                 <h1 className="text-3xl font-bold">Reassessments</h1>
-
-                <Link
-                    href={route('admin.reassessments.create')}
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
-                >
-                    New Reassessment
-                </Link>
+                <Button asChild>
+                    <Link
+                        href={route('admin.reassessments.create')}
+                    >
+                        New Reassessment
+                    </Link>
+                </Button>
             </div>
             <table className="min-w-full bg-white border">
                 <thead>
