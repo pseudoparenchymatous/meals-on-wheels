@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm, Head, Link } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
 
