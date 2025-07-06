@@ -67,8 +67,8 @@ export default function MealAssignments({ mealAssignments }: MealAssignmentsProp
             <Head title="Meal Assignments" />
             <Toaster position="top-center" richColors />
             <div className="flex justify-between items-center">
-                <h1 className="font-semibold text-2xl">Meal Assignments</h1>
                 <Button asChild variant="outline" className="my-3">
+                <h1 className="font-semibold mb-4 text-3xl">Meal Assignments</h1>
                         {/* Use route() method to avoid hard-coding routes as strings */}
                     <Link href={route("admin.meal-assignments.create")}>Assign Meal</Link>
                 </Button>

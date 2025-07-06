@@ -37,7 +37,7 @@ export default function Plan({ weeklyPlans }: PlanProps) {
             {/* This is the main content container */}
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h1 className="font-semibold text-xl">Weekly Plans</h1>
+                    <h1 className="font-semibold text-3xl">Weekly Plans</h1>
                     <Button asChild className="w-fit" variant="outline">
                         {/* Use route() method to avoid hard-coding routes as strings */}
                         <Link href={route('weekly-plans.store')} method="post">Create Weekly Plan</Link>

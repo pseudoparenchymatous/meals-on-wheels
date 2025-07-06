@@ -9,7 +9,7 @@ export default function Index() {
     <AdminLayout>
       <Head title="Reassessments" />
       <div className="flex justify-between mb-4">
-        <h1 className="text-xl font-semibold">Reassessments</h1>
+        <h1 className="text-3xl font-bold">Reassessments</h1>
         <Link
           href={route('admin.reassessments.create')}
           className="bg-blue-600 text-white px-4 py-2 rounded"
