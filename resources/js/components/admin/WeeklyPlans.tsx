@@ -11,7 +11,7 @@ interface WeeklyPlan {
 
 export default function WeeklyPlans({ weeklyPlans }: WeeklyPlansProp) {
     return (
-        <div className="border rounded-xl">
+        <div className="border rounded-md">
             <Table>
                 <TableHeader>
                     <TableRow>

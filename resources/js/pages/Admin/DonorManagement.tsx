@@ -7,7 +7,7 @@ export default function DonorsPage({ donors }) {
     return (
         <AdminLayout>
             <Head title="Donors" />
-            <div className="m-10">
+            <div>
                 <DonorManagementCom donors={donors} />
             </div>
         </AdminLayout>
