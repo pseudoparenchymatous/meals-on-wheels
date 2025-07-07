@@ -11,7 +11,12 @@ interface UsersProp {
     users: User[],
 }
 
-interface User {}
+interface User {
+    id: number,
+    name: string,
+    email: string,
+    type: string,
+}
 
 interface Unverified {
     id: number,
