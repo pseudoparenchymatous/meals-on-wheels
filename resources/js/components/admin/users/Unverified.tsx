@@ -18,6 +18,7 @@ import {
     Row,
     useReactTable,
 } from "@tanstack/react-table"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 interface UnverifiedMember {
     id: number,
@@ -149,19 +150,19 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
             <div className="flex items-center justify-end space-x-2 py-4">
                 <Button
                     variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    <ChevronLeftIcon />
                 </Button>
                 <Button
                     variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    <ChevronRightIcon />
                 </Button>
             </div>
         </div>
