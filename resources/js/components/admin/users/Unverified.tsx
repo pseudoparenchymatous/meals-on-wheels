@@ -150,6 +150,14 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
             <div className="flex items-center justify-end space-x-2 py-4">
                 <Button
                     variant="outline"
+                    size="sm"
+                    onClick={() => table.firstPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    First
+                </Button>
+                <Button
+                    variant="outline"
                     size="icon"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
@@ -163,6 +171,14 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronRightIcon />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.lastPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    Last
                 </Button>
             </div>
         </div>
