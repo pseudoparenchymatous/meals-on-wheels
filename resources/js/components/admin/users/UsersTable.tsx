@@ -32,7 +32,7 @@ export function UsersTable({ data }) {
         },
         {
             accessorKey: 'type',
-            header: ({ column }) => (
+            header: () => (
                 <Select
                     onValueChange={value => {
                         if (value === "none") {
