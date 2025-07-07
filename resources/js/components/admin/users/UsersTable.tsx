@@ -10,8 +10,6 @@ import {
 import { Link } from '@inertiajs/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 import { useState } from 'react';
 
 export function UsersTable({ data }) {
