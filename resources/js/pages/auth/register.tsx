@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from 'react';
+import * as PhoneInput from "react-phone-number-input/input";
 
 enum UserTypes {
     Member = "member",
@@ -290,14 +291,13 @@ export default function Register(registerProp: RegisterProp) {
                             <Label htmlFor="phone">
                                 Phone Number
                             </Label>
-                            <Input
-                                id="phone"
-                                type="tel"
-                                autoComplete="tel"
-                                required
+                            <PhoneInput.default
+                                inputComponent={Input}
+                                country="PH"
+                                international
+                                withCountryCallingCode
                                 value={data.phone}
-                                onChange={(e) => setData('phone', e.target.value)}
-                                placeholder="+63 XXX XXX XXXX"
+                                onChange={value => setData("phone", value)}
                             />
                             <InputError message={errors.phone} />
                         </div>

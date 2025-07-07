@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
         $userRules = [
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|phone:PH',
             'location_lat' => 'required|numeric',
             'location_lng' => 'required|numeric',
         ];
@@ -53,7 +53,9 @@ class RegisteredUserController extends Controller
             $userRules['last_name'] = 'required|string|max:255';
         }
 
-        $request->validate($userRules);
+        $request->validate($userRules, [
+            'phone.phone' => 'Please input a valid phone number',
+        ]);
 
         $this->validateByUserType($request);
 
