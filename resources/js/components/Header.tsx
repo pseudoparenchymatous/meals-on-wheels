@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import Navbar from '@/components/Navbar';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,7 @@ import {
     User,
     X,
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
     {
@@ -49,8 +50,26 @@ const mobileNavLinks = navLinks.map((navLink, index) => {
     );
 });
 
+const DashboardButton = ({ desktop }) => {
+    return (
+        <Button
+            asChild
+            size="sm"
+            className={cn({
+                hidden:desktop,
+                "sm:flex":desktop,
+                "w-full":!desktop,
+            })}
+        >
+            <Link href={route("dashboard")}>
+                Dashboard
+            </Link>
+        </Button>
+    );
+}
 
 export default () => {
+    const { auth } = usePage().props;
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const toggleMobileNav = () => setIsMobileNavOpen(!isMobileNavOpen);
 
@@ -61,24 +80,28 @@ export default () => {
                     <AppLogoIcon />
                 </Link>
                 <Navbar />
-                <div className="hidden sm:inline">
-                    <DropdownMenu >
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost">
-                                <User />
-                                <ChevronDown />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem asChild>
-                                <a href={route('login')}>Login</a>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <a href={route('register')}>Register</a>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+                {auth.user ? (
+                    <DashboardButton desktop={true} />
+                ) : (
+                        <div className="hidden sm:inline">
+                            <DropdownMenu >
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost">
+                                        <User />
+                                        <ChevronDown />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem asChild>
+                                        <a href={route('login')}>Login</a>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <a href={route('register')}>Register</a>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    )}
                 <Button className="sm:hidden" variant="ghost" onClick={toggleMobileNav}>
                     {isMobileNavOpen ? <X /> : <Menu />}
                 </Button>
@@ -87,20 +110,28 @@ export default () => {
                 <NavigationMenu orientation="vertical" className="bg-background border-2 grid max-w-full rounded-md justify-stretch p-5">
                     <NavigationMenuList className="grid justify-stretch">
                         {mobileNavLinks}
-                        <NavigationMenuItem className="">
-                            <NavigationMenuLink asChild className="text-md text-center">
-                                <Button asChild>
-                                    <a href={route('login')}>Login</a>
-                                </Button>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem className="">
-                            <NavigationMenuLink asChild className="text-md text-center">
-                                <Button asChild variant="secondary">
-                                    <a href={route('register')}>Register</a>
-                                </Button>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
+                        {auth.user ? (
+                            <NavigationMenuItem>
+                                <DashboardButton desktop={false}/>
+                            </NavigationMenuItem>
+                            ) : (
+                                <>
+                                    <NavigationMenuItem className="">
+                                        <NavigationMenuLink asChild className="text-md text-center">
+                                            <Button asChild>
+                                                <a href={route('login')}>Login</a>
+                                            </Button>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                    <NavigationMenuItem className="">
+                                        <NavigationMenuLink asChild className="text-md text-center">
+                                            <Button asChild variant="secondary">
+                                                <a href={route('register')}>Register</a>
+                                            </Button>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                </>
+                            )}
                     </NavigationMenuList>
                 </NavigationMenu>
             )}
