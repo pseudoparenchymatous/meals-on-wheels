@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             KitchenPartnerSeeder::class,
             MemberSeeder::class,
+            CaregiverSeeder::class,
             RiderSeeder::class,
             DonationSeeder::class,
             MealSeeder::class,
