@@ -30,6 +30,7 @@ enum UserTypes {
 };
 
 type RegisterForm = {
+    user_type: string;
     first_name: string;
     last_name: string;
     org_name: string,
@@ -40,13 +41,12 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
-    user_type: UserTypes;
     phone: string;
     location_lat: number;
     location_lng: number;
-    birth_date: Date;
-    proof_of_identity: File | null;
-    medical_condition?: File | null;
+    birth_date: string;
+    proof_of_identity?: File;
+    medical_condition?: File;
     diet: string;
 };
 
@@ -58,14 +58,16 @@ const userTypes: { value: UserTypes, label: string }[] = [
 ];
 
 type Diet = string;
+
 type AvailableDiets = Diet[];
+
 interface RegisterProp {
     availableDiets:  AvailableDiets,
 }
 
 export default function Register(registerProp: RegisterProp) {
-    const [calendarOpen, setCalendarOpen] = useState(null);
-    const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
+    const [calendarOpen, setCalendarOpen] = useState(false);
+    const { data, setData, post, processing, errors, reset } = useForm<RegisterForm>({
         user_type: '',
         first_name: '',
         last_name: '',
@@ -80,7 +82,9 @@ export default function Register(registerProp: RegisterProp) {
         phone: '',
         location_lat: 10.338509,
         location_lng: 123.912008,
-        birthday: '',
+        birth_date: '',
+        proof_of_identity: undefined,
+        medical_condition: undefined,
         diet: '',
     });
 
@@ -191,9 +195,11 @@ export default function Register(registerProp: RegisterProp) {
                                                 <Calendar
                                                     mode="single"
                                                     today={ new Date(2000, 0, 1) }
-                                                    selected={data.birth_date}
+                                                    selected={ new Date(data.birth_date) }
                                                     onSelect={date => {
-                                                        setData('birth_date', format(date, 'yyyy-MM-dd'));
+                                                        if (date) {
+                                                            setData('birth_date', format(date, 'yyyy-MM-dd'));
+                                                        }
                                                         setCalendarOpen(false);
                                                     }}
                                                     disabled={[
@@ -296,7 +302,10 @@ export default function Register(registerProp: RegisterProp) {
                                 international
                                 withCountryCallingCode
                                 value={data.phone}
-                                onChange={value => setData("phone", value)}
+                                onChange={value => {
+                                    if (value) {
+                                        setData("phone", value)}
+                                }}
                             />
                             <InputError message={errors.phone} />
                         </div>
