@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\MemberDiet;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +24,7 @@ class MemberFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'birth_date' => fake()->date(),
+            'birth_date' => Carbon::parse(fake()->dateTimeBetween('-70 year', '-50 year'))->toDateString(),
             'proof_of_identity' => 'proofs/sample.png',
             'medical_condition' => 'medicals/sample.png',
             'diet' => $hasDiet ? $diets[array_rand($diets)] : null,
