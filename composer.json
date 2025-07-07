@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "paypal/rest-api-sdk-php": "*",
+        "propaganistas/laravel-phone": "^6.0",
         "stripe/stripe-php": "*",
         "tightenco/ziggy": "^2.4"
     },
