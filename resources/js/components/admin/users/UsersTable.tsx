@@ -12,7 +12,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { useState } from 'react';
 
-export function UsersTable({ data }) {
+interface User {
+    id: number,
+    name: string,
+    email: string,
+    type: string,
+}
+
+export function UsersTable({ data }: { data: User[] }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [columnFilters, setColumnFilters] = useState([]);
     const [userId, setUserId] = useState(0);
