@@ -15,6 +15,7 @@ import {
     flexRender,
     getCoreRowModel,
     getPaginationRowModel,
+    Row,
     useReactTable,
 } from "@tanstack/react-table"
 
@@ -48,7 +49,7 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
         {
             accessorKey: 'action',
             header: 'Action',
-            cell: ({ row }) => (
+            cell: ({ row }: { row: Row<UnverifiedMember> }) => (
                 <DialogTrigger asChild>
                     <Button
                         variant="outline"
