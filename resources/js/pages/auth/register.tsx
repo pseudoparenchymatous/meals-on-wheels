@@ -199,7 +199,6 @@ export default function Register(registerProp: RegisterProp) {
                                                     disabled={[
                                                         { after: new Date(2005, 11, 31) }
                                                     ]}
-                                                    initialFocus
                                                 />
                                             </PopoverContent>
                                         </Popover>
