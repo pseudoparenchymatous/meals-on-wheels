@@ -25,6 +25,11 @@ export function UsersTable({ data }: { data: User[] }) {
     const [columnFilters, setColumnFilters] = useState([]);
     const [userId, setUserId] = useState(0);
 
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
     const columns = [
         {
             accessorKey: 'id',
@@ -88,8 +93,10 @@ export function UsersTable({ data }: { data: User[] }) {
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
+        onPaginationChange: setPagination,
         state: {
             columnFilters,
+            pagination
         },
     })
 
@@ -173,6 +180,7 @@ export function UsersTable({ data }: { data: User[] }) {
                 >
                     <ChevronLeftIcon />
                 </Button>
+                <span className="text-sm text-muted-foreground">{pagination.pageIndex + 1} / {table.getPageCount()}</span>
                 <Button
                     variant="outline"
                     size="icon"

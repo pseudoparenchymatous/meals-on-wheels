@@ -34,6 +34,11 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
     const [proofPath, setProofPath] = useState('');
     const [conditionPath, setConditionPath] = useState('');
 
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
     const columns = [
         {
             accessorKey: 'id',
@@ -72,6 +77,10 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        state: {
+            pagination
+        },
     })
 
     return (
@@ -164,6 +173,7 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
                 >
                     <ChevronLeftIcon />
                 </Button>
+                <span className="text-sm text-muted-foreground">{pagination.pageIndex + 1} / {table.getPageCount()}</span>
                 <Button
                     variant="outline"
                     size="icon"
