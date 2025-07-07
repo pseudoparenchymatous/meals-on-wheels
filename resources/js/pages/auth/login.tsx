@@ -62,7 +62,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 type="email"
                                 required
                                 autoFocus
-
+                                tabIndex={1}
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
                                 placeholder="Enter your email"
@@ -93,6 +93,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 id="password"
                                 type={showPassword ? "text" : "password"}
                                 required
+                                tabIndex={2}
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
                                 placeholder="Enter your password"
@@ -114,6 +115,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <div className="flex items-center space-x-2">
                         <Checkbox
                             id="remember"
+                            tabIndex={3}
                             checked={data.remember}
                             onClick={() => setData('remember', !data.remember)}
                             className="data-[state=checked]:bg-[#F72585] data-[state=checked]:border-[#F72585]"
@@ -126,6 +128,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     {/* Submit Button */}
                     <Button
                         type="submit"
+                        tabIndex={4}
                         className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white mt-6"
                         disabled={processing}
                     >
