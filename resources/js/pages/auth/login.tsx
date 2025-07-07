@@ -41,8 +41,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         <AuthLayout title="Welcome Back" description="Sign in to your account">
             <Head title="Sign In" />
 
-
-
             {/* Status Message */}
             {status && (
                 <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg">
