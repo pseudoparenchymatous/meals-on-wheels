@@ -11,6 +11,7 @@ import { Link } from '@inertiajs/react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 interface User {
     id: number,
@@ -159,18 +160,34 @@ export function UsersTable({ data }: { data: User[] }) {
                 <Button
                     variant="outline"
                     size="sm"
+                    onClick={() => table.firstPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    First
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    <ChevronLeftIcon />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronRightIcon />
                 </Button>
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => table.nextPage()}
+                    onClick={() => table.lastPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    Last
                 </Button>
             </div>
         </div>
