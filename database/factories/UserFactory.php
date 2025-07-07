@@ -18,7 +18,7 @@ class UserFactory extends Factory
         return [
             'email' => $this->faker->unique()->email(),
             'password' => static::$password ??= Hash::make('password'),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => fake('en_PH')->mobileNumber(),
             'location_lat' => $this->faker->latitude(10.227136, 10.483014),
             'location_lng' => $this->faker->longitude(123.766244, 124.023574),
             'remember_token' => Str::random(10),
