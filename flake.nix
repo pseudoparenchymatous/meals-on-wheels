@@ -32,6 +32,7 @@
           laravel
           nodejs_22
           phpactor
+          intelephense
           vtsls
           tailwindcss-language-server
 
