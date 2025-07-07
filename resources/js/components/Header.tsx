@@ -50,7 +50,7 @@ const mobileNavLinks = navLinks.map((navLink, index) => {
     );
 });
 
-const DashboardButton = ({ desktop }) => {
+const DashboardButton = ({ desktop }: { desktop: boolean }) => {
     return (
         <Button
             asChild
@@ -68,8 +68,14 @@ const DashboardButton = ({ desktop }) => {
     );
 }
 
+type AuthProp = {
+    auth: {
+        user: boolean
+    }
+};
+
 export default () => {
-    const { auth } = usePage().props;
+    const { auth } = usePage<AuthProp>().props;
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const toggleMobileNav = () => setIsMobileNavOpen(!isMobileNavOpen);
 
