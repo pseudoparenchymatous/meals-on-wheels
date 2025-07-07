@@ -78,7 +78,7 @@ export default function DeliveryTracker({ deliveries }) {
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Feedback Form</DialogTitle>
-                                    <DialogDescription>Please confirm that the submitted files are legit</DialogDescription>
+                                    <DialogDescription>Enter your feedback</DialogDescription>
                                     <form onSubmit={submit}>
                                     <div className="grid w-full gap-3">
                                         <Textarea
@@ -88,7 +88,7 @@ export default function DeliveryTracker({ deliveries }) {
                                             placeholder="Type your feedback here."
                                         />
                                         <p className="text-muted-foreground text-sm">
-                                            Your message will be copied to the support team.
+                                            Your message will be sent to the support team.
                                         </p>
                                                 <Button
                                                     onClick={() => setDialogOpen(false)}
