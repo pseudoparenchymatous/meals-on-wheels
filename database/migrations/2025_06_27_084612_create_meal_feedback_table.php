@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('meal_feedback', function (Blueprint $table) {
             $table->id();
             $table->text('feedback');
-            $table->foreignId('meal_assignment_id')->constrained();
+            $table->foreignId('meal_assignment_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
