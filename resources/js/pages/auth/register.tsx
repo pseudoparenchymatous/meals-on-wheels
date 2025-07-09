@@ -331,14 +331,14 @@ export default function Register(registerProp: RegisterProp) {
                                 <Label htmlFor="proof_of_identity">
                                     Proof of Identity
                                 </Label>
-                                <Input id="proof_of_identity" required type="file" accept="image/png, image/jpeg" onChange={(e) => setData('proof_of_identity', e.target.files?.[0])} />
+                                <Input id="proof_of_identity" required type="file" accept="image/*" onChange={(e) => setData('proof_of_identity', e.target.files?.[0])} />
                                 <InputError message={errors.proof_of_identity} />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="medical_condition">
                                     Medical Condition
                                 </Label>
-                                <Input id="medical_condition" type="file" accept="image/png, image/jpeg" onChange={(e) => setData('medical_condition', e.target.files?.[0])}/>
+                                <Input id="medical_condition" type="file" accept="image/*" onChange={(e) => setData('medical_condition', e.target.files?.[0])}/>
                                 <InputError message={errors.medical_condition} />
                             </div>
                             {/* Dietary Requirements */}
