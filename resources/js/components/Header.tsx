@@ -120,7 +120,7 @@ export default () => {
                             <NavigationMenuItem>
                                 <DashboardButton desktop={false}/>
                             </NavigationMenuItem>
-                            ) : (
+                        ) : (
                                 <>
                                     <NavigationMenuItem className="">
                                         <NavigationMenuLink asChild className="text-md text-center">
