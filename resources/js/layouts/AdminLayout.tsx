@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
-import { Head } from '@inertiajs/react';
 import {
     Apple,
     CalendarCog,
@@ -36,7 +35,7 @@ const navItems: NavItem[] = [
         route: 'admin.meal-assignments.index',
         icon: HandPlatter,
     },
-        {
+    {
         title: 'Donor Management',
         route: 'admin.donor.management',
         icon: Users,
@@ -48,7 +47,6 @@ const navItems: NavItem[] = [
     },
 ];
 
-
 export default function AdminLayout({ children }) {
     return (
         <AppLayout navItems={navItems} >
@@ -56,6 +54,5 @@ export default function AdminLayout({ children }) {
                 { children }
             </div>
         </AppLayout>
-
     );
 }
