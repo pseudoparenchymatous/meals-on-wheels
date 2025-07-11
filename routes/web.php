@@ -5,8 +5,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealController;
-use App\Http\Controllers\RiderDashboardController;
-use App\Http\Controllers\RiderDeliveryTrackerController;
 use App\Models\Member;
 use App\Models\WeeklyPlan;
 use Carbon\Carbon;
@@ -32,13 +30,6 @@ Route::get('/donation/success', [DonationController::class, 'success'])->name('d
 Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'caregiver'])->name('dashboard');
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
-});
-
-Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
-    Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/delivery-tracker', [RiderDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
-    Route::get('/delivery/{id}', [RiderDeliveryTrackerController::class, 'show'])->name('delivery.show');
-    Route::post('/delivery/{id}/update-status', [RiderDeliveryTrackerController::class, 'updateStatus'])->name('delivery.updateStatus');
 });
 
 Route::post('/weekly-plans', function () {
