@@ -28,37 +28,37 @@ const Cards = ({ data }: { data: CardData }) => {
         {
             title: "Total Members",
             value: data.members,
-            route: "/admin/users",
+            route: "admin.users.index",
             icon: <Users className="h-6 w-6 text-blue-500" />,
         },
         {
             title: "Pending Approvals",
             value: data.unverified,
-            route: "/admin/users",
+            route: "admin.users.index",
             icon: <ClipboardCheck className="h-6 w-6 text-amber-500" />,
         },
         {
             title: "Meals Delivered",
             value: data.mealsDelivered,
-            route: "/admin/meal-assignments",
+            route: "admin.meal-assignments.index",
             icon: <Truck className="h-6 w-6 text-green-500" />,
         },
         {
             title: "Active Riders",
             value: data.riders,
-            route: "/admin/users",
+            route: "admin.users.index",
             icon: <Bike className="h-6 w-6 text-purple-500" />,
         },
         {
             title: "Donations (This Month)",
             value: `$ ${data.donations}`,
-            route: "/admin/donor-management",
+            route: "admin.donor.management",
             icon: <HandCoins className="h-6 w-6 text-emerald-500" />,
         },
         {
             title: "Urgent Alerts",
             value: data.alerts,
-            route: "/admin/meals",
+            route: "admin.meals",
             icon: <ClockAlert className="h-6 w-6 text-red-500" />,
         },
     ];
@@ -69,7 +69,7 @@ const Cards = ({ data }: { data: CardData }) => {
             {stats.map((stat, index) => (
                 // Each dashboard stat is looped/mapped, then a link to the relevant pages are rendered
                 // Each card has an icon, title and the actual stat value
-                <Link key={index} href={stat.route}>
+                <Link key={index} href={route(stat.route)}>
                     <div className="border bg-secondary rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
