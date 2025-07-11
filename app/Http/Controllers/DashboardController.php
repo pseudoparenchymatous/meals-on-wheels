@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
+use App\Models\Ingredients;
 use App\Models\MealAssignment;
+use App\Models\Member;
+use App\Models\Rider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,6 +26,21 @@ class DashboardController extends Controller
             'caregiver' => redirect(route('caregiver.dashboard')),
             default => redirect(route('home'))
         };
+    }
+
+    public function admin()
+    {
+        return Inertia::render('Admin/Dashboard', [
+            'adminName' => auth()->user()->userable->first_name,
+            'data' => [
+                'alerts' => Ingredients::wherePast('expiration_date')->count(),
+                'donations' => round(Donation::all()->sum('amount')),
+                'mealsDelivered' => MealAssignment::where('status', 'delivered')->count(),
+                'members' => Member::all()->count(),
+                'riders' => Rider::all()->count(),
+                'unverified' => Member::where('verified', false)->count(),
+            ],
+        ]);
     }
 
     public function caregiver()

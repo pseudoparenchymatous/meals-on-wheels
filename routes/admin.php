@@ -1,16 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminReassessmentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
-use App\Models\Donation;
-use App\Models\Ingredients;
-use App\Models\MealAssignment;
-use App\Models\Member;
-use App\Models\Rider;
 use App\Models\WeeklyPlan;
 use Inertia\Inertia;
 
@@ -18,19 +14,7 @@ Route::middleware('auth:admin')
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('Admin/Dashboard', [
-                'adminName' => auth()->user()->userable->first_name,
-                'data' => [
-                    'alerts' => Ingredients::wherePast('expiration_date')->count(),
-                    'donations' => round(Donation::all()->sum('amount')),
-                    'mealsDelivered' => MealAssignment::where('status', 'delivered')->count(),
-                    'members' => Member::all()->count(),
-                    'riders' => Rider::all()->count(),
-                    'unverified' => Member::where('verified', false)->count(),
-                ],
-            ]);
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
 
         // Reassessments
         Route::resource('reassessments', AdminReassessmentController::class);
