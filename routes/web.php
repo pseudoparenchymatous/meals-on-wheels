@@ -4,17 +4,13 @@ use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
-use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\RiderDashboardController;
 use App\Http\Controllers\RiderDeliveryTrackerController;
-use App\Models\MealAssignment;
 use App\Models\Member;
 use App\Models\WeeklyPlan;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('dashboard', DashboardController::class)->middleware('auth')->name('dashboard');
 
@@ -37,29 +33,6 @@ Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(func
     Route::get('/dashboard', [DashboardController::class, 'caregiver'])->name('dashboard');
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
 });
-
-Route::prefix('kitchen-partner')
-    ->name('kitchen-partner.')
-    ->middleware('auth:kitchen-partner')
-    ->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'kitchenPartner'])->name('dashboard');
-        Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
-            $mealAssignment->status = $request->status;
-            $mealAssignment->save();
-
-            return to_route('kitchen-partner.dashboard');
-        })->name('meal-assignments.update');
-
-        Route::post('meals', [MealController::class, 'store'])->name('meals.store');
-        Route::get('/meals', [MealController::class, 'index'])->name('meals');
-        Route::put('/meals/{id}', [MealController::class, 'update'])->name('meals.update');
-        Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
-
-        Route::get('/meals/ingredients', [IngredientsController::class, 'index'])->name('kitchen-partner.ingredients.index');
-        Route::post('/meals/ingredients', [IngredientsController::class, 'store'])->name('kitchen-partner.ingredients.store');
-        Route::put('/ingredients/{id}', [IngredientsController::class, 'update'])->name('kitchen-partner.ingredients.update');
-        Route::delete('/ingredients/{id}', [IngredientsController::class, 'destroy'])->name('kitchen-partner.ingredients.destroy');
-    });
 
 Route::name('rider.')->prefix('rider')->middleware(['auth:rider'])->group(function () {
     Route::get('/dashboard', [RiderDashboardController::class, 'index'])->name('dashboard');
