@@ -56,6 +56,24 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function kitchenPartner()
+    {
+        $user = auth()->user();
+        $mealAssignments = MealAssignment::where('kitchen_partner_id', $user->userable->id)
+            ->with([
+                'meal',
+                'rider',
+                'meal.ingredients',
+                'member',
+            ])
+            ->get();
+
+        return Inertia::render('KitchenPartner/Dashboard', [
+            'mealAssignments' => $mealAssignments,
+            'orgName' => $user->userable->org_name,
+        ]);
+    }
+
     public function member()
     {
         $member = auth()->user()->userable;

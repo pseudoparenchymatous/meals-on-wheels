@@ -42,23 +42,7 @@ Route::prefix('kitchen-partner')
     ->name('kitchen-partner.')
     ->middleware('auth:kitchen-partner')
     ->group(function () {
-        Route::get('dashboard', function () {
-            $user = auth()->user();
-            $mealAssignments = MealAssignment::where('kitchen_partner_id', $user->userable->id)
-                ->with([
-                    'meal',
-                    'rider',
-                    'meal.ingredients',
-                    'member',
-                ])
-                ->get();
-
-            return Inertia::render('KitchenPartner/Dashboard', [
-                'mealAssignments' => $mealAssignments,
-                'orgName' => $user->userable->org_name,
-            ]);
-        })->name('dashboard');
-
+        Route::get('dashboard', [DashboardController::class, 'kitchenPartner'])->name('dashboard');
         Route::patch('meal-assignments/{mealAssignment}', function (Request $request, MealAssignment $mealAssignment) {
             $mealAssignment->status = $request->status;
             $mealAssignment->save();
