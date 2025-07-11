@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CaregiverDeliveryTrackerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
@@ -26,11 +25,6 @@ Route::post('/donations', [DonationController::class, 'store'])->name('donations
 Route::post('/donations/create-payment-intent', [DonationController::class, 'createPaymentIntent'])->name('donations.create-payment-intent');
 Route::post('/stripe/webhook', [DonationController::class, 'handleWebhook'])->name('stripe.webhook');
 Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
-
-Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'caregiver'])->name('dashboard');
-    Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
-});
 
 Route::post('/weekly-plans', function () {
     if (WeeklyPlan::all()->isEmpty()) {
