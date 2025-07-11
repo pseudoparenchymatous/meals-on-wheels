@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminReassessmentController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\MealAssignmentController;
@@ -13,8 +12,6 @@ use Inertia\Inertia;
 Route::middleware('auth:admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
-
         // Reassessments
         Route::resource('reassessments', AdminReassessmentController::class);
 
