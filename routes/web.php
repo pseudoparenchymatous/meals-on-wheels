@@ -4,9 +4,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\MealController;
-use App\Models\Member;
-use App\Models\WeeklyPlan;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', DashboardController::class)->middleware('auth')->name('dashboard');
@@ -25,28 +22,6 @@ Route::post('/donations', [DonationController::class, 'store'])->name('donations
 Route::post('/donations/create-payment-intent', [DonationController::class, 'createPaymentIntent'])->name('donations.create-payment-intent');
 Route::post('/stripe/webhook', [DonationController::class, 'handleWebhook'])->name('stripe.webhook');
 Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
-
-Route::post('/weekly-plans', function () {
-    if (WeeklyPlan::all()->isEmpty()) {
-        WeeklyPlan::create([
-            'start_date' => Carbon::now()->startOfWeek(Carbon::MONDAY)->toDateString(),
-        ]);
-    } else {
-        $lastWeek = WeeklyPlan::orderByDesc('start_date')->first()->start_date;
-        WeeklyPlan::create([
-            'start_date' => Carbon::parse($lastWeek)->addDays(7)->toDateString(),
-        ]);
-    }
-
-    return to_route('admin.planning')->with(['message' => 'Plan has been created']);
-})->name('weekly-plans.store');
-
-Route::patch('/members/verify/{member}', function (Member $member) {
-    $member->verified = true;
-    $member->save();
-
-    return back()->with('message', 'User has been verified successfully!');
-})->name('members.verify');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

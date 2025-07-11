@@ -44,4 +44,27 @@ Route::middleware('auth:admin')
         })->name('planning');
 
         Route::resource('meal-assignments', MealAssignmentController::class);
+
+        Route::post('/weekly-plans', function () {
+            if (WeeklyPlan::all()->isEmpty()) {
+                WeeklyPlan::create([
+                    'start_date' => Carbon::now()->startOfWeek(Carbon::MONDAY)->toDateString(),
+                ]);
+            } else {
+                $lastWeek = WeeklyPlan::orderByDesc('start_date')->first()->start_date;
+                WeeklyPlan::create([
+                    'start_date' => Carbon::parse($lastWeek)->addDays(7)->toDateString(),
+                ]);
+            }
+
+            return to_route('admin.planning')->with(['message' => 'Plan has been created']);
+        })->name('weekly-plans.store');
+
+        Route::patch('/members/verify/{member}', function (Member $member) {
+            $member->verified = true;
+            $member->save();
+
+            return back()->with('message', 'User has been verified successfully!');
+        })->name('members.verify');
+
     });
