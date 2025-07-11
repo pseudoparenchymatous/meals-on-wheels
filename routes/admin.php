@@ -11,7 +11,6 @@ use App\Models\WeeklyPlan;
 use Inertia\Inertia;
 
 Route::middleware('auth:admin')
-    ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
