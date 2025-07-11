@@ -6,7 +6,6 @@ use App\Http\Controllers\RiderDeliveryTrackerController;
 Route::middleware(['auth:rider'])
     ->name('rider.')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'rider'])->name('dashboard');
         Route::get('/deliveries', [RiderDeliveryTrackerController::class, 'index'])->name('deliveries');
         Route::get('/delivery/{id}', [RiderDeliveryTrackerController::class, 'show'])->name('delivery.show');
         Route::post('/delivery/{id}/update-status', [RiderDeliveryTrackerController::class, 'updateStatus'])->name('delivery.updateStatus');
