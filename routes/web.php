@@ -25,5 +25,8 @@ Route::get('/donation/success', [DonationController::class, 'success'])->name('d
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/caregiver.php';
+require __DIR__.'/kitchen-partner.php';
 require __DIR__.'/member.php';
+require __DIR__.'/rider.php';
 require __DIR__.'/settings.php';
