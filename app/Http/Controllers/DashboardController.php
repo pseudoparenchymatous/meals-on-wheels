@@ -22,9 +22,9 @@ class DashboardController extends Controller
             'admin' => redirect(route('admin.dashboard')),
             'member' => redirect(route('member.dashboard')),
             'kitchen partner' => redirect(route('kitchen-partner.dashboard')),
-            'rider' => redirect(route('rider.dashboard')),
             'caregiver' => redirect(route('caregiver.dashboard')),
             default => redirect(route('home'))
+            'rider' => $this->rider(),
         };
     }
 
@@ -101,5 +101,39 @@ class DashboardController extends Controller
             'memberName' => auth()->user()->userable->first_name,
             'meals' => $meals,
         ]);
+    }
+
+    public function rider(): Response
+    {
+        $user = auth()->user();
+        $rider = $user->userable;
+
+        $fullName = $rider->first_name.' '.$rider->last_name;
+        $today = now()->toDateString();
+
+        // Get today's delivered meals
+        $deliveredMeals = MealAssignment::where('rider_id', $rider->id)
+            ->whereDate('updated_at', $today)
+            ->where('status', 'delivered')
+            ->get();
+
+        // Calculate average delivery time in minutes
+        $averageDeliveryTime = $deliveredMeals->isNotEmpty()
+            ? round(
+                $deliveredMeals->avg(function ($meal) {
+                    return $meal->created_at->diffInMinutes($meal->updated_at);
+                })
+            ).' mins'
+            : 'N/A';
+
+        return Inertia::render('Rider/Dashboard', [
+            'riderName' => $fullName,
+            'todaysDeliveries' => $deliveredMeals->count(),
+            'pendingOrders' => MealAssignment::where('rider_id', $rider->id)
+                ->where('status', 'pending')
+                ->count(),
+            'averageDeliveryTime' => $averageDeliveryTime,
+        ]);
+
     }
 }
