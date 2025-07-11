@@ -40,7 +40,7 @@ export default function Plan({ weeklyPlans }: PlanProps) {
                     <h1 className="font-semibold text-3xl">Weekly Plans</h1>
                     <Button asChild className="w-fit" variant="outline">
                         {/* Use route() method to avoid hard-coding routes as strings */}
-                        <Link href={route('weekly-plans.store')} method="post">Create Weekly Plan</Link>
+                        <Link href={route('admin.weekly-plans.store')} method="post">Create Weekly Plan</Link>
                     </Button>
                 </div>
                 <WeeklyPlans weeklyPlans={weeklyPlans} />
