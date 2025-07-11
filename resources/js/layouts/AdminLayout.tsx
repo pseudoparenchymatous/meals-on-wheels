@@ -13,37 +13,37 @@ import {
 const navItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/admin/dashboard',
+        route: 'dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Users',
-        href: '/admin/users',
+        route: 'admin.users.index',
         icon: Users,
     },
     {
         title: 'Meals',
-        href: '/admin/meals',
+        route: 'admin.meals',
         icon: Apple,
     },
     {
         title: 'Planning',
-        href: '/admin/planning',
+        route: 'admin.planning',
         icon: CalendarCog,
     },
     {
         title: 'Meal Assignments',
-        href: '/admin/meal-assignments',
+        route: 'admin.meal-assignments.index',
         icon: HandPlatter,
     },
         {
         title: 'Donor Management',
-        href: '/admin/donor-management',
+        route: 'admin.donor.management',
         icon: Users,
     },
     {
         title: 'Reassessments',
-        href: '/admin/reassessments',
+        route: 'admin.reassessments.index',
         icon: ClipboardList,
     },
 ];
