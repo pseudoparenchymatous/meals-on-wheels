@@ -148,7 +148,7 @@ export default function Unverified({ unverifiedMembers }: { unverifiedMembers: U
                                         </Accordion>
                                     </div>
                                     <Button asChild onClick={()=>setDialogOpen(false)}>
-                                        <Link href={route('members.verify', toVerify)} method="patch">Verify</Link>
+                                        <Link href={route('admin.members.verify', toVerify)} method="patch">Verify</Link>
                                     </Button>
                                 </DialogHeader>
                             </DialogContent>
