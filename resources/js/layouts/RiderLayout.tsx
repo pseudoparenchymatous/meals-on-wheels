@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
 import { NavItem } from '@/types';
-import { Head } from '@inertiajs/react';
 import {LayoutGrid,Truck} from 'lucide-react';
 
 const navItems: NavItem[] = [
@@ -26,5 +25,4 @@ export default function Rider({ children }) {
 
     );
 }
-
 
