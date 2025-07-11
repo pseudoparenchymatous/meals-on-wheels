@@ -37,26 +37,6 @@ Route::post('/donations/create-payment-intent', [DonationController::class, 'cre
 Route::post('/stripe/webhook', [DonationController::class, 'handleWebhook'])->name('stripe.webhook');
 Route::get('/donation/success', [DonationController::class, 'success'])->name('donation.success');
 
-Route::prefix('member')
-    ->name('member.')
-    ->middleware(['auth:member', CheckMemberVerificationStatus::class])
-    ->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'member'])->name('dashboard');
-
-        // Delivery Tracker
-        Route::get('delivery-tracker', [DeliveryTrackerController::class, 'index'])->name('delivery-tracker');
-        Route::post('delivery-tracker/{meal}/feedback', [DeliveryTrackerController::class, 'feedback'])->name('meal.feedback');
-
-        // Reassessments
-        Route::get('reassessments', [MemberReassessmentController::class, 'index'])->name('reassessments.index');
-
-        Route::get('verify', function () {
-            return Inertia::render('Member/Verify', [
-                'verified' => auth()->user()->userable->verified,
-            ]);
-        })->withoutMiddleware(CheckMemberVerificationStatus::class)->name('verify.notify');
-    });
-
 Route::name('caregiver.')->prefix('caregiver')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'caregiver'])->name('dashboard');
     Route::get('/delivery-tracker', [CaregiverDeliveryTrackerController::class, 'index'])->name('delivery.tracker');
@@ -130,6 +110,7 @@ Route::patch('/members/verify/{member}', function (Member $member) {
     return back()->with('message', 'User has been verified successfully!');
 })->name('members.verify');
 
-require __DIR__.'/admin.php';
-require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
+require __DIR__.'/member.php';
+require __DIR__.'/settings.php';
