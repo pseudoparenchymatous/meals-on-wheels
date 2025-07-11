@@ -5,12 +5,12 @@ import {LayoutGrid,Truck} from 'lucide-react';
 const navItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/rider/dashboard',
+        route: 'dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Delivery Tracker',
-        href: '/rider/delivery-tracker',
+        route: 'rider.deliveries',
         icon: Truck,
     },
 ];
@@ -25,4 +25,5 @@ export default function Rider({ children }) {
 
     );
 }
+
 
